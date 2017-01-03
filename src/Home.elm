@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (ContextUpdate(..), Context, Post)
 import Decoders
+import I18n
 
 
 type alias Model =
@@ -93,13 +94,20 @@ formatTimestamp context time =
     let
         minutes =
             floor ((context.currentTime - time) / 1000 / 60)
+
+        t =
+            I18n.get context.translations
     in
         case minutes of
             0 ->
-                "Just now"
+                t "timeformat-zero-minutes"
 
             1 ->
-                "A minute ago"
+                t "timeformat-one-minute-ago"
 
             n ->
-                toString n ++ " minutes ago"
+                t "timeformat-n-minutes-ago-before"
+                    ++ " "
+                    ++ toString n
+                    ++ " "
+                    ++ t "timeformat-n-minutes-ago-after"

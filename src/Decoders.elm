@@ -1,8 +1,13 @@
 module Decoders exposing (..)
 
-import Json.Decode
-import Json.Decode.Pipeline
+import Json.Decode exposing (Decoder, string, int, float, dict)
+import Json.Decode.Pipeline exposing (decode, required)
 import Types exposing (..)
+
+
+decodeTranslations : Decoder Translations
+decodeTranslations =
+    dict string
 
 
 decodePost : Json.Decode.Decoder Post

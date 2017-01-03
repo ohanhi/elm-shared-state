@@ -3,7 +3,10 @@ module Main exposing (..)
 import Navigation
 import Time exposing (Time)
 import Html exposing (..)
-import Types exposing (ContextUpdate(..), Context)
+import WebData exposing (WebData(..))
+import WebData.Http as Http
+import Decoders
+import Types exposing (ContextUpdate(..), Context, Translations)
 import Home
 
 
@@ -29,12 +32,15 @@ type AppState
 type Msg
     = UrlChange Navigation.Location
     | TimeChange Time
+    | HandleTranslationsResponse (WebData Translations)
     | HomeMsg Home.Msg
 
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
-    NotReady ! []
+    ( NotReady
+    , Http.get "./fi.json" HandleTranslationsResponse Decoders.decodeTranslations
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -46,31 +52,23 @@ update msg model =
         HomeMsg homeMsg ->
             updateHome model homeMsg
 
-        _ ->
-            model ! []
+        HandleTranslationsResponse webData ->
+            updateTranslations model webData
+
+        UrlChange location ->
+            ( model, Cmd.none )
 
 
 updateTime : Model -> Time -> ( Model, Cmd Msg )
 updateTime model time =
-    let
-        initContext =
-            { currentTime = time
-            , userInput = ""
-            }
+    case model of
+        NotReady ->
+            ( model, Cmd.none )
 
-        ( initHomeModel, homeCmd ) =
-            Home.init initContext
-    in
-        case model of
-            NotReady ->
-                ( Ready initContext initHomeModel
-                , Cmd.map HomeMsg homeCmd
-                )
-
-            Ready context homeModel ->
-                ( Ready (updateContext context (UpdateTime time)) homeModel
-                , Cmd.none
-                )
+        Ready context homeModel ->
+            ( Ready (updateContext context (UpdateTime time)) homeModel
+            , Cmd.none
+            )
 
 
 updateHome : Model -> Home.Msg -> ( Model, Cmd Msg )
@@ -82,10 +80,41 @@ updateHome model homeMsg =
                 ( nextHomeModel, homeCmd, ctxUpdate ) =
                     Home.update context homeMsg homeModel
             in
-                Ready (updateContext context ctxUpdate) nextHomeModel ! []
+                ( Ready (updateContext context ctxUpdate) nextHomeModel, Cmd.none )
 
         NotReady ->
             Debug.crash "Ooops. We got a sub-component message even though it wasn't supposed to be initialized?!?!?"
+
+
+updateTranslations model webData =
+    case webData of
+        Failure _ ->
+            Debug.crash "OMG CANT EVEN DOWNLOAD."
+
+        Success translations ->
+            let
+                initContext =
+                    { currentTime = 0
+                    , userInput = ""
+                    , translations = translations
+                    }
+
+                ( initHomeModel, homeCmd ) =
+                    Home.init initContext
+            in
+                case model of
+                    NotReady ->
+                        ( Ready initContext initHomeModel
+                        , Cmd.map HomeMsg homeCmd
+                        )
+
+                    Ready context homeModel ->
+                        ( Ready (updateContext context (UpdateTranslations translations)) homeModel
+                        , Cmd.none
+                        )
+
+        _ ->
+            ( model, Cmd.none )
 
 
 updateContext : Context -> ContextUpdate -> Context
@@ -96,6 +125,9 @@ updateContext context ctxUpdate =
 
         UpdateTime time ->
             { context | currentTime = time }
+
+        UpdateTranslations translations ->
+            { context | translations = translations }
 
         NoUpdate ->
             context

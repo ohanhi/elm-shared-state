@@ -1,11 +1,17 @@
 module Types exposing (..)
 
+import Dict exposing (Dict)
 import Time exposing (Time)
+
+
+type alias Translations =
+    Dict String String
 
 
 type alias Context =
     { currentTime : Time
     , userInput : String
+    , translations : Translations
     }
 
 
@@ -21,3 +27,4 @@ type ContextUpdate
     = NoUpdate
     | UpdateUserInput String
     | UpdateTime Time
+    | UpdateTranslations Translations
