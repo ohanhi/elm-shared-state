@@ -8,6 +8,7 @@ import WebData.Http as Http
 import Decoders
 import Types exposing (ContextUpdate(..), Context, Translations)
 import Home
+import Settings
 
 
 main : Program Never Model Msg
@@ -26,7 +27,7 @@ type alias Model =
 
 type AppState
     = NotReady
-    | Ready Context Home.Model
+    | Ready Context Home.Model Settings.Model
 
 
 type Msg
@@ -34,12 +35,13 @@ type Msg
     | TimeChange Time
     | HandleTranslationsResponse (WebData Translations)
     | HomeMsg Home.Msg
+    | SettingsMsg Settings.Msg
 
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     ( NotReady
-    , Http.get "./fi.json" HandleTranslationsResponse Decoders.decodeTranslations
+    , Http.get "./en.json" HandleTranslationsResponse Decoders.decodeTranslations
     )
 
 
@@ -51,6 +53,9 @@ update msg model =
 
         HomeMsg homeMsg ->
             updateHome model homeMsg
+
+        SettingsMsg settingsMsg ->
+            updateSettings model settingsMsg
 
         HandleTranslationsResponse webData ->
             updateTranslations model webData
@@ -65,8 +70,8 @@ updateTime model time =
         NotReady ->
             ( model, Cmd.none )
 
-        Ready context homeModel ->
-            ( Ready (updateContext context (UpdateTime time)) homeModel
+        Ready context homeModel settingsModel ->
+            ( Ready (updateContext context (UpdateTime time)) homeModel settingsModel
             , Cmd.none
             )
 
@@ -74,18 +79,36 @@ updateTime model time =
 updateHome : Model -> Home.Msg -> ( Model, Cmd Msg )
 updateHome model homeMsg =
     case model of
-        Ready context homeModel ->
+        Ready context homeModel settingsModel ->
             let
-                -- TODO
                 ( nextHomeModel, homeCmd, ctxUpdate ) =
                     Home.update context homeMsg homeModel
             in
-                ( Ready (updateContext context ctxUpdate) nextHomeModel, Cmd.none )
+                ( Ready (updateContext context ctxUpdate) nextHomeModel settingsModel
+                , Cmd.map HomeMsg homeCmd
+                )
 
         NotReady ->
             Debug.crash "Ooops. We got a sub-component message even though it wasn't supposed to be initialized?!?!?"
 
 
+updateSettings : Model -> Settings.Msg -> ( Model, Cmd Msg )
+updateSettings model settingsMsg =
+    case model of
+        Ready context homeModel settingsModel ->
+            let
+                ( nextSettingsModel, settingsCmd, ctxUpdate ) =
+                    Settings.update context settingsMsg settingsModel
+            in
+                ( Ready (updateContext context ctxUpdate) homeModel nextSettingsModel
+                , Cmd.map SettingsMsg settingsCmd
+                )
+
+        NotReady ->
+            Debug.crash "Ooops. We got a sub-component message even though it wasn't supposed to be initialized?!?!?"
+
+
+updateTranslations : Model -> WebData Translations -> ( Model, Cmd Msg )
 updateTranslations model webData =
     case webData of
         Failure _ ->
@@ -101,15 +124,18 @@ updateTranslations model webData =
 
                 ( initHomeModel, homeCmd ) =
                     Home.init initContext
+
+                initSettingsModel =
+                    Settings.initModel
             in
                 case model of
                     NotReady ->
-                        ( Ready initContext initHomeModel
+                        ( Ready initContext initHomeModel initSettingsModel
                         , Cmd.map HomeMsg homeCmd
                         )
 
-                    Ready context homeModel ->
-                        ( Ready (updateContext context (UpdateTranslations translations)) homeModel
+                    Ready context homeModel settingsModel ->
+                        ( Ready (updateContext context (UpdateTranslations translations)) homeModel settingsModel
                         , Cmd.none
                         )
 
@@ -136,9 +162,13 @@ updateContext context ctxUpdate =
 view : Model -> Html Msg
 view model =
     case model of
-        Ready context homeModel ->
-            Home.view context homeModel
-                |> Html.map HomeMsg
+        Ready context homeModel settingsModel ->
+            div []
+                [ Settings.view context settingsModel
+                    |> Html.map SettingsMsg
+                , Home.view context homeModel
+                    |> Html.map HomeMsg
+                ]
 
         NotReady ->
             text "Loading"

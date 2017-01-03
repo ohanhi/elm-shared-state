@@ -28,3 +28,8 @@ type ContextUpdate
     | UpdateUserInput String
     | UpdateTime Time
     | UpdateTranslations Translations
+
+
+type Language
+    = English
+    | Finnish
