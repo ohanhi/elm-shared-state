@@ -41,7 +41,7 @@ type Msg
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
     ( NotReady
-    , Http.get "./en.json" HandleTranslationsResponse Decoders.decodeTranslations
+    , Http.get "/api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
     )
 
 

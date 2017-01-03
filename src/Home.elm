@@ -26,7 +26,7 @@ init context =
     ( { inputText = ""
       , posts = Loading
       }
-    , WebData.Http.get "./posts.json" HandlePosts Decoders.decodePostList
+    , WebData.Http.get "/api/posts.json" HandlePosts Decoders.decodePostList
     )
 
 
