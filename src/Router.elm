@@ -1,8 +1,12 @@
 module Router exposing (..)
 
 import Navigation exposing (Location)
+import UrlParser as Url exposing ((</>))
 import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Types exposing (ContextUpdate(..), Context, Translations)
+import Routes exposing (Route(..))
 import Home
 import Settings
 
@@ -16,13 +20,24 @@ type alias Model =
 
 type Msg
     = UrlChange Location
+    | NavigateTo Route
     | HomeMsg Home.Msg
     | SettingsMsg Settings.Msg
 
 
-type Route
-    = HomeRoute
-    | SettingsRoute
+routeParser : Url.Parser (Route -> a) a
+routeParser =
+    Url.oneOf
+        [ Url.map HomeRoute Url.top
+        , Url.map SettingsRoute (Url.s "settings")
+        ]
+
+
+parseLocation : Location -> Route
+parseLocation location =
+    location
+        |> Url.parseHash routeParser
+        |> Maybe.withDefault NotFoundRoute
 
 
 init : Context -> Location -> ( Model, Cmd Msg )
@@ -36,7 +51,7 @@ init context location =
     in
         ( { homeModel = homeModel
           , settingsModel = settingsModel
-          , route = HomeRoute
+          , route = parseLocation location
           }
         , Cmd.map HomeMsg homeCmd
         )
@@ -46,7 +61,16 @@ update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
 update context msg model =
     case msg of
         UrlChange location ->
-            ( { model | route = HomeRoute }, Cmd.none, NoUpdate )
+            ( { model | route = parseLocation location }
+            , Cmd.none
+            , NoUpdate
+            )
+
+        NavigateTo route ->
+            ( { model | route = route }
+            , Cmd.none
+            , NoUpdate
+            )
 
         HomeMsg homeMsg ->
             updateHome context model homeMsg
@@ -83,15 +107,24 @@ view : Context -> Model -> Html Msg
 view context model =
     div []
         [ h2 [] [ text "Context Pattern Demo" ]
+        , nav [ style [ ( "background-color", "silver" ) ] ]
+            [ button [ onClick (NavigateTo HomeRoute) ] [ text "Home" ]
+            , button [ onClick (NavigateTo SettingsRoute) ] [ text "Settings" ]
+            ]
         , pageView context model
         ]
 
 
 pageView : Context -> Model -> Html Msg
 pageView context model =
-    div []
-        [ Settings.view context model.settingsModel
-            |> Html.map SettingsMsg
-        , Home.view context model.homeModel
-            |> Html.map HomeMsg
-        ]
+    case model.route of
+        HomeRoute ->
+            Home.view context model.homeModel
+                |> Html.map HomeMsg
+
+        SettingsRoute ->
+            Settings.view context model.settingsModel
+                |> Html.map SettingsMsg
+
+        NotFoundRoute ->
+            h1 [] [ text "404 :(" ]
