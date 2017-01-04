@@ -1,14 +1,13 @@
 module Main exposing (..)
 
-import Navigation
+import Navigation exposing (Location)
 import Time exposing (Time)
 import Html exposing (..)
 import WebData exposing (WebData(..))
 import WebData.Http as Http
 import Decoders
 import Types exposing (ContextUpdate(..), Context, Translations)
-import Home
-import Settings
+import Router
 
 
 main : Program Never Model Msg
@@ -22,25 +21,28 @@ main =
 
 
 type alias Model =
-    AppState
+    { appState : AppState
+    , location : Location
+    }
 
 
 type AppState
     = NotReady
-    | Ready Context Home.Model Settings.Model
+    | Ready Context Router.Model
 
 
 type Msg
-    = UrlChange Navigation.Location
+    = UrlChange Location
     | TimeChange Time
     | HandleTranslationsResponse (WebData Translations)
-    | HomeMsg Home.Msg
-    | SettingsMsg Settings.Msg
+    | RouterMsg Router.Msg
 
 
-init : Navigation.Location -> ( Model, Cmd Msg )
+init : Location -> ( Model, Cmd Msg )
 init location =
-    ( NotReady
+    ( { appState = NotReady
+      , location = location
+      }
     , Http.get "/api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
     )
 
@@ -51,57 +53,38 @@ update msg model =
         TimeChange time ->
             updateTime model time
 
-        HomeMsg homeMsg ->
-            updateHome model homeMsg
-
-        SettingsMsg settingsMsg ->
-            updateSettings model settingsMsg
-
         HandleTranslationsResponse webData ->
             updateTranslations model webData
 
         UrlChange location ->
-            ( model, Cmd.none )
+            updateRouter { model | location = location } (Router.UrlChange location)
+
+        RouterMsg pageParentMsg ->
+            updateRouter model pageParentMsg
 
 
 updateTime : Model -> Time -> ( Model, Cmd Msg )
 updateTime model time =
-    case model of
+    case model.appState of
         NotReady ->
             ( model, Cmd.none )
 
-        Ready context homeModel settingsModel ->
-            ( Ready (updateContext context (UpdateTime time)) homeModel settingsModel
+        Ready context pageParentModel ->
+            ( { model | appState = Ready (updateContext context (UpdateTime time)) pageParentModel }
             , Cmd.none
             )
 
 
-updateHome : Model -> Home.Msg -> ( Model, Cmd Msg )
-updateHome model homeMsg =
-    case model of
-        Ready context homeModel settingsModel ->
+updateRouter : Model -> Router.Msg -> ( Model, Cmd Msg )
+updateRouter model pageParentMsg =
+    case model.appState of
+        Ready context pageParentModel ->
             let
-                ( nextHomeModel, homeCmd, ctxUpdate ) =
-                    Home.update context homeMsg homeModel
+                ( nextRouterModel, pageParentCmd, ctxUpdate ) =
+                    Router.update context pageParentMsg pageParentModel
             in
-                ( Ready (updateContext context ctxUpdate) nextHomeModel settingsModel
-                , Cmd.map HomeMsg homeCmd
-                )
-
-        NotReady ->
-            Debug.crash "Ooops. We got a sub-component message even though it wasn't supposed to be initialized?!?!?"
-
-
-updateSettings : Model -> Settings.Msg -> ( Model, Cmd Msg )
-updateSettings model settingsMsg =
-    case model of
-        Ready context homeModel settingsModel ->
-            let
-                ( nextSettingsModel, settingsCmd, ctxUpdate ) =
-                    Settings.update context settingsMsg settingsModel
-            in
-                ( Ready (updateContext context ctxUpdate) homeModel nextSettingsModel
-                , Cmd.map SettingsMsg settingsCmd
+                ( { model | appState = Ready (updateContext context ctxUpdate) nextRouterModel }
+                , Cmd.map RouterMsg pageParentCmd
                 )
 
         NotReady ->
@@ -122,20 +105,17 @@ updateTranslations model webData =
                     , translations = translations
                     }
 
-                ( initHomeModel, homeCmd ) =
-                    Home.init initContext
-
-                initSettingsModel =
-                    Settings.initModel
+                ( initRouterModel, pageParentCmd ) =
+                    Router.init initContext model.location
             in
-                case model of
+                case model.appState of
                     NotReady ->
-                        ( Ready initContext initHomeModel initSettingsModel
-                        , Cmd.map HomeMsg homeCmd
+                        ( { model | appState = Ready initContext initRouterModel }
+                        , Cmd.map RouterMsg pageParentCmd
                         )
 
-                    Ready context homeModel settingsModel ->
-                        ( Ready (updateContext context (UpdateTranslations translations)) homeModel settingsModel
+                    Ready context pageParentModel ->
+                        ( { model | appState = Ready (updateContext context (UpdateTranslations translations)) pageParentModel }
                         , Cmd.none
                         )
 
@@ -161,14 +141,10 @@ updateContext context ctxUpdate =
 
 view : Model -> Html Msg
 view model =
-    case model of
-        Ready context homeModel settingsModel ->
-            div []
-                [ Settings.view context settingsModel
-                    |> Html.map SettingsMsg
-                , Home.view context homeModel
-                    |> Html.map HomeMsg
-                ]
+    case model.appState of
+        Ready context pageParentModel ->
+            Router.view context pageParentModel
+                |> Html.map RouterMsg
 
         NotReady ->
             text "Loading"
