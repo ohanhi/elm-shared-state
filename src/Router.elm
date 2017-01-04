@@ -40,6 +40,16 @@ parseLocation location =
         |> Maybe.withDefault NotFoundRoute
 
 
+reverseRoute : Route -> String
+reverseRoute route =
+    case route of
+        SettingsRoute ->
+            "#/settings"
+
+        _ ->
+            "#/"
+
+
 init : Context -> Location -> ( Model, Cmd Msg )
 init context location =
     let
@@ -67,8 +77,8 @@ update context msg model =
             )
 
         NavigateTo route ->
-            ( { model | route = route }
-            , Cmd.none
+            ( model
+            , Navigation.newUrl (reverseRoute route)
             , NoUpdate
             )
 
