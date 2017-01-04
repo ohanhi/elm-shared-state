@@ -1,7 +1,7 @@
 module Decoders exposing (..)
 
-import Json.Decode exposing (Decoder, string, int, float, dict)
-import Json.Decode.Pipeline exposing (decode, required)
+import Date exposing (Date)
+import Json.Decode exposing (Decoder, at, string, int, float, dict)
 import Types exposing (..)
 
 
@@ -10,15 +10,29 @@ decodeTranslations =
     dict string
 
 
-decodePost : Json.Decode.Decoder Post
-decodePost =
-    Json.Decode.Pipeline.decode Post
-        |> Json.Decode.Pipeline.required "userName" Json.Decode.string
-        |> Json.Decode.Pipeline.required "id" Json.Decode.int
-        |> Json.Decode.Pipeline.required "timestamp" Json.Decode.float
-        |> Json.Decode.Pipeline.required "body" Json.Decode.string
+decodeCommit : Decoder Commit
+decodeCommit =
+    Json.Decode.map4 Commit
+        (at [ "commit", "author", "name" ] Json.Decode.string)
+        (at [ "sha" ] Json.Decode.string)
+        (at [ "commit", "author", "date" ] dateDecoder)
+        (at [ "commit", "message" ] Json.Decode.string)
 
 
-decodePostList : Json.Decode.Decoder (List Post)
-decodePostList =
-    Json.Decode.list decodePost
+dateDecoder : Decoder Date
+dateDecoder =
+    Json.Decode.string
+        |> Json.Decode.andThen
+            (\text ->
+                case Date.fromString text of
+                    Ok date ->
+                        Json.Decode.succeed date
+
+                    Err e ->
+                        Json.Decode.fail e
+            )
+
+
+decodeCommitList : Decoder (List Commit)
+decodeCommitList =
+    Json.Decode.list decodeCommit

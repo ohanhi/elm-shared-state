@@ -1,7 +1,6 @@
 module Router exposing (..)
 
 import Navigation exposing (Location)
-import UrlParser as Url exposing ((</>))
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -9,6 +8,7 @@ import Types exposing (ContextUpdate(..), Context, Translations)
 import Routes exposing (Route(..))
 import Home
 import Settings
+import I18n
 
 
 type alias Model =
@@ -25,43 +25,18 @@ type Msg
     | SettingsMsg Settings.Msg
 
 
-routeParser : Url.Parser (Route -> a) a
-routeParser =
-    Url.oneOf
-        [ Url.map HomeRoute Url.top
-        , Url.map SettingsRoute (Url.s "settings")
-        ]
-
-
-parseLocation : Location -> Route
-parseLocation location =
-    location
-        |> Url.parseHash routeParser
-        |> Maybe.withDefault NotFoundRoute
-
-
-reverseRoute : Route -> String
-reverseRoute route =
-    case route of
-        SettingsRoute ->
-            "#/settings"
-
-        _ ->
-            "#/"
-
-
 init : Context -> Location -> ( Model, Cmd Msg )
 init context location =
     let
         ( homeModel, homeCmd ) =
-            Home.init context
+            Home.init
 
         settingsModel =
             Settings.initModel
     in
         ( { homeModel = homeModel
           , settingsModel = settingsModel
-          , route = parseLocation location
+          , route = Routes.parseLocation location
           }
         , Cmd.map HomeMsg homeCmd
         )
@@ -71,14 +46,14 @@ update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
 update context msg model =
     case msg of
         UrlChange location ->
-            ( { model | route = parseLocation location }
+            ( { model | route = Routes.parseLocation location }
             , Cmd.none
             , NoUpdate
             )
 
         NavigateTo route ->
             ( model
-            , Navigation.newUrl (reverseRoute route)
+            , Navigation.newUrl (Routes.reverseRoute route)
             , NoUpdate
             )
 
@@ -92,12 +67,12 @@ update context msg model =
 updateHome : Context -> Model -> Home.Msg -> ( Model, Cmd Msg, ContextUpdate )
 updateHome context model homeMsg =
     let
-        ( nextHomeModel, homeCmd, ctxUpdate ) =
-            Home.update context homeMsg model.homeModel
+        ( nextHomeModel, homeCmd ) =
+            Home.update homeMsg model.homeModel
     in
         ( { model | homeModel = nextHomeModel }
         , Cmd.map HomeMsg homeCmd
-        , ctxUpdate
+        , NoUpdate
         )
 
 
@@ -115,14 +90,18 @@ updateSettings context model settingsMsg =
 
 view : Context -> Model -> Html Msg
 view context model =
-    div []
-        [ h2 [] [ text "Context Pattern Demo" ]
-        , nav [ style [ ( "background-color", "silver" ) ] ]
-            [ button [ onClick (NavigateTo HomeRoute) ] [ text "Home" ]
-            , button [ onClick (NavigateTo SettingsRoute) ] [ text "Settings" ]
+    let
+        t =
+            I18n.get context.translations
+    in
+        div []
+            [ h2 [] [ text (t "site-title") ]
+            , nav [ style [ ( "background-color", "silver" ) ] ]
+                [ button [ onClick (NavigateTo HomeRoute) ] [ text (t "page-title-home") ]
+                , button [ onClick (NavigateTo SettingsRoute) ] [ text (t "page-title-settings") ]
+                ]
+            , pageView context model
             ]
-        , pageView context model
-        ]
 
 
 pageView : Context -> Model -> Html Msg

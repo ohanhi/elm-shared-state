@@ -1,6 +1,14 @@
 {
+    "site-title": "Kontekstipatternidemo",
+    "page-title-home": "Eturi",
+    "page-title-settings": "Asetukset",
+    "commits-heading": "Commitit repoon",
+    "language-selection-heading": "Valkkaa kieli",
+    "status-loading": "Ladataan",
+    "status-network-error": "Netti poikki!",
+    "commits-refresh": "Päivitä",
     "timeformat-zero-minutes": "Just äsken",
     "timeformat-one-minute-ago": "Minsa sitten",
-    "timeformat-n-minutes-ago-before": "Suunnilleen",
+    "timeformat-n-minutes-ago-before": "Äböut",
     "timeformat-n-minutes-ago-after": "minsaa sitten"
 }

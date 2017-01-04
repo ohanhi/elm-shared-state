@@ -1,4 +1,12 @@
 {
+    "site-title": "Context Pattern Demo",
+    "page-title-home": "Home",
+    "page-title-settings": "Settings",
+    "language-selection-heading": "Select language",
+    "commits-heading": "Commits for repository",
+    "status-loading": "Loading",
+    "status-network-error": "Network error!",
+    "commits-refresh": "Refresh",
     "timeformat-zero-minutes": "Just now",
     "timeformat-one-minute-ago": "A minute ago",
     "timeformat-n-minutes-ago-before": "Around",

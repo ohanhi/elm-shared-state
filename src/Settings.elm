@@ -7,6 +7,7 @@ import WebData exposing (WebData(..))
 import WebData.Http
 import Types exposing (Language(..), Context, ContextUpdate(..), Translations)
 import Decoders
+import I18n
 
 
 type alias Model =
@@ -53,6 +54,9 @@ getTranslations language =
 
                 Finnish ->
                     "/api/fi.json"
+
+                FinnishFormal ->
+                    "/api/fi-formal.json"
     in
         WebData.Http.get url HandleTranslationsResponse Decoders.decodeTranslations
 
@@ -60,8 +64,10 @@ getTranslations language =
 view : Context -> Model -> Html Msg
 view context model =
     div []
-        [ selectionButton model English "English"
+        [ h2 [] [ text (I18n.get context.translations "language-selection-heading") ]
+        , selectionButton model English "English"
         , selectionButton model Finnish "Suomi"
+        , selectionButton model FinnishFormal "Suomi (virallinen)"
         ]
 
 

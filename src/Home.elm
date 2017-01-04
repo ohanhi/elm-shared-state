@@ -1,99 +1,106 @@
 module Home exposing (..)
 
+import Date exposing (Date)
 import WebData exposing (WebData(..))
 import WebData.Http
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Types exposing (ContextUpdate(..), Context, Post)
+import Types exposing (ContextUpdate(..), Context, Commit)
 import Decoders
 import I18n
 
 
 type alias Model =
-    { inputText : String
-    , posts : WebData (List Post)
+    { commits : WebData (List Commit)
     }
 
 
 type Msg
-    = Input String
-    | HandlePosts (WebData (List Post))
+    = HandleCommits (WebData (List Commit))
+    | ReloadCommits
 
 
-init : Context -> ( Model, Cmd Msg )
-init context =
-    ( { inputText = ""
-      , posts = Loading
+init : ( Model, Cmd Msg )
+init =
+    ( { commits = Loading
       }
-    , WebData.Http.get "/api/posts.json" HandlePosts Decoders.decodePostList
+    , fetchCommits
     )
 
 
-update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
-update context msg model =
+fetchCommits : Cmd Msg
+fetchCommits =
+    WebData.Http.getWithCache
+        "https://api.github.com/repos/ohanhi/elm-context-pattern/commits"
+        HandleCommits
+        Decoders.decodeCommitList
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
     case msg of
-        Input txt ->
-            ( { model | inputText = txt }
-            , Cmd.none
-            , UpdateUserInput (toString context.currentTime ++ ": " ++ txt)
+        ReloadCommits ->
+            ( { model | commits = Loading }
+            , fetchCommits
             )
 
-        HandlePosts webData ->
-            ( { model | posts = webData }
+        HandleCommits webData ->
+            ( { model | commits = webData }
             , Cmd.none
-            , NoUpdate
             )
 
 
 view : Context -> Model -> Html Msg
 view context model =
     div []
-        [ p [] [ text ("Time: " ++ toString context.currentTime) ]
-        , p [] [ text ("Input: " ++ model.inputText) ]
-        , p [] [ text ("Context says: " ++ context.userInput) ]
-        , input
-            [ onInput Input
-            , value model.inputText
+        [ h2 []
+            [ text
+                ((I18n.get context.translations "commits-heading")
+                    ++ " "
+                    ++ "ohanhi/elm-context-pattern"
+                )
             ]
-            []
-        , viewPosts context model
+        , div []
+            [ button [ onClick ReloadCommits ] [ text ("↻ " ++ (I18n.get context.translations "commits-refresh")) ]
+            ]
+        , viewCommits context model
         ]
 
 
-viewPosts : Context -> Model -> Html Msg
-viewPosts context model =
-    case model.posts of
+viewCommits : Context -> Model -> Html Msg
+viewCommits context model =
+    case model.commits of
         Loading ->
-            text "Loading some interesting posts"
+            text (I18n.get context.translations "status-loading")
 
         Failure _ ->
-            text "There was a network error :("
+            text (I18n.get context.translations "status-network-error")
 
-        Success posts ->
-            posts
-                |> List.sortBy (\post -> -post.timestamp)
-                |> List.map (viewPost context)
+        Success commits ->
+            commits
+                |> List.sortBy (\commit -> -(Date.toTime commit.date))
+                |> List.map (viewCommit context)
                 |> ul []
 
         _ ->
             text ""
 
 
-viewPost : Context -> Post -> Html Msg
-viewPost context post =
-    li [ class "post" ]
-        [ h4 [] [ text post.userName ]
-        , em [] [ text (formatTimestamp context post.timestamp) ]
-        , p [] [ text post.body ]
+viewCommit : Context -> Commit -> Html Msg
+viewCommit context commit =
+    li [ class "commit" ]
+        [ h4 [] [ text commit.userName ]
+        , em [] [ text (formatTimestamp context commit.date) ]
+        , p [] [ text commit.message ]
         ]
 
 
-formatTimestamp : Context -> Float -> String
-formatTimestamp context time =
+formatTimestamp : Context -> Date -> String
+formatTimestamp context date =
     let
         minutes =
-            floor ((context.currentTime - time) / 1000 / 60)
+            floor ((context.currentTime - (Date.toTime date)) / 1000 / 60)
 
         t =
             I18n.get context.translations

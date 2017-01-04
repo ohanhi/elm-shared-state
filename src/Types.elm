@@ -1,6 +1,7 @@
 module Types exposing (..)
 
 import Dict exposing (Dict)
+import Date exposing (Date)
 import Time exposing (Time)
 
 
@@ -10,22 +11,20 @@ type alias Translations =
 
 type alias Context =
     { currentTime : Time
-    , userInput : String
     , translations : Translations
     }
 
 
-type alias Post =
+type alias Commit =
     { userName : String
-    , id : Int
-    , timestamp : Time
-    , body : String
+    , sha : String
+    , date : Date
+    , message : String
     }
 
 
 type ContextUpdate
     = NoUpdate
-    | UpdateUserInput String
     | UpdateTime Time
     | UpdateTranslations Translations
 
@@ -33,3 +32,4 @@ type ContextUpdate
 type Language
     = English
     | Finnish
+    | FinnishFormal

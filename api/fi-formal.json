@@ -1,0 +1,14 @@
+{
+    "site-title": "Konteksti-ajatusmallin esittely",
+    "page-title-home": "Etusivu",
+    "page-title-settings": "Asetukset",
+    "language-selection-heading": "Valitse kieli",
+    "commits-heading": "Koodimuutokset repositorioon",
+    "status-loading": "Ladataan",
+    "status-network-error": "Yhteysvirhe",
+    "commits-refresh": "Päivitä",
+    "timeformat-zero-minutes": "Tovi sitten",
+    "timeformat-one-minute-ago": "Minuutti sitten",
+    "timeformat-n-minutes-ago-before": "Suunnilleen",
+    "timeformat-n-minutes-ago-after": "minuuttia sitten"
+}

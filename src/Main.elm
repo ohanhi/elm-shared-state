@@ -101,7 +101,6 @@ updateTranslations model webData =
             let
                 initContext =
                     { currentTime = 0
-                    , userInput = ""
                     , translations = translations
                     }
 
@@ -126,9 +125,6 @@ updateTranslations model webData =
 updateContext : Context -> ContextUpdate -> Context
 updateContext context ctxUpdate =
     case ctxUpdate of
-        UpdateUserInput txt ->
-            { context | userInput = txt }
-
         UpdateTime time ->
             { context | currentTime = time }
 
