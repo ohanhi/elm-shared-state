@@ -17,11 +17,6 @@ styles =
 -- CONSTANTS
 
 
-colorCopy : Color
-colorCopy =
-    hex "0c480d"
-
-
 colorLightGrey : Color
 colorLightGrey =
     hex "e7e7e7"
@@ -39,7 +34,7 @@ colorDarkGrey =
 
 colorDarkGreen : Color
 colorDarkGreen =
-    hex "1e6127"
+    hex "0c480d"
 
 
 colorMidGreen : Color
@@ -88,7 +83,7 @@ navigationButtonBase =
 
 appStyles : List Mixin
 appStyles =
-    [ color colorCopy
+    [ color colorDarkGreen
     ]
 
 
