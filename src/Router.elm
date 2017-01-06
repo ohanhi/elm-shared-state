@@ -2,10 +2,10 @@ module Router exposing (..)
 
 import Navigation exposing (Location)
 import Html exposing (..)
-import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (ContextUpdate(..), Context, Translations)
 import Routes exposing (Route(..))
+import Styles exposing (..)
 import Home
 import Settings
 import I18n
@@ -93,12 +93,28 @@ view context model =
     let
         t =
             I18n.get context.translations
+
+        buttonStyles route =
+            if model.route == route then
+                styles navigationButtonActive
+            else
+                styles navigationButton
     in
-        div []
-            [ h2 [] [ text (t "site-title") ]
-            , nav [ style [ ( "background-color", "silver" ) ] ]
-                [ button [ onClick (NavigateTo HomeRoute) ] [ text (t "page-title-home") ]
-                , button [ onClick (NavigateTo SettingsRoute) ] [ text (t "page-title-settings") ]
+        div [ styles (appStyles ++ wrapper) ]
+            [ header [ styles headerSection ]
+                [ h1 [] [ text (t "site-title") ]
+                ]
+            , nav [ styles navigationBar ]
+                [ button
+                    [ onClick (NavigateTo HomeRoute)
+                    , buttonStyles HomeRoute
+                    ]
+                    [ text (t "page-title-home") ]
+                , button
+                    [ onClick (NavigateTo SettingsRoute)
+                    , buttonStyles SettingsRoute
+                    ]
+                    [ text (t "page-title-settings") ]
                 ]
             , pageView context model
             ]
@@ -106,14 +122,17 @@ view context model =
 
 pageView : Context -> Model -> Html Msg
 pageView context model =
-    case model.route of
-        HomeRoute ->
-            Home.view context model.homeModel
-                |> Html.map HomeMsg
+    div [ styles activeView ]
+        [ (case model.route of
+            HomeRoute ->
+                Home.view context model.homeModel
+                    |> Html.map HomeMsg
 
-        SettingsRoute ->
-            Settings.view context model.settingsModel
-                |> Html.map SettingsMsg
+            SettingsRoute ->
+                Settings.view context model.settingsModel
+                    |> Html.map SettingsMsg
 
-        NotFoundRoute ->
-            h1 [] [ text "404 :(" ]
+            NotFoundRoute ->
+                h1 [] [ text "404 :(" ]
+          )
+        ]

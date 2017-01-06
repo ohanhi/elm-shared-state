@@ -4,8 +4,8 @@ import Date exposing (Date)
 import WebData exposing (WebData(..))
 import WebData.Http
 import Html exposing (..)
-import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Styles exposing (..)
 import Types exposing (ContextUpdate(..), Context, Commit)
 import Decoders
 import I18n
@@ -62,9 +62,14 @@ view context model =
                 )
             ]
         , div []
-            [ button [ onClick ReloadCommits ] [ text ("↻ " ++ (I18n.get context.translations "commits-refresh")) ]
+            [ button
+                [ onClick ReloadCommits
+                , styles actionButton
+                ]
+                [ text ("↻ " ++ (I18n.get context.translations "commits-refresh")) ]
             ]
-        , viewCommits context model
+        , div [ styles gutterTop ]
+            [ viewCommits context model ]
         ]
 
 
@@ -89,7 +94,7 @@ viewCommits context model =
 
 viewCommit : Context -> Commit -> Html Msg
 viewCommit context commit =
-    li [ class "commit" ]
+    li [ styles card ]
         [ h4 [] [ text commit.userName ]
         , em [] [ text (formatTimestamp context commit.date) ]
         , p [] [ text commit.message ]

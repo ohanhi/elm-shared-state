@@ -1,10 +1,10 @@
 module Settings exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebData exposing (WebData(..))
 import WebData.Http
+import Styles exposing (..)
 import Types exposing (Language(..), Context, ContextUpdate(..), Translations)
 import Decoders
 import I18n
@@ -73,8 +73,15 @@ view context model =
 
 selectionButton : Model -> Language -> String -> Html Msg
 selectionButton model language shownName =
-    button
-        [ disabled (model.selectedLanguage == language)
-        , onClick (SelectLanguage language)
-        ]
-        [ text shownName ]
+    let
+        buttonStyles =
+            if model.selectedLanguage == language then
+                actionButtonActive ++ gutterRight
+            else
+                actionButton ++ gutterRight
+    in
+        button
+            [ styles buttonStyles
+            , onClick (SelectLanguage language)
+            ]
+            [ text shownName ]
