@@ -15391,11 +15391,11 @@ var _ohanhi$elm_context_pattern$Pages_Settings$getTranslations = function (langu
 		var _p0 = language;
 		switch (_p0.ctor) {
 			case 'English':
-				return '/api/en.json';
+				return './api/en.json';
 			case 'Finnish':
-				return '/api/fi.json';
+				return './api/fi.json';
 			default:
-				return '/api/fi-formal.json';
+				return './api/fi-formal.json';
 		}
 	}();
 	return A3(_ohanhi$elm_web_data$WebData_Http$get, url, _ohanhi$elm_context_pattern$Pages_Settings$HandleTranslationsResponse, _ohanhi$elm_context_pattern$Decoders$decodeTranslations);
@@ -15961,7 +15961,7 @@ var _ohanhi$elm_context_pattern$Main$init = F2(
 				appState: _ohanhi$elm_context_pattern$Main$NotReady(flags.currentTime),
 				location: location
 			},
-			_1: A3(_ohanhi$elm_web_data$WebData_Http$get, '/api/en.json', _ohanhi$elm_context_pattern$Main$HandleTranslationsResponse, _ohanhi$elm_context_pattern$Decoders$decodeTranslations)
+			_1: A3(_ohanhi$elm_web_data$WebData_Http$get, './api/en.json', _ohanhi$elm_context_pattern$Main$HandleTranslationsResponse, _ohanhi$elm_context_pattern$Decoders$decodeTranslations)
 		};
 	});
 var _ohanhi$elm_context_pattern$Main$TimeChange = function (a) {
