@@ -11,9 +11,9 @@ import Router
 import I18n
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    Navigation.program UrlChange
+    Navigation.programWithFlags UrlChange
         { init = init
         , update = update
         , view = view
@@ -27,8 +27,13 @@ type alias Model =
     }
 
 
+type alias Flags =
+    { currentTime : Time
+    }
+
+
 type AppState
-    = NotReady
+    = NotReady Time
     | Ready Context Router.Model
 
 
@@ -39,9 +44,9 @@ type Msg
     | RouterMsg Router.Msg
 
 
-init : Location -> ( Model, Cmd Msg )
-init location =
-    ( { appState = NotReady
+init : Flags -> Location -> ( Model, Cmd Msg )
+init flags location =
+    ( { appState = NotReady flags.currentTime
       , location = location
       }
     , Http.get "/api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
@@ -67,8 +72,10 @@ update msg model =
 updateTime : Model -> Time -> ( Model, Cmd Msg )
 updateTime model time =
     case model.appState of
-        NotReady ->
-            ( model, Cmd.none )
+        NotReady _ ->
+            ( { model | appState = NotReady time }
+            , Cmd.none
+            )
 
         Ready context pageParentModel ->
             ( { model | appState = Ready (updateContext context (UpdateTime time)) pageParentModel }
@@ -88,7 +95,7 @@ updateRouter model pageParentMsg =
                 , Cmd.map RouterMsg pageParentCmd
                 )
 
-        NotReady ->
+        NotReady _ ->
             Debug.crash "Ooops. We got a sub-component message even though it wasn't supposed to be initialized?!?!?"
 
 
@@ -99,25 +106,25 @@ updateTranslations model webData =
             Debug.crash "OMG CANT EVEN DOWNLOAD."
 
         Success translations ->
-            let
-                initContext =
-                    { currentTime = 0
-                    , translate = I18n.get translations
-                    }
+            case model.appState of
+                NotReady time ->
+                    let
+                        initContext =
+                            { currentTime = time
+                            , translate = I18n.get translations
+                            }
 
-                ( initRouterModel, pageParentCmd ) =
-                    Router.init initContext model.location
-            in
-                case model.appState of
-                    NotReady ->
+                        ( initRouterModel, pageParentCmd ) =
+                            Router.init initContext model.location
+                    in
                         ( { model | appState = Ready initContext initRouterModel }
                         , Cmd.map RouterMsg pageParentCmd
                         )
 
-                    Ready context pageParentModel ->
-                        ( { model | appState = Ready (updateContext context (UpdateTranslations translations)) pageParentModel }
-                        , Cmd.none
-                        )
+                Ready context pageParentModel ->
+                    ( { model | appState = Ready (updateContext context (UpdateTranslations translations)) pageParentModel }
+                    , Cmd.none
+                    )
 
         _ ->
             ( model, Cmd.none )
@@ -143,5 +150,5 @@ view model =
             Router.view context pageParentModel
                 |> Html.map RouterMsg
 
-        NotReady ->
+        NotReady _ ->
             text "Loading"

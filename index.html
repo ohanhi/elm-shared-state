@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Main</title>
+	<style>
+		html,head,body { padding:0; margin:0; }
+		body { font-family: calibri, helvetica, arial, sans-serif; }
+	</style>
+</head>
+<body>
+	<div id="app"></div>
+	<!-- Put the name of your app here (my sources place in `src` forder) -->
+	<script src="/_compile/src/Main.elm"></script>
+	<script>
+	Elm.Main.embed(document.getElementById('app'), {
+		currentTime: Date.now()
+	});
+	</script>
+</body>
+</html>
