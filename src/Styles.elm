@@ -192,3 +192,33 @@ gutterTop =
 gutterRight : List Mixin
 gutterRight =
     [ marginRight (Css.rem 1) ]
+
+
+flexContainer : List Mixin
+flexContainer =
+    [ displayFlex ]
+
+
+flex1 : List Mixin
+flex1 =
+    [ flex (int 1) ]
+
+
+flex2 : List Mixin
+flex2 =
+    [ flex (int 2) ]
+
+
+avatarPicture : List Mixin
+avatarPicture =
+    [ width (px 50)
+    , height (px 50)
+    ]
+
+
+stargazerName : List Mixin
+stargazerName =
+    [ width (pct 80)
+    , paddingLeft (Css.rem 0.5)
+    , boxSizing borderBox
+    ]

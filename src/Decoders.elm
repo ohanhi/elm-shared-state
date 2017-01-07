@@ -1,7 +1,7 @@
 module Decoders exposing (..)
 
 import Date exposing (Date)
-import Json.Decode exposing (Decoder, at, string, int, float, dict)
+import Json.Decode exposing (Decoder, field, at, string, int, float, dict)
 import Types exposing (..)
 
 
@@ -36,3 +36,15 @@ dateDecoder =
 decodeCommitList : Decoder (List Commit)
 decodeCommitList =
     Json.Decode.list decodeCommit
+
+
+decodeStargazer : Decoder Stargazer
+decodeStargazer =
+    Json.Decode.map2 Stargazer
+        (field "login" string)
+        (field "avatar_url" string)
+
+
+decodeStargazerList : Decoder (List Stargazer)
+decodeStargazerList =
+    Json.Decode.list decodeStargazer

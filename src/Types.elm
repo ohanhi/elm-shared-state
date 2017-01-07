@@ -23,6 +23,12 @@ type alias Commit =
     }
 
 
+type alias Stargazer =
+    { login : String
+    , avatarUrl : String
+    }
+
+
 type ContextUpdate
     = NoUpdate
     | UpdateTime Time

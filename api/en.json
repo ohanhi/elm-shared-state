@@ -4,6 +4,7 @@
     "page-title-settings": "Settings",
     "language-selection-heading": "Select language",
     "commits-heading": "Commits for repository",
+    "stargazers-heading": "Stargazers",
     "status-loading": "Loading",
     "status-network-error": "Network error!",
     "commits-refresh": "Refresh",

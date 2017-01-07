@@ -4,28 +4,40 @@ import Date exposing (Date)
 import WebData exposing (WebData(..))
 import WebData.Http
 import Html exposing (..)
+import Html.Attributes exposing (src)
 import Html.Events exposing (..)
 import Styles exposing (..)
-import Types exposing (ContextUpdate(..), Context, Commit)
+import Types exposing (ContextUpdate(..), Context, Commit, Stargazer)
 import Decoders
 
 
 type alias Model =
     { commits : WebData (List Commit)
+    , stargazers : WebData (List Stargazer)
     }
 
 
 type Msg
     = HandleCommits (WebData (List Commit))
-    | ReloadCommits
+    | HandleStargazers (WebData (List Stargazer))
+    | ReloadData
 
 
 init : ( Model, Cmd Msg )
 init =
     ( { commits = Loading
+      , stargazers = Loading
       }
-    , fetchCommits
+    , fetchData
     )
+
+
+fetchData : Cmd Msg
+fetchData =
+    Cmd.batch
+        [ fetchCommits
+        , fetchStargazers
+        ]
 
 
 fetchCommits : Cmd Msg
@@ -36,12 +48,23 @@ fetchCommits =
         Decoders.decodeCommitList
 
 
+fetchStargazers : Cmd Msg
+fetchStargazers =
+    WebData.Http.getWithCache
+        "https://api.github.com/repos/ohanhi/elm-context-pattern/stargazers"
+        HandleStargazers
+        Decoders.decodeStargazerList
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ReloadCommits ->
-            ( { model | commits = Loading }
-            , fetchCommits
+        ReloadData ->
+            ( { model
+                | commits = Loading
+                , stargazers = Loading
+              }
+            , fetchData
             )
 
         HandleCommits webData ->
@@ -49,26 +72,33 @@ update msg model =
             , Cmd.none
             )
 
+        HandleStargazers webData ->
+            ( { model | stargazers = webData }
+            , Cmd.none
+            )
+
 
 view : Context -> Model -> Html Msg
 view context model =
     div []
-        [ h2 []
-            [ text
-                (context.translate "commits-heading"
-                    ++ " "
-                    ++ "ohanhi/elm-context-pattern"
-                )
-            ]
+        [ h2 [] [ text "ohanhi/elm-context-pattern" ]
         , div []
             [ button
-                [ onClick ReloadCommits
+                [ onClick ReloadData
                 , styles actionButton
                 ]
                 [ text ("↻ " ++ context.translate "commits-refresh") ]
             ]
-        , div [ styles gutterTop ]
-            [ viewCommits context model ]
+        , div [ styles (flexContainer ++ gutterTop) ]
+            [ div [ styles (flex2 ++ gutterRight) ]
+                [ h3 [] [ text (context.translate "commits-heading") ]
+                , viewCommits context model
+                ]
+            , div [ styles flex1 ]
+                [ h3 [] [ text (context.translate "stargazers-heading") ]
+                , viewStargazers context model
+                ]
+            ]
         ]
 
 
@@ -119,3 +149,34 @@ formatTimestamp context date =
                     ++ toString n
                     ++ " "
                     ++ context.translate "timeformat-n-minutes-ago-after"
+
+
+viewStargazers : Context -> Model -> Html Msg
+viewStargazers context model =
+    case model.stargazers of
+        Loading ->
+            text (context.translate "status-loading")
+
+        Failure _ ->
+            text (context.translate "status-network-error")
+
+        Success stargazers ->
+            stargazers
+                |> List.reverse
+                |> List.map viewStargazer
+                |> ul [ styles commitList ]
+
+        _ ->
+            text ""
+
+
+viewStargazer : Stargazer -> Html Msg
+viewStargazer stargazer =
+    li [ styles (card ++ flexContainer) ]
+        [ img
+            [ styles avatarPicture
+            , src stargazer.avatarUrl
+            ]
+            []
+        , p [ styles stargazerName ] [ text stargazer.login ]
+        ]
