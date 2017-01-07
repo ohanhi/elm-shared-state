@@ -8,7 +8,6 @@ import Routes exposing (Route(..))
 import Styles exposing (..)
 import Home
 import Settings
-import I18n
 
 
 type alias Model =
@@ -91,9 +90,6 @@ updateSettings context model settingsMsg =
 view : Context -> Model -> Html Msg
 view context model =
     let
-        t =
-            I18n.get context.translations
-
         buttonStyles route =
             if model.route == route then
                 styles navigationButtonActive
@@ -102,19 +98,19 @@ view context model =
     in
         div [ styles (appStyles ++ wrapper) ]
             [ header [ styles headerSection ]
-                [ h1 [] [ text (t "site-title") ]
+                [ h1 [] [ text (context.translate "site-title") ]
                 ]
             , nav [ styles navigationBar ]
                 [ button
                     [ onClick (NavigateTo HomeRoute)
                     , buttonStyles HomeRoute
                     ]
-                    [ text (t "page-title-home") ]
+                    [ text (context.translate "page-title-home") ]
                 , button
                     [ onClick (NavigateTo SettingsRoute)
                     , buttonStyles SettingsRoute
                     ]
-                    [ text (t "page-title-settings") ]
+                    [ text (context.translate "page-title-settings") ]
                 ]
             , pageView context model
             ]

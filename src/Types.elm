@@ -11,7 +11,7 @@ type alias Translations =
 
 type alias Context =
     { currentTime : Time
-    , translations : Translations
+    , translate : String -> String
     }
 
 

@@ -8,6 +8,7 @@ import WebData.Http as Http
 import Decoders
 import Types exposing (ContextUpdate(..), Context, Translations)
 import Router
+import I18n
 
 
 main : Program Never Model Msg
@@ -101,7 +102,7 @@ updateTranslations model webData =
             let
                 initContext =
                     { currentTime = 0
-                    , translations = translations
+                    , translate = I18n.get translations
                     }
 
                 ( initRouterModel, pageParentCmd ) =
@@ -129,7 +130,7 @@ updateContext context ctxUpdate =
             { context | currentTime = time }
 
         UpdateTranslations translations ->
-            { context | translations = translations }
+            { context | translate = I18n.get translations }
 
         NoUpdate ->
             context

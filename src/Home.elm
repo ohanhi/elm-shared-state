@@ -8,7 +8,6 @@ import Html.Events exposing (..)
 import Styles exposing (..)
 import Types exposing (ContextUpdate(..), Context, Commit)
 import Decoders
-import I18n
 
 
 type alias Model =
@@ -56,7 +55,7 @@ view context model =
     div []
         [ h2 []
             [ text
-                ((I18n.get context.translations "commits-heading")
+                (context.translate "commits-heading"
                     ++ " "
                     ++ "ohanhi/elm-context-pattern"
                 )
@@ -66,7 +65,7 @@ view context model =
                 [ onClick ReloadCommits
                 , styles actionButton
                 ]
-                [ text ("↻ " ++ (I18n.get context.translations "commits-refresh")) ]
+                [ text ("↻ " ++ context.translate "commits-refresh") ]
             ]
         , div [ styles gutterTop ]
             [ viewCommits context model ]
@@ -77,10 +76,10 @@ viewCommits : Context -> Model -> Html Msg
 viewCommits context model =
     case model.commits of
         Loading ->
-            text (I18n.get context.translations "status-loading")
+            text (context.translate "status-loading")
 
         Failure _ ->
-            text (I18n.get context.translations "status-network-error")
+            text (context.translate "status-network-error")
 
         Success commits ->
             commits
@@ -106,20 +105,17 @@ formatTimestamp context date =
     let
         minutes =
             floor ((context.currentTime - (Date.toTime date)) / 1000 / 60)
-
-        t =
-            I18n.get context.translations
     in
         case minutes of
             0 ->
-                t "timeformat-zero-minutes"
+                context.translate "timeformat-zero-minutes"
 
             1 ->
-                t "timeformat-one-minute-ago"
+                context.translate "timeformat-one-minute-ago"
 
             n ->
-                t "timeformat-n-minutes-ago-before"
+                context.translate "timeformat-n-minutes-ago-before"
                     ++ " "
                     ++ toString n
                     ++ " "
-                    ++ t "timeformat-n-minutes-ago-after"
+                    ++ context.translate "timeformat-n-minutes-ago-after"
