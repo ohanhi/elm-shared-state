@@ -218,7 +218,6 @@ avatarPicture =
 
 stargazerName : List Mixin
 stargazerName =
-    [ width (pct 80)
-    , paddingLeft (Css.rem 0.5)
+    [ paddingLeft (Css.rem 0.5)
     , boxSizing borderBox
     ]
