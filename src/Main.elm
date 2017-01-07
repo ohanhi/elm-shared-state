@@ -49,7 +49,7 @@ init flags location =
     ( { appState = NotReady flags.currentTime
       , location = location
       }
-    , Http.get "/api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
+    , Http.get "./api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
     )
 
 

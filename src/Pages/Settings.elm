@@ -49,13 +49,13 @@ getTranslations language =
         url =
             case language of
                 English ->
-                    "/api/en.json"
+                    "./api/en.json"
 
                 Finnish ->
-                    "/api/fi.json"
+                    "./api/fi.json"
 
                 FinnishFormal ->
-                    "/api/fi-formal.json"
+                    "./api/fi-formal.json"
     in
         WebData.Http.get url HandleTranslationsResponse Decoders.decodeTranslations
 
