@@ -85,7 +85,7 @@ viewCommits context model =
             commits
                 |> List.sortBy (\commit -> -(Date.toTime commit.date))
                 |> List.map (viewCommit context)
-                |> ul []
+                |> ul [ styles commitList ]
 
         _ ->
             text ""

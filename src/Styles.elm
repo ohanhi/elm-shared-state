@@ -154,6 +154,13 @@ actionButtonActive =
     ]
 
 
+commitList : List Mixin
+commitList =
+    [ listStyle none
+    , padding (px 0)
+    ]
+
+
 card : List Mixin
 card =
     [ padding2 (Css.rem 0.5) (Css.rem 1)
