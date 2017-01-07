@@ -14743,17 +14743,12 @@ var _rtfeldman$elm_css$Css$blink = _rtfeldman$elm_css$Css$IntentionallyUnsupport
 
 var _ohanhi$elm_context_pattern$Styles$stargazerName = {
 	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$width(
-		_rtfeldman$elm_css$Css$pct(80)),
+	_0: _rtfeldman$elm_css$Css$paddingLeft(
+		_rtfeldman$elm_css$Css$rem(0.5)),
 	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$paddingLeft(
-			_rtfeldman$elm_css$Css$rem(0.5)),
-		_1: {
-			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
-			_1: {ctor: '[]'}
-		}
+		_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
+		_1: {ctor: '[]'}
 	}
 };
 var _ohanhi$elm_context_pattern$Styles$avatarPicture = {
