@@ -7,7 +7,7 @@ import WebData exposing (WebData(..))
 import WebData.Http as Http
 import Decoders
 import Types exposing (ContextUpdate(..), Context, Translations)
-import Router
+import Routing.Router as Router
 import I18n
 
 

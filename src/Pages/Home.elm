@@ -1,4 +1,4 @@
-module Home exposing (..)
+module Pages.Home exposing (..)
 
 import Date exposing (Date)
 import WebData exposing (WebData(..))

@@ -1,13 +1,15 @@
-module Router exposing (..)
+module Routing.Router exposing (..)
 
 import Navigation exposing (Location)
 import Html exposing (..)
+import Html.Attributes exposing (href)
 import Html.Events exposing (..)
+import Date
 import Types exposing (ContextUpdate(..), Context, Translations)
-import Routes exposing (Route(..))
+import Routing.Helpers exposing (Route(..), parseLocation, reverseRoute)
 import Styles exposing (..)
-import Home
-import Settings
+import Pages.Home as Home
+import Pages.Settings as Settings
 
 
 type alias Model =
@@ -35,7 +37,7 @@ init context location =
     in
         ( { homeModel = homeModel
           , settingsModel = settingsModel
-          , route = Routes.parseLocation location
+          , route = parseLocation location
           }
         , Cmd.map HomeMsg homeCmd
         )
@@ -45,14 +47,14 @@ update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
 update context msg model =
     case msg of
         UrlChange location ->
-            ( { model | route = Routes.parseLocation location }
+            ( { model | route = parseLocation location }
             , Cmd.none
             , NoUpdate
             )
 
         NavigateTo route ->
             ( model
-            , Navigation.newUrl (Routes.reverseRoute route)
+            , Navigation.newUrl (reverseRoute route)
             , NoUpdate
             )
 

@@ -130,9 +130,7 @@ activeView : List Mixin
 activeView =
     [ container
     , backgroundColor colorLightGreen
-    , borderBottom3 (Css.rem 0.5) solid colorDarkGreen
     , paddingBottom (Css.rem 1)
-    , marginBottom (Css.rem 2)
     ]
 
 
@@ -168,6 +166,21 @@ card =
     , borderLeft3 (px 5) solid colorDarkGreen
     , backgroundColor colorOffWhite
     ]
+
+
+footerSection : List Mixin
+footerSection =
+    [ container
+    , textAlign center
+    , backgroundColor colorDarkGreen
+    , color colorOffWhite
+    , marginBottom (Css.rem 2)
+    ]
+
+
+footerLink : List Mixin
+footerLink =
+    [ color colorOffWhite ]
 
 
 gutterTop : List Mixin

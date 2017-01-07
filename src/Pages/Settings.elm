@@ -1,5 +1,6 @@
-module Settings exposing (..)
+module Pages.Settings exposing (..)
 
+import Date
 import Html exposing (..)
 import Html.Events exposing (..)
 import WebData exposing (WebData(..))
