@@ -1,6 +1,5 @@
 module Pages.Settings exposing (..)
 
-import Date
 import Html exposing (..)
 import Html.Events exposing (..)
 import WebData exposing (WebData(..))
@@ -66,8 +65,9 @@ view context model =
     div []
         [ h2 [] [ text (context.translate "language-selection-heading") ]
         , selectionButton model English "English"
-        , selectionButton model Finnish "Suomi"
         , selectionButton model FinnishFormal "Suomi (virallinen)"
+        , selectionButton model Finnish "Suomi (puhekieli)"
+        , pre [ styles card ] [ text ("context == " ++ toString context) ]
         ]
 
 

@@ -4,7 +4,6 @@ import Navigation exposing (Location)
 import Html exposing (..)
 import Html.Attributes exposing (href)
 import Html.Events exposing (..)
-import Date
 import Types exposing (ContextUpdate(..), Context, Translations)
 import Routing.Helpers exposing (Route(..), parseLocation, reverseRoute)
 import Styles exposing (..)
@@ -115,6 +114,15 @@ view context model =
                     [ text (context.translate "page-title-settings") ]
                 ]
             , pageView context model
+            , footer [ styles footerSection ]
+                [ text (context.translate "footer-github-before" ++ " ")
+                , a
+                    [ href "https://github.com/ohanhi/elm-context-pattern"
+                    , styles footerLink
+                    ]
+                    [ text "Github" ]
+                , text (context.translate "footer-github-after")
+                ]
             ]
 
 

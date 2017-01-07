@@ -7,6 +7,8 @@
     "status-loading": "Ladataan",
     "status-network-error": "Yhteysvirhe",
     "commits-refresh": "Päivitä",
+    "footer-github-before": "Näe koodi ja lisää tähti",
+    "footer-github-after": "issa",
     "timeformat-zero-minutes": "Tovi sitten",
     "timeformat-one-minute-ago": "Minuutti sitten",
     "timeformat-n-minutes-ago-before": "Suunnilleen",

@@ -7,8 +7,10 @@
     "status-loading": "Ladataan",
     "status-network-error": "Netti poikki!",
     "commits-refresh": "Päivitä",
+    "footer-github-before": "Tsekkaa koodi ja lisää tähti",
+    "footer-github-after": "issa",
     "timeformat-zero-minutes": "Just äsken",
     "timeformat-one-minute-ago": "Minsa sitten",
-    "timeformat-n-minutes-ago-before": "Äböut",
+    "timeformat-n-minutes-ago-before": "Noin",
     "timeformat-n-minutes-ago-after": "minsaa sitten"
 }

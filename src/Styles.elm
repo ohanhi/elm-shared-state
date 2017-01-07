@@ -64,6 +64,7 @@ buttonBase =
         , padding2 (Css.rem 0.5) (Css.rem 1)
         , borderStyle none
         , outline none
+        , cursor pointer
         ]
 
 

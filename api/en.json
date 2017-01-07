@@ -7,6 +7,8 @@
     "status-loading": "Loading",
     "status-network-error": "Network error!",
     "commits-refresh": "Refresh",
+    "footer-github-before": "See the code and Star the repo on",
+    "footer-github-after": "",
     "timeformat-zero-minutes": "Just now",
     "timeformat-one-minute-ago": "A minute ago",
     "timeformat-n-minutes-ago-before": "Around",
