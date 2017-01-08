@@ -89,7 +89,7 @@ updateRouter model routerMsg =
         Ready context routerModel ->
             let
                 ( nextRouterModel, routerCmd, ctxUpdate ) =
-                    Router.update context routerMsg routerModel
+                    Router.update routerMsg routerModel
             in
                 ( { model | appState = Ready (updateContext context ctxUpdate) nextRouterModel }
                 , Cmd.map RouterMsg routerCmd
@@ -115,7 +115,7 @@ updateTranslations model webData =
                             }
 
                         ( initRouterModel, routerCmd ) =
-                            Router.init initContext model.location
+                            Router.init model.location
                     in
                         ( { model | appState = Ready initContext initRouterModel }
                         , Cmd.map RouterMsg routerCmd

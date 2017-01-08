@@ -25,8 +25,8 @@ initModel =
     }
 
 
-update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
-update context msg model =
+update : Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
+update msg model =
     case msg of
         SelectLanguage lang ->
             ( { model | selectedLanguage = lang }

@@ -25,8 +25,8 @@ type Msg
     | SettingsMsg Settings.Msg
 
 
-init : Context -> Location -> ( Model, Cmd Msg )
-init context location =
+init : Location -> ( Model, Cmd Msg )
+init location =
     let
         ( homeModel, homeCmd ) =
             Home.init
@@ -42,8 +42,8 @@ init context location =
         )
 
 
-update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
-update context msg model =
+update : Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
+update msg model =
     case msg of
         UrlChange location ->
             ( { model | route = parseLocation location }
@@ -58,14 +58,14 @@ update context msg model =
             )
 
         HomeMsg homeMsg ->
-            updateHome context model homeMsg
+            updateHome model homeMsg
 
         SettingsMsg settingsMsg ->
-            updateSettings context model settingsMsg
+            updateSettings model settingsMsg
 
 
-updateHome : Context -> Model -> Home.Msg -> ( Model, Cmd Msg, ContextUpdate )
-updateHome context model homeMsg =
+updateHome : Model -> Home.Msg -> ( Model, Cmd Msg, ContextUpdate )
+updateHome model homeMsg =
     let
         ( nextHomeModel, homeCmd ) =
             Home.update homeMsg model.homeModel
@@ -76,11 +76,11 @@ updateHome context model homeMsg =
         )
 
 
-updateSettings : Context -> Model -> Settings.Msg -> ( Model, Cmd Msg, ContextUpdate )
-updateSettings context model settingsMsg =
+updateSettings : Model -> Settings.Msg -> ( Model, Cmd Msg, ContextUpdate )
+updateSettings model settingsMsg =
     let
         ( nextSettingsModel, settingsCmd, ctxUpdate ) =
-            Settings.update context settingsMsg model.settingsModel
+            Settings.update settingsMsg model.settingsModel
     in
         ( { model | settingsModel = nextSettingsModel }
         , Cmd.map SettingsMsg settingsCmd
