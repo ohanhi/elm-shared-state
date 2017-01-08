@@ -65,8 +65,8 @@ update msg model =
         UrlChange location ->
             updateRouter { model | location = location } (Router.UrlChange location)
 
-        RouterMsg pageParentMsg ->
-            updateRouter model pageParentMsg
+        RouterMsg routerMsg ->
+            updateRouter model routerMsg
 
 
 updateTime : Model -> Time -> ( Model, Cmd Msg )
@@ -77,22 +77,22 @@ updateTime model time =
             , Cmd.none
             )
 
-        Ready context pageParentModel ->
-            ( { model | appState = Ready (updateContext context (UpdateTime time)) pageParentModel }
+        Ready context routerModel ->
+            ( { model | appState = Ready (updateContext context (UpdateTime time)) routerModel }
             , Cmd.none
             )
 
 
 updateRouter : Model -> Router.Msg -> ( Model, Cmd Msg )
-updateRouter model pageParentMsg =
+updateRouter model routerMsg =
     case model.appState of
-        Ready context pageParentModel ->
+        Ready context routerModel ->
             let
-                ( nextRouterModel, pageParentCmd, ctxUpdate ) =
-                    Router.update context pageParentMsg pageParentModel
+                ( nextRouterModel, routerCmd, ctxUpdate ) =
+                    Router.update context routerMsg routerModel
             in
                 ( { model | appState = Ready (updateContext context ctxUpdate) nextRouterModel }
-                , Cmd.map RouterMsg pageParentCmd
+                , Cmd.map RouterMsg routerCmd
                 )
 
         NotReady _ ->
@@ -114,15 +114,15 @@ updateTranslations model webData =
                             , translate = I18n.get translations
                             }
 
-                        ( initRouterModel, pageParentCmd ) =
+                        ( initRouterModel, routerCmd ) =
                             Router.init initContext model.location
                     in
                         ( { model | appState = Ready initContext initRouterModel }
-                        , Cmd.map RouterMsg pageParentCmd
+                        , Cmd.map RouterMsg routerCmd
                         )
 
-                Ready context pageParentModel ->
-                    ( { model | appState = Ready (updateContext context (UpdateTranslations translations)) pageParentModel }
+                Ready context routerModel ->
+                    ( { model | appState = Ready (updateContext context (UpdateTranslations translations)) routerModel }
                     , Cmd.none
                     )
 
@@ -146,8 +146,8 @@ updateContext context ctxUpdate =
 view : Model -> Html Msg
 view model =
     case model.appState of
-        Ready context pageParentModel ->
-            Router.view context pageParentModel
+        Ready context routerModel ->
+            Router.view context routerModel
                 |> Html.map RouterMsg
 
         NotReady _ ->
