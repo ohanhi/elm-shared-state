@@ -88,10 +88,13 @@ updateRouter model routerMsg =
     case model.appState of
         Ready context routerModel ->
             let
+                nextContext =
+                    updateContext context ctxUpdate
+
                 ( nextRouterModel, routerCmd, ctxUpdate ) =
                     Router.update routerMsg routerModel
             in
-                ( { model | appState = Ready (updateContext context ctxUpdate) nextRouterModel }
+                ( { model | appState = Ready nextContext nextRouterModel }
                 , Cmd.map RouterMsg routerCmd
                 )
 
