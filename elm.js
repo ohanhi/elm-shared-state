@@ -5753,6 +5753,86 @@ var _elm_lang$core$Platform$Task = {ctor: 'Task'};
 var _elm_lang$core$Platform$ProcessId = {ctor: 'ProcessId'};
 var _elm_lang$core$Platform$Router = {ctor: 'Router'};
 
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode = _elm_lang$core$Json_Decode$succeed;
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$resolve = _elm_lang$core$Json_Decode$andThen(_elm_lang$core$Basics$identity);
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom = _elm_lang$core$Json_Decode$map2(
+	F2(
+		function (x, y) {
+			return y(x);
+		}));
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded = function (_p0) {
+	return _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom(
+		_elm_lang$core$Json_Decode$succeed(_p0));
+};
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder = F3(
+	function (pathDecoder, valDecoder, fallback) {
+		var nullOr = function (decoder) {
+			return _elm_lang$core$Json_Decode$oneOf(
+				{
+					ctor: '::',
+					_0: decoder,
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$core$Json_Decode$null(fallback),
+						_1: {ctor: '[]'}
+					}
+				});
+		};
+		var handleResult = function (input) {
+			var _p1 = A2(_elm_lang$core$Json_Decode$decodeValue, pathDecoder, input);
+			if (_p1.ctor === 'Ok') {
+				var _p2 = A2(
+					_elm_lang$core$Json_Decode$decodeValue,
+					nullOr(valDecoder),
+					_p1._0);
+				if (_p2.ctor === 'Ok') {
+					return _elm_lang$core$Json_Decode$succeed(_p2._0);
+				} else {
+					return _elm_lang$core$Json_Decode$fail(_p2._0);
+				}
+			} else {
+				return _elm_lang$core$Json_Decode$succeed(fallback);
+			}
+		};
+		return A2(_elm_lang$core$Json_Decode$andThen, handleResult, _elm_lang$core$Json_Decode$value);
+	});
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalAt = F4(
+	function (path, valDecoder, fallback, decoder) {
+		return A2(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder,
+				A2(_elm_lang$core$Json_Decode$at, path, _elm_lang$core$Json_Decode$value),
+				valDecoder,
+				fallback),
+			decoder);
+	});
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional = F4(
+	function (key, valDecoder, fallback, decoder) {
+		return A2(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder,
+				A2(_elm_lang$core$Json_Decode$field, key, _elm_lang$core$Json_Decode$value),
+				valDecoder,
+				fallback),
+			decoder);
+	});
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt = F3(
+	function (path, valDecoder, decoder) {
+		return A2(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+			A2(_elm_lang$core$Json_Decode$at, path, valDecoder),
+			decoder);
+	});
+var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required = F3(
+	function (key, valDecoder, decoder) {
+		return A2(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+			A2(_elm_lang$core$Json_Decode$field, key, valDecoder),
+			decoder);
+	});
+
 //import Result //
 
 var _elm_lang$core$Native_Date = function() {
@@ -9987,9 +10067,9 @@ var _ohanhi$elm_taco$Types$Commit = F4(
 	function (a, b, c, d) {
 		return {userName: a, sha: b, date: c, message: d};
 	});
-var _ohanhi$elm_taco$Types$Stargazer = F2(
-	function (a, b) {
-		return {login: a, avatarUrl: b};
+var _ohanhi$elm_taco$Types$Stargazer = F3(
+	function (a, b, c) {
+		return {login: a, avatarUrl: b, url: c};
 	});
 var _ohanhi$elm_taco$Types$UpdateTranslations = function (a) {
 	return {ctor: 'UpdateTranslations', _0: a};
@@ -10003,10 +10083,18 @@ var _ohanhi$elm_taco$Types$Finnish = {ctor: 'Finnish'};
 var _ohanhi$elm_taco$Types$English = {ctor: 'English'};
 
 var _ohanhi$elm_taco$Decoders$decodeStargazer = A3(
-	_elm_lang$core$Json_Decode$map2,
-	_ohanhi$elm_taco$Types$Stargazer,
-	A2(_elm_lang$core$Json_Decode$field, 'login', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'avatar_url', _elm_lang$core$Json_Decode$string));
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'html_url',
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'avatar_url',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'login',
+			_elm_lang$core$Json_Decode$string,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_ohanhi$elm_taco$Types$Stargazer))));
 var _ohanhi$elm_taco$Decoders$decodeStargazerList = _elm_lang$core$Json_Decode$list(_ohanhi$elm_taco$Decoders$decodeStargazer);
 var _ohanhi$elm_taco$Decoders$dateDecoder = A2(
 	_elm_lang$core$Json_Decode$andThen,
@@ -10019,35 +10107,20 @@ var _ohanhi$elm_taco$Decoders$dateDecoder = A2(
 		}
 	},
 	_elm_lang$core$Json_Decode$string);
-var _ohanhi$elm_taco$Decoders$decodeCommit = A5(
-	_elm_lang$core$Json_Decode$map4,
-	_ohanhi$elm_taco$Types$Commit,
-	A2(
-		_elm_lang$core$Json_Decode$at,
-		{
+var _ohanhi$elm_taco$Decoders$decodeCommit = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt,
+	{
+		ctor: '::',
+		_0: 'commit',
+		_1: {
 			ctor: '::',
-			_0: 'commit',
-			_1: {
-				ctor: '::',
-				_0: 'author',
-				_1: {
-					ctor: '::',
-					_0: 'name',
-					_1: {ctor: '[]'}
-				}
-			}
-		},
-		_elm_lang$core$Json_Decode$string),
-	A2(
-		_elm_lang$core$Json_Decode$at,
-		{
-			ctor: '::',
-			_0: 'sha',
+			_0: 'message',
 			_1: {ctor: '[]'}
-		},
-		_elm_lang$core$Json_Decode$string),
-	A2(
-		_elm_lang$core$Json_Decode$at,
+		}
+	},
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt,
 		{
 			ctor: '::',
 			_0: 'commit',
@@ -10061,19 +10134,32 @@ var _ohanhi$elm_taco$Decoders$decodeCommit = A5(
 				}
 			}
 		},
-		_ohanhi$elm_taco$Decoders$dateDecoder),
-	A2(
-		_elm_lang$core$Json_Decode$at,
-		{
-			ctor: '::',
-			_0: 'commit',
-			_1: {
+		_ohanhi$elm_taco$Decoders$dateDecoder,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt,
+			{
 				ctor: '::',
-				_0: 'message',
+				_0: 'sha',
 				_1: {ctor: '[]'}
-			}
-		},
-		_elm_lang$core$Json_Decode$string));
+			},
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt,
+				{
+					ctor: '::',
+					_0: 'commit',
+					_1: {
+						ctor: '::',
+						_0: 'author',
+						_1: {
+							ctor: '::',
+							_0: 'name',
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				_elm_lang$core$Json_Decode$string,
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_ohanhi$elm_taco$Types$Commit)))));
 var _ohanhi$elm_taco$Decoders$decodeCommitList = _elm_lang$core$Json_Decode$list(_ohanhi$elm_taco$Decoders$decodeCommit);
 var _ohanhi$elm_taco$Decoders$decodeTranslations = _elm_lang$core$Json_Decode$dict(_elm_lang$core$Json_Decode$string);
 
@@ -14741,16 +14827,6 @@ var _rtfeldman$elm_css$Css$thin = _rtfeldman$elm_css$Css$IntentionallyUnsupporte
 var _rtfeldman$elm_css$Css$thick = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 var _rtfeldman$elm_css$Css$blink = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 
-var _ohanhi$elm_taco$Styles$stargazerName = {
-	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$paddingLeft(
-		_rtfeldman$elm_css$Css$rem(0.5)),
-	_1: {
-		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
-		_1: {ctor: '[]'}
-	}
-};
 var _ohanhi$elm_taco$Styles$avatarPicture = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$width(
@@ -14971,6 +15047,28 @@ var _ohanhi$elm_taco$Styles$actionButtonActive = {
 		}
 	}
 };
+var _ohanhi$elm_taco$Styles$stargazerName = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$paddingLeft(
+		_rtfeldman$elm_css$Css$rem(0.5)),
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorDarkGreen),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$displayFlex,
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
 var _ohanhi$elm_taco$Styles$colorDarkGrey = _rtfeldman$elm_css$Css$hex('777777');
 var _ohanhi$elm_taco$Styles$colorOffWhite = _rtfeldman$elm_css$Css$hex('fafffa');
 var _ohanhi$elm_taco$Styles$card = {
@@ -15057,11 +15155,15 @@ var _ohanhi$elm_taco$Pages_Home$viewStargazer = function (stargazer) {
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$p,
+					_elm_lang$html$Html$a,
 					{
 						ctor: '::',
 						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$stargazerName),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href(stargazer.url),
+							_1: {ctor: '[]'}
+						}
 					},
 					{
 						ctor: '::',
@@ -15213,11 +15315,26 @@ var _ohanhi$elm_taco$Pages_Home$view = F2(
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$h2,
-					{ctor: '[]'},
+					_elm_lang$html$Html$a,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('ohanhi/elm-taco'),
+						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$appStyles),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href('https://github.com/ohanhi/elm-taco/'),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('ohanhi/elm-taco'),
+								_1: {ctor: '[]'}
+							}),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
