@@ -43,7 +43,7 @@ fetchData =
 fetchCommits : Cmd Msg
 fetchCommits =
     WebData.Http.getWithCache
-        "https://api.github.com/repos/ohanhi/elm-taco-pattern/commits"
+        "https://api.github.com/repos/ohanhi/elm-taco/commits"
         HandleCommits
         Decoders.decodeCommitList
 
@@ -51,7 +51,7 @@ fetchCommits =
 fetchStargazers : Cmd Msg
 fetchStargazers =
     WebData.Http.getWithCache
-        "https://api.github.com/repos/ohanhi/elm-taco-pattern/stargazers"
+        "https://api.github.com/repos/ohanhi/elm-taco/stargazers"
         HandleStargazers
         Decoders.decodeStargazerList
 
@@ -81,7 +81,7 @@ update msg model =
 view : Taco -> Model -> Html Msg
 view taco model =
     div []
-        [ h2 [] [ text "ohanhi/elm-taco-pattern" ]
+        [ h2 [] [ text "ohanhi/elm-taco" ]
         , div []
             [ button
                 [ onClick ReloadData
