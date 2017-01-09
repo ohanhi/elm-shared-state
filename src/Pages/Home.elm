@@ -7,7 +7,7 @@ import Html exposing (..)
 import Html.Attributes exposing (src)
 import Html.Events exposing (..)
 import Styles exposing (..)
-import Types exposing (ContextUpdate(..), Context, Commit, Stargazer)
+import Types exposing (TacoUpdate(..), Taco, Commit, Stargazer)
 import Decoders
 
 
@@ -43,7 +43,7 @@ fetchData =
 fetchCommits : Cmd Msg
 fetchCommits =
     WebData.Http.getWithCache
-        "https://api.github.com/repos/ohanhi/elm-context-pattern/commits"
+        "https://api.github.com/repos/ohanhi/elm-taco-pattern/commits"
         HandleCommits
         Decoders.decodeCommitList
 
@@ -51,7 +51,7 @@ fetchCommits =
 fetchStargazers : Cmd Msg
 fetchStargazers =
     WebData.Http.getWithCache
-        "https://api.github.com/repos/ohanhi/elm-context-pattern/stargazers"
+        "https://api.github.com/repos/ohanhi/elm-taco-pattern/stargazers"
         HandleStargazers
         Decoders.decodeStargazerList
 
@@ -78,87 +78,87 @@ update msg model =
             )
 
 
-view : Context -> Model -> Html Msg
-view context model =
+view : Taco -> Model -> Html Msg
+view taco model =
     div []
-        [ h2 [] [ text "ohanhi/elm-context-pattern" ]
+        [ h2 [] [ text "ohanhi/elm-taco-pattern" ]
         , div []
             [ button
                 [ onClick ReloadData
                 , styles actionButton
                 ]
-                [ text ("↻ " ++ context.translate "commits-refresh") ]
+                [ text ("↻ " ++ taco.translate "commits-refresh") ]
             ]
         , div [ styles (flexContainer ++ gutterTop) ]
             [ div [ styles (flex2 ++ gutterRight) ]
-                [ h3 [] [ text (context.translate "commits-heading") ]
-                , viewCommits context model
+                [ h3 [] [ text (taco.translate "commits-heading") ]
+                , viewCommits taco model
                 ]
             , div [ styles flex1 ]
-                [ h3 [] [ text (context.translate "stargazers-heading") ]
-                , viewStargazers context model
+                [ h3 [] [ text (taco.translate "stargazers-heading") ]
+                , viewStargazers taco model
                 ]
             ]
         ]
 
 
-viewCommits : Context -> Model -> Html Msg
-viewCommits context model =
+viewCommits : Taco -> Model -> Html Msg
+viewCommits taco model =
     case model.commits of
         Loading ->
-            text (context.translate "status-loading")
+            text (taco.translate "status-loading")
 
         Failure _ ->
-            text (context.translate "status-network-error")
+            text (taco.translate "status-network-error")
 
         Success commits ->
             commits
                 |> List.sortBy (\commit -> -(Date.toTime commit.date))
-                |> List.map (viewCommit context)
+                |> List.map (viewCommit taco)
                 |> ul [ styles commitList ]
 
         _ ->
             text ""
 
 
-viewCommit : Context -> Commit -> Html Msg
-viewCommit context commit =
+viewCommit : Taco -> Commit -> Html Msg
+viewCommit taco commit =
     li [ styles card ]
         [ h4 [] [ text commit.userName ]
-        , em [] [ text (formatTimestamp context commit.date) ]
+        , em [] [ text (formatTimestamp taco commit.date) ]
         , p [] [ text commit.message ]
         ]
 
 
-formatTimestamp : Context -> Date -> String
-formatTimestamp context date =
+formatTimestamp : Taco -> Date -> String
+formatTimestamp taco date =
     let
         minutes =
-            floor ((context.currentTime - (Date.toTime date)) / 1000 / 60)
+            floor ((taco.currentTime - (Date.toTime date)) / 1000 / 60)
     in
         case minutes of
             0 ->
-                context.translate "timeformat-zero-minutes"
+                taco.translate "timeformat-zero-minutes"
 
             1 ->
-                context.translate "timeformat-one-minute-ago"
+                taco.translate "timeformat-one-minute-ago"
 
             n ->
-                context.translate "timeformat-n-minutes-ago-before"
+                taco.translate "timeformat-n-minutes-ago-before"
                     ++ " "
                     ++ toString n
                     ++ " "
-                    ++ context.translate "timeformat-n-minutes-ago-after"
+                    ++ taco.translate "timeformat-n-minutes-ago-after"
 
 
-viewStargazers : Context -> Model -> Html Msg
-viewStargazers context model =
+viewStargazers : Taco -> Model -> Html Msg
+viewStargazers taco model =
     case model.stargazers of
         Loading ->
-            text (context.translate "status-loading")
+            text (taco.translate "status-loading")
 
         Failure _ ->
-            text (context.translate "status-network-error")
+            text (taco.translate "status-network-error")
 
         Success stargazers ->
             stargazers

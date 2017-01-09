@@ -5,7 +5,7 @@ import Html.Events exposing (..)
 import WebData exposing (WebData(..))
 import WebData.Http
 import Styles exposing (..)
-import Types exposing (Language(..), Context, ContextUpdate(..), Translations)
+import Types exposing (Language(..), Taco, TacoUpdate(..), Translations)
 import Decoders
 
 
@@ -25,7 +25,7 @@ initModel =
     }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
+update : Msg -> Model -> ( Model, Cmd Msg, TacoUpdate )
 update msg model =
     case msg of
         SelectLanguage lang ->
@@ -60,14 +60,14 @@ getTranslations language =
         WebData.Http.get url HandleTranslationsResponse Decoders.decodeTranslations
 
 
-view : Context -> Model -> Html Msg
-view context model =
+view : Taco -> Model -> Html Msg
+view taco model =
     div []
-        [ h2 [] [ text (context.translate "language-selection-heading") ]
+        [ h2 [] [ text (taco.translate "language-selection-heading") ]
         , selectionButton model English "English"
         , selectionButton model FinnishFormal "Suomi (virallinen)"
         , selectionButton model Finnish "Suomi (puhekieli)"
-        , pre [ styles card ] [ text ("context == " ++ toString context) ]
+        , pre [ styles card ] [ text ("taco == " ++ toString taco) ]
         ]
 
 
