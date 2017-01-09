@@ -9979,36 +9979,36 @@ var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
 
-var _ohanhi$elm_context_pattern$Types$Context = F2(
+var _ohanhi$elm_taco$Types$Taco = F2(
 	function (a, b) {
 		return {currentTime: a, translate: b};
 	});
-var _ohanhi$elm_context_pattern$Types$Commit = F4(
+var _ohanhi$elm_taco$Types$Commit = F4(
 	function (a, b, c, d) {
 		return {userName: a, sha: b, date: c, message: d};
 	});
-var _ohanhi$elm_context_pattern$Types$Stargazer = F2(
+var _ohanhi$elm_taco$Types$Stargazer = F2(
 	function (a, b) {
 		return {login: a, avatarUrl: b};
 	});
-var _ohanhi$elm_context_pattern$Types$UpdateTranslations = function (a) {
+var _ohanhi$elm_taco$Types$UpdateTranslations = function (a) {
 	return {ctor: 'UpdateTranslations', _0: a};
 };
-var _ohanhi$elm_context_pattern$Types$UpdateTime = function (a) {
+var _ohanhi$elm_taco$Types$UpdateTime = function (a) {
 	return {ctor: 'UpdateTime', _0: a};
 };
-var _ohanhi$elm_context_pattern$Types$NoUpdate = {ctor: 'NoUpdate'};
-var _ohanhi$elm_context_pattern$Types$FinnishFormal = {ctor: 'FinnishFormal'};
-var _ohanhi$elm_context_pattern$Types$Finnish = {ctor: 'Finnish'};
-var _ohanhi$elm_context_pattern$Types$English = {ctor: 'English'};
+var _ohanhi$elm_taco$Types$NoUpdate = {ctor: 'NoUpdate'};
+var _ohanhi$elm_taco$Types$FinnishFormal = {ctor: 'FinnishFormal'};
+var _ohanhi$elm_taco$Types$Finnish = {ctor: 'Finnish'};
+var _ohanhi$elm_taco$Types$English = {ctor: 'English'};
 
-var _ohanhi$elm_context_pattern$Decoders$decodeStargazer = A3(
+var _ohanhi$elm_taco$Decoders$decodeStargazer = A3(
 	_elm_lang$core$Json_Decode$map2,
-	_ohanhi$elm_context_pattern$Types$Stargazer,
+	_ohanhi$elm_taco$Types$Stargazer,
 	A2(_elm_lang$core$Json_Decode$field, 'login', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'avatar_url', _elm_lang$core$Json_Decode$string));
-var _ohanhi$elm_context_pattern$Decoders$decodeStargazerList = _elm_lang$core$Json_Decode$list(_ohanhi$elm_context_pattern$Decoders$decodeStargazer);
-var _ohanhi$elm_context_pattern$Decoders$dateDecoder = A2(
+var _ohanhi$elm_taco$Decoders$decodeStargazerList = _elm_lang$core$Json_Decode$list(_ohanhi$elm_taco$Decoders$decodeStargazer);
+var _ohanhi$elm_taco$Decoders$dateDecoder = A2(
 	_elm_lang$core$Json_Decode$andThen,
 	function (text) {
 		var _p0 = _elm_lang$core$Date$fromString(text);
@@ -10019,9 +10019,9 @@ var _ohanhi$elm_context_pattern$Decoders$dateDecoder = A2(
 		}
 	},
 	_elm_lang$core$Json_Decode$string);
-var _ohanhi$elm_context_pattern$Decoders$decodeCommit = A5(
+var _ohanhi$elm_taco$Decoders$decodeCommit = A5(
 	_elm_lang$core$Json_Decode$map4,
-	_ohanhi$elm_context_pattern$Types$Commit,
+	_ohanhi$elm_taco$Types$Commit,
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
@@ -10061,7 +10061,7 @@ var _ohanhi$elm_context_pattern$Decoders$decodeCommit = A5(
 				}
 			}
 		},
-		_ohanhi$elm_context_pattern$Decoders$dateDecoder),
+		_ohanhi$elm_taco$Decoders$dateDecoder),
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
@@ -10074,10 +10074,10 @@ var _ohanhi$elm_context_pattern$Decoders$decodeCommit = A5(
 			}
 		},
 		_elm_lang$core$Json_Decode$string));
-var _ohanhi$elm_context_pattern$Decoders$decodeCommitList = _elm_lang$core$Json_Decode$list(_ohanhi$elm_context_pattern$Decoders$decodeCommit);
-var _ohanhi$elm_context_pattern$Decoders$decodeTranslations = _elm_lang$core$Json_Decode$dict(_elm_lang$core$Json_Decode$string);
+var _ohanhi$elm_taco$Decoders$decodeCommitList = _elm_lang$core$Json_Decode$list(_ohanhi$elm_taco$Decoders$decodeCommit);
+var _ohanhi$elm_taco$Decoders$decodeTranslations = _elm_lang$core$Json_Decode$dict(_elm_lang$core$Json_Decode$string);
 
-var _ohanhi$elm_context_pattern$I18n$get = F2(
+var _ohanhi$elm_taco$I18n$get = F2(
 	function (dict, key) {
 		return A2(
 			_elm_lang$core$Maybe$withDefault,
@@ -10329,7 +10329,7 @@ var _ohanhi$elm_web_data$WebData_Http$get = F3(
 				decoder));
 	});
 
-var _ohanhi$elm_context_pattern$Routing_Helpers$reverseRoute = function (route) {
+var _ohanhi$elm_taco$Routing_Helpers$reverseRoute = function (route) {
 	var _p0 = route;
 	if (_p0.ctor === 'SettingsRoute') {
 		return '#/settings';
@@ -10337,27 +10337,27 @@ var _ohanhi$elm_context_pattern$Routing_Helpers$reverseRoute = function (route) 
 		return '#/';
 	}
 };
-var _ohanhi$elm_context_pattern$Routing_Helpers$NotFoundRoute = {ctor: 'NotFoundRoute'};
-var _ohanhi$elm_context_pattern$Routing_Helpers$SettingsRoute = {ctor: 'SettingsRoute'};
-var _ohanhi$elm_context_pattern$Routing_Helpers$HomeRoute = {ctor: 'HomeRoute'};
-var _ohanhi$elm_context_pattern$Routing_Helpers$routeParser = _evancz$url_parser$UrlParser$oneOf(
+var _ohanhi$elm_taco$Routing_Helpers$NotFoundRoute = {ctor: 'NotFoundRoute'};
+var _ohanhi$elm_taco$Routing_Helpers$SettingsRoute = {ctor: 'SettingsRoute'};
+var _ohanhi$elm_taco$Routing_Helpers$HomeRoute = {ctor: 'HomeRoute'};
+var _ohanhi$elm_taco$Routing_Helpers$routeParser = _evancz$url_parser$UrlParser$oneOf(
 	{
 		ctor: '::',
-		_0: A2(_evancz$url_parser$UrlParser$map, _ohanhi$elm_context_pattern$Routing_Helpers$HomeRoute, _evancz$url_parser$UrlParser$top),
+		_0: A2(_evancz$url_parser$UrlParser$map, _ohanhi$elm_taco$Routing_Helpers$HomeRoute, _evancz$url_parser$UrlParser$top),
 		_1: {
 			ctor: '::',
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
-				_ohanhi$elm_context_pattern$Routing_Helpers$SettingsRoute,
+				_ohanhi$elm_taco$Routing_Helpers$SettingsRoute,
 				_evancz$url_parser$UrlParser$s('settings')),
 			_1: {ctor: '[]'}
 		}
 	});
-var _ohanhi$elm_context_pattern$Routing_Helpers$parseLocation = function (location) {
+var _ohanhi$elm_taco$Routing_Helpers$parseLocation = function (location) {
 	return A2(
 		_elm_lang$core$Maybe$withDefault,
-		_ohanhi$elm_context_pattern$Routing_Helpers$NotFoundRoute,
-		A2(_evancz$url_parser$UrlParser$parseHash, _ohanhi$elm_context_pattern$Routing_Helpers$routeParser, location));
+		_ohanhi$elm_taco$Routing_Helpers$NotFoundRoute,
+		A2(_evancz$url_parser$UrlParser$parseHash, _ohanhi$elm_taco$Routing_Helpers$routeParser, location));
 };
 
 var _rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier = function (identifier) {
@@ -14741,7 +14741,7 @@ var _rtfeldman$elm_css$Css$thin = _rtfeldman$elm_css$Css$IntentionallyUnsupporte
 var _rtfeldman$elm_css$Css$thick = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 var _rtfeldman$elm_css$Css$blink = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 
-var _ohanhi$elm_context_pattern$Styles$stargazerName = {
+var _ohanhi$elm_taco$Styles$stargazerName = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$paddingLeft(
 		_rtfeldman$elm_css$Css$rem(0.5)),
@@ -14751,7 +14751,7 @@ var _ohanhi$elm_context_pattern$Styles$stargazerName = {
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$avatarPicture = {
+var _ohanhi$elm_taco$Styles$avatarPicture = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$width(
 		_rtfeldman$elm_css$Css$px(50)),
@@ -14762,36 +14762,36 @@ var _ohanhi$elm_context_pattern$Styles$avatarPicture = {
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$flex2 = {
+var _ohanhi$elm_taco$Styles$flex2 = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$flex(
 		_rtfeldman$elm_css$Css$int(2)),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$flex1 = {
+var _ohanhi$elm_taco$Styles$flex1 = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$flex(
 		_rtfeldman$elm_css$Css$int(1)),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$flexContainer = {
+var _ohanhi$elm_taco$Styles$flexContainer = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$displayFlex,
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$gutterRight = {
+var _ohanhi$elm_taco$Styles$gutterRight = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$marginRight(
 		_rtfeldman$elm_css$Css$rem(1)),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$gutterTop = {
+var _ohanhi$elm_taco$Styles$gutterTop = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$marginTop(
 		_rtfeldman$elm_css$Css$rem(1)),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$commitList = {
+var _ohanhi$elm_taco$Styles$commitList = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$listStyle(_rtfeldman$elm_css$Css$none),
 	_1: {
@@ -14801,7 +14801,7 @@ var _ohanhi$elm_context_pattern$Styles$commitList = {
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$navigationBar = {
+var _ohanhi$elm_taco$Styles$navigationBar = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$displayFlex,
 	_1: {
@@ -14810,7 +14810,7 @@ var _ohanhi$elm_context_pattern$Styles$navigationBar = {
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$wrapper = {
+var _ohanhi$elm_taco$Styles$wrapper = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$maxWidth(
 		_rtfeldman$elm_css$Css$px(720)),
@@ -14820,7 +14820,7 @@ var _ohanhi$elm_context_pattern$Styles$wrapper = {
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$navigationButtonBase = _rtfeldman$elm_css$Css$mixin(
+var _ohanhi$elm_taco$Styles$navigationButtonBase = _rtfeldman$elm_css$Css$mixin(
 	{
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$displayFlex,
@@ -14835,7 +14835,7 @@ var _ohanhi$elm_context_pattern$Styles$navigationButtonBase = _rtfeldman$elm_css
 			}
 		}
 	});
-var _ohanhi$elm_context_pattern$Styles$buttonBase = _rtfeldman$elm_css$Css$mixin(
+var _ohanhi$elm_taco$Styles$buttonBase = _rtfeldman$elm_css$Css$mixin(
 	{
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$fontSize(
@@ -14861,7 +14861,7 @@ var _ohanhi$elm_context_pattern$Styles$buttonBase = _rtfeldman$elm_css$Css$mixin
 			}
 		}
 	});
-var _ohanhi$elm_context_pattern$Styles$container = _rtfeldman$elm_css$Css$mixin(
+var _ohanhi$elm_taco$Styles$container = _rtfeldman$elm_css$Css$mixin(
 	{
 		ctor: '::',
 		_0: A2(
@@ -14870,22 +14870,22 @@ var _ohanhi$elm_context_pattern$Styles$container = _rtfeldman$elm_css$Css$mixin(
 			_rtfeldman$elm_css$Css$rem(1)),
 		_1: {ctor: '[]'}
 	});
-var _ohanhi$elm_context_pattern$Styles$headerSection = {
+var _ohanhi$elm_taco$Styles$headerSection = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$container,
+	_0: _ohanhi$elm_taco$Styles$container,
 	_1: {
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$colorLightGreen = _rtfeldman$elm_css$Css$hex('ebf7ee');
-var _ohanhi$elm_context_pattern$Styles$activeView = {
+var _ohanhi$elm_taco$Styles$colorLightGreen = _rtfeldman$elm_css$Css$hex('ebf7ee');
+var _ohanhi$elm_taco$Styles$activeView = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$container,
+	_0: _ohanhi$elm_taco$Styles$container,
 	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorLightGreen),
+		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorLightGreen),
 		_1: {
 			ctor: '::',
 			_0: _rtfeldman$elm_css$Css$paddingBottom(
@@ -14894,33 +14894,33 @@ var _ohanhi$elm_context_pattern$Styles$activeView = {
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$colorMidGreen = _rtfeldman$elm_css$Css$hex('347d3e');
-var _ohanhi$elm_context_pattern$Styles$navigationButton = {
+var _ohanhi$elm_taco$Styles$colorMidGreen = _rtfeldman$elm_css$Css$hex('347d3e');
+var _ohanhi$elm_taco$Styles$navigationButton = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$buttonBase,
+	_0: _ohanhi$elm_taco$Styles$buttonBase,
 	_1: {
 		ctor: '::',
-		_0: _ohanhi$elm_context_pattern$Styles$navigationButtonBase,
+		_0: _ohanhi$elm_taco$Styles$navigationButtonBase,
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorMidGreen),
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorMidGreen),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorLightGreen),
+				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
 				_1: {ctor: '[]'}
 			}
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$actionButton = {
+var _ohanhi$elm_taco$Styles$actionButton = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$buttonBase,
+	_0: _ohanhi$elm_taco$Styles$buttonBase,
 	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorMidGreen),
+		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorMidGreen),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorLightGreen),
+			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
 			_1: {
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$borderRadius(
@@ -14930,38 +14930,38 @@ var _ohanhi$elm_context_pattern$Styles$actionButton = {
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$colorDarkGreen = _rtfeldman$elm_css$Css$hex('0c480d');
-var _ohanhi$elm_context_pattern$Styles$appStyles = {
+var _ohanhi$elm_taco$Styles$colorDarkGreen = _rtfeldman$elm_css$Css$hex('0c480d');
+var _ohanhi$elm_taco$Styles$appStyles = {
 	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorDarkGreen),
+	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorDarkGreen),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$navigationButtonActive = {
+var _ohanhi$elm_taco$Styles$navigationButtonActive = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$buttonBase,
+	_0: _ohanhi$elm_taco$Styles$buttonBase,
 	_1: {
 		ctor: '::',
-		_0: _ohanhi$elm_context_pattern$Styles$navigationButtonBase,
+		_0: _ohanhi$elm_taco$Styles$navigationButtonBase,
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorDarkGreen),
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorDarkGreen),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorLightGreen),
+				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
 				_1: {ctor: '[]'}
 			}
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$actionButtonActive = {
+var _ohanhi$elm_taco$Styles$actionButtonActive = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$buttonBase,
+	_0: _ohanhi$elm_taco$Styles$buttonBase,
 	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorDarkGreen),
+		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorDarkGreen),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorLightGreen),
+			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
 			_1: {
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$borderRadius(
@@ -14971,9 +14971,9 @@ var _ohanhi$elm_context_pattern$Styles$actionButtonActive = {
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$colorDarkGrey = _rtfeldman$elm_css$Css$hex('777777');
-var _ohanhi$elm_context_pattern$Styles$colorOffWhite = _rtfeldman$elm_css$Css$hex('fafffa');
-var _ohanhi$elm_context_pattern$Styles$card = {
+var _ohanhi$elm_taco$Styles$colorDarkGrey = _rtfeldman$elm_css$Css$hex('777777');
+var _ohanhi$elm_taco$Styles$colorOffWhite = _rtfeldman$elm_css$Css$hex('fafffa');
+var _ohanhi$elm_taco$Styles$card = {
 	ctor: '::',
 	_0: A2(
 		_rtfeldman$elm_css$Css$padding2,
@@ -14989,27 +14989,27 @@ var _ohanhi$elm_context_pattern$Styles$card = {
 				_rtfeldman$elm_css$Css$borderLeft3,
 				_rtfeldman$elm_css$Css$px(5),
 				_rtfeldman$elm_css$Css$solid,
-				_ohanhi$elm_context_pattern$Styles$colorDarkGreen),
+				_ohanhi$elm_taco$Styles$colorDarkGreen),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorOffWhite),
+				_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorOffWhite),
 				_1: {ctor: '[]'}
 			}
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$footerSection = {
+var _ohanhi$elm_taco$Styles$footerSection = {
 	ctor: '::',
-	_0: _ohanhi$elm_context_pattern$Styles$container,
+	_0: _ohanhi$elm_taco$Styles$container,
 	_1: {
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_context_pattern$Styles$colorDarkGreen),
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorDarkGreen),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorOffWhite),
+				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorOffWhite),
 				_1: {
 					ctor: '::',
 					_0: _rtfeldman$elm_css$Css$marginBottom(
@@ -15020,24 +15020,24 @@ var _ohanhi$elm_context_pattern$Styles$footerSection = {
 		}
 	}
 };
-var _ohanhi$elm_context_pattern$Styles$footerLink = {
+var _ohanhi$elm_taco$Styles$footerLink = {
 	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_context_pattern$Styles$colorOffWhite),
+	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorOffWhite),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_context_pattern$Styles$colorLightGrey = _rtfeldman$elm_css$Css$hex('e7e7e7');
-var _ohanhi$elm_context_pattern$Styles$styles = function (_p0) {
+var _ohanhi$elm_taco$Styles$colorLightGrey = _rtfeldman$elm_css$Css$hex('e7e7e7');
+var _ohanhi$elm_taco$Styles$styles = function (_p0) {
 	return _elm_lang$html$Html_Attributes$style(
 		_rtfeldman$elm_css$Css$asPairs(_p0));
 };
 
-var _ohanhi$elm_context_pattern$Pages_Home$viewStargazer = function (stargazer) {
+var _ohanhi$elm_taco$Pages_Home$viewStargazer = function (stargazer) {
 	return A2(
 		_elm_lang$html$Html$li,
 		{
 			ctor: '::',
-			_0: _ohanhi$elm_context_pattern$Styles$styles(
-				A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_context_pattern$Styles$card, _ohanhi$elm_context_pattern$Styles$flexContainer)),
+			_0: _ohanhi$elm_taco$Styles$styles(
+				A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_taco$Styles$card, _ohanhi$elm_taco$Styles$flexContainer)),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -15046,7 +15046,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$viewStargazer = function (stargazer) 
 				_elm_lang$html$Html$img,
 				{
 					ctor: '::',
-					_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$avatarPicture),
+					_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$avatarPicture),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$src(stargazer.avatarUrl),
@@ -15060,7 +15060,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$viewStargazer = function (stargazer) 
 					_elm_lang$html$Html$p,
 					{
 						ctor: '::',
-						_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$stargazerName),
+						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$stargazerName),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -15072,46 +15072,46 @@ var _ohanhi$elm_context_pattern$Pages_Home$viewStargazer = function (stargazer) 
 			}
 		});
 };
-var _ohanhi$elm_context_pattern$Pages_Home$viewStargazers = F2(
-	function (context, model) {
+var _ohanhi$elm_taco$Pages_Home$viewStargazers = F2(
+	function (taco, model) {
 		var _p0 = model.stargazers;
 		switch (_p0.ctor) {
 			case 'Loading':
 				return _elm_lang$html$Html$text(
-					context.translate('status-loading'));
+					taco.translate('status-loading'));
 			case 'Failure':
 				return _elm_lang$html$Html$text(
-					context.translate('status-network-error'));
+					taco.translate('status-network-error'));
 			case 'Success':
 				return A2(
 					_elm_lang$html$Html$ul,
 					{
 						ctor: '::',
-						_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$commitList),
+						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$commitList),
 						_1: {ctor: '[]'}
 					},
 					A2(
 						_elm_lang$core$List$map,
-						_ohanhi$elm_context_pattern$Pages_Home$viewStargazer,
+						_ohanhi$elm_taco$Pages_Home$viewStargazer,
 						_elm_lang$core$List$reverse(_p0._0)));
 			default:
 				return _elm_lang$html$Html$text('');
 		}
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$formatTimestamp = F2(
-	function (context, date) {
+var _ohanhi$elm_taco$Pages_Home$formatTimestamp = F2(
+	function (taco, date) {
 		var minutes = _elm_lang$core$Basics$floor(
-			((context.currentTime - _elm_lang$core$Date$toTime(date)) / 1000) / 60);
+			((taco.currentTime - _elm_lang$core$Date$toTime(date)) / 1000) / 60);
 		var _p1 = minutes;
 		switch (_p1) {
 			case 0:
-				return context.translate('timeformat-zero-minutes');
+				return taco.translate('timeformat-zero-minutes');
 			case 1:
-				return context.translate('timeformat-one-minute-ago');
+				return taco.translate('timeformat-one-minute-ago');
 			default:
 				return A2(
 					_elm_lang$core$Basics_ops['++'],
-					context.translate('timeformat-n-minutes-ago-before'),
+					taco.translate('timeformat-n-minutes-ago-before'),
 					A2(
 						_elm_lang$core$Basics_ops['++'],
 						' ',
@@ -15121,16 +15121,16 @@ var _ohanhi$elm_context_pattern$Pages_Home$formatTimestamp = F2(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								' ',
-								context.translate('timeformat-n-minutes-ago-after')))));
+								taco.translate('timeformat-n-minutes-ago-after')))));
 		}
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$viewCommit = F2(
-	function (context, commit) {
+var _ohanhi$elm_taco$Pages_Home$viewCommit = F2(
+	function (taco, commit) {
 		return A2(
 			_elm_lang$html$Html$li,
 			{
 				ctor: '::',
-				_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$card),
+				_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$card),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -15151,7 +15151,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$viewCommit = F2(
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								A2(_ohanhi$elm_context_pattern$Pages_Home$formatTimestamp, context, commit.date)),
+								A2(_ohanhi$elm_taco$Pages_Home$formatTimestamp, taco, commit.date)),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -15169,27 +15169,27 @@ var _ohanhi$elm_context_pattern$Pages_Home$viewCommit = F2(
 				}
 			});
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$viewCommits = F2(
-	function (context, model) {
+var _ohanhi$elm_taco$Pages_Home$viewCommits = F2(
+	function (taco, model) {
 		var _p2 = model.commits;
 		switch (_p2.ctor) {
 			case 'Loading':
 				return _elm_lang$html$Html$text(
-					context.translate('status-loading'));
+					taco.translate('status-loading'));
 			case 'Failure':
 				return _elm_lang$html$Html$text(
-					context.translate('status-network-error'));
+					taco.translate('status-network-error'));
 			case 'Success':
 				return A2(
 					_elm_lang$html$Html$ul,
 					{
 						ctor: '::',
-						_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$commitList),
+						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$commitList),
 						_1: {ctor: '[]'}
 					},
 					A2(
 						_elm_lang$core$List$map,
-						_ohanhi$elm_context_pattern$Pages_Home$viewCommit(context),
+						_ohanhi$elm_taco$Pages_Home$viewCommit(taco),
 						A2(
 							_elm_lang$core$List$sortBy,
 							function (commit) {
@@ -15200,13 +15200,13 @@ var _ohanhi$elm_context_pattern$Pages_Home$viewCommits = F2(
 				return _elm_lang$html$Html$text('');
 		}
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$Model = F2(
+var _ohanhi$elm_taco$Pages_Home$Model = F2(
 	function (a, b) {
 		return {commits: a, stargazers: b};
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$ReloadData = {ctor: 'ReloadData'};
-var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
-	function (context, model) {
+var _ohanhi$elm_taco$Pages_Home$ReloadData = {ctor: 'ReloadData'};
+var _ohanhi$elm_taco$Pages_Home$view = F2(
+	function (taco, model) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -15217,7 +15217,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('ohanhi/elm-context-pattern'),
+						_0: _elm_lang$html$Html$text('ohanhi/elm-taco'),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -15231,10 +15231,10 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 								_elm_lang$html$Html$button,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_ohanhi$elm_context_pattern$Pages_Home$ReloadData),
+									_0: _elm_lang$html$Html_Events$onClick(_ohanhi$elm_taco$Pages_Home$ReloadData),
 									_1: {
 										ctor: '::',
-										_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$actionButton),
+										_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$actionButton),
 										_1: {ctor: '[]'}
 									}
 								},
@@ -15244,7 +15244,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 										A2(
 											_elm_lang$core$Basics_ops['++'],
 											'↻ ',
-											context.translate('commits-refresh'))),
+											taco.translate('commits-refresh'))),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -15255,8 +15255,8 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _ohanhi$elm_context_pattern$Styles$styles(
-									A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_context_pattern$Styles$flexContainer, _ohanhi$elm_context_pattern$Styles$gutterTop)),
+								_0: _ohanhi$elm_taco$Styles$styles(
+									A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_taco$Styles$flexContainer, _ohanhi$elm_taco$Styles$gutterTop)),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -15265,8 +15265,8 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 									_elm_lang$html$Html$div,
 									{
 										ctor: '::',
-										_0: _ohanhi$elm_context_pattern$Styles$styles(
-											A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_context_pattern$Styles$flex2, _ohanhi$elm_context_pattern$Styles$gutterRight)),
+										_0: _ohanhi$elm_taco$Styles$styles(
+											A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_taco$Styles$flex2, _ohanhi$elm_taco$Styles$gutterRight)),
 										_1: {ctor: '[]'}
 									},
 									{
@@ -15277,12 +15277,12 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html$text(
-													context.translate('commits-heading')),
+													taco.translate('commits-heading')),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
 											ctor: '::',
-											_0: A2(_ohanhi$elm_context_pattern$Pages_Home$viewCommits, context, model),
+											_0: A2(_ohanhi$elm_taco$Pages_Home$viewCommits, taco, model),
 											_1: {ctor: '[]'}
 										}
 									}),
@@ -15292,7 +15292,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 										_elm_lang$html$Html$div,
 										{
 											ctor: '::',
-											_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$flex1),
+											_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$flex1),
 											_1: {ctor: '[]'}
 										},
 										{
@@ -15303,12 +15303,12 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 												{
 													ctor: '::',
 													_0: _elm_lang$html$Html$text(
-														context.translate('stargazers-heading')),
+														taco.translate('stargazers-heading')),
 													_1: {ctor: '[]'}
 												}),
 											_1: {
 												ctor: '::',
-												_0: A2(_ohanhi$elm_context_pattern$Pages_Home$viewStargazers, context, model),
+												_0: A2(_ohanhi$elm_taco$Pages_Home$viewStargazers, taco, model),
 												_1: {ctor: '[]'}
 											}
 										}),
@@ -15320,30 +15320,30 @@ var _ohanhi$elm_context_pattern$Pages_Home$view = F2(
 				}
 			});
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$HandleStargazers = function (a) {
+var _ohanhi$elm_taco$Pages_Home$HandleStargazers = function (a) {
 	return {ctor: 'HandleStargazers', _0: a};
 };
-var _ohanhi$elm_context_pattern$Pages_Home$fetchStargazers = A3(_ohanhi$elm_web_data$WebData_Http$getWithCache, 'https://api.github.com/repos/ohanhi/elm-context-pattern/stargazers', _ohanhi$elm_context_pattern$Pages_Home$HandleStargazers, _ohanhi$elm_context_pattern$Decoders$decodeStargazerList);
-var _ohanhi$elm_context_pattern$Pages_Home$HandleCommits = function (a) {
+var _ohanhi$elm_taco$Pages_Home$fetchStargazers = A3(_ohanhi$elm_web_data$WebData_Http$getWithCache, 'https://api.github.com/repos/ohanhi/elm-taco/stargazers', _ohanhi$elm_taco$Pages_Home$HandleStargazers, _ohanhi$elm_taco$Decoders$decodeStargazerList);
+var _ohanhi$elm_taco$Pages_Home$HandleCommits = function (a) {
 	return {ctor: 'HandleCommits', _0: a};
 };
-var _ohanhi$elm_context_pattern$Pages_Home$fetchCommits = A3(_ohanhi$elm_web_data$WebData_Http$getWithCache, 'https://api.github.com/repos/ohanhi/elm-context-pattern/commits', _ohanhi$elm_context_pattern$Pages_Home$HandleCommits, _ohanhi$elm_context_pattern$Decoders$decodeCommitList);
-var _ohanhi$elm_context_pattern$Pages_Home$fetchData = _elm_lang$core$Platform_Cmd$batch(
+var _ohanhi$elm_taco$Pages_Home$fetchCommits = A3(_ohanhi$elm_web_data$WebData_Http$getWithCache, 'https://api.github.com/repos/ohanhi/elm-taco/commits', _ohanhi$elm_taco$Pages_Home$HandleCommits, _ohanhi$elm_taco$Decoders$decodeCommitList);
+var _ohanhi$elm_taco$Pages_Home$fetchData = _elm_lang$core$Platform_Cmd$batch(
 	{
 		ctor: '::',
-		_0: _ohanhi$elm_context_pattern$Pages_Home$fetchCommits,
+		_0: _ohanhi$elm_taco$Pages_Home$fetchCommits,
 		_1: {
 			ctor: '::',
-			_0: _ohanhi$elm_context_pattern$Pages_Home$fetchStargazers,
+			_0: _ohanhi$elm_taco$Pages_Home$fetchStargazers,
 			_1: {ctor: '[]'}
 		}
 	});
-var _ohanhi$elm_context_pattern$Pages_Home$init = {
+var _ohanhi$elm_taco$Pages_Home$init = {
 	ctor: '_Tuple2',
 	_0: {commits: _ohanhi$elm_web_data$WebData$Loading, stargazers: _ohanhi$elm_web_data$WebData$Loading},
-	_1: _ohanhi$elm_context_pattern$Pages_Home$fetchData
+	_1: _ohanhi$elm_taco$Pages_Home$fetchData
 };
-var _ohanhi$elm_context_pattern$Pages_Home$update = F2(
+var _ohanhi$elm_taco$Pages_Home$update = F2(
 	function (msg, model) {
 		var _p3 = msg;
 		switch (_p3.ctor) {
@@ -15353,7 +15353,7 @@ var _ohanhi$elm_context_pattern$Pages_Home$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{commits: _ohanhi$elm_web_data$WebData$Loading, stargazers: _ohanhi$elm_web_data$WebData$Loading}),
-					_1: _ohanhi$elm_context_pattern$Pages_Home$fetchData
+					_1: _ohanhi$elm_taco$Pages_Home$fetchData
 				};
 			case 'HandleCommits':
 				return {
@@ -15374,14 +15374,14 @@ var _ohanhi$elm_context_pattern$Pages_Home$update = F2(
 		}
 	});
 
-var _ohanhi$elm_context_pattern$Pages_Settings$initModel = {selectedLanguage: _ohanhi$elm_context_pattern$Types$English};
-var _ohanhi$elm_context_pattern$Pages_Settings$Model = function (a) {
+var _ohanhi$elm_taco$Pages_Settings$initModel = {selectedLanguage: _ohanhi$elm_taco$Types$English};
+var _ohanhi$elm_taco$Pages_Settings$Model = function (a) {
 	return {selectedLanguage: a};
 };
-var _ohanhi$elm_context_pattern$Pages_Settings$HandleTranslationsResponse = function (a) {
+var _ohanhi$elm_taco$Pages_Settings$HandleTranslationsResponse = function (a) {
 	return {ctor: 'HandleTranslationsResponse', _0: a};
 };
-var _ohanhi$elm_context_pattern$Pages_Settings$getTranslations = function (language) {
+var _ohanhi$elm_taco$Pages_Settings$getTranslations = function (language) {
 	var url = function () {
 		var _p0 = language;
 		switch (_p0.ctor) {
@@ -15393,10 +15393,10 @@ var _ohanhi$elm_context_pattern$Pages_Settings$getTranslations = function (langu
 				return './api/fi-formal.json';
 		}
 	}();
-	return A3(_ohanhi$elm_web_data$WebData_Http$get, url, _ohanhi$elm_context_pattern$Pages_Settings$HandleTranslationsResponse, _ohanhi$elm_context_pattern$Decoders$decodeTranslations);
+	return A3(_ohanhi$elm_web_data$WebData_Http$get, url, _ohanhi$elm_taco$Pages_Settings$HandleTranslationsResponse, _ohanhi$elm_taco$Decoders$decodeTranslations);
 };
-var _ohanhi$elm_context_pattern$Pages_Settings$update = F3(
-	function (context, msg, model) {
+var _ohanhi$elm_taco$Pages_Settings$update = F2(
+	function (msg, model) {
 		var _p1 = msg;
 		if (_p1.ctor === 'SelectLanguage') {
 			var _p2 = _p1._0;
@@ -15405,8 +15405,8 @@ var _ohanhi$elm_context_pattern$Pages_Settings$update = F3(
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
 					{selectedLanguage: _p2}),
-				_1: _ohanhi$elm_context_pattern$Pages_Settings$getTranslations(_p2),
-				_2: _ohanhi$elm_context_pattern$Types$NoUpdate
+				_1: _ohanhi$elm_taco$Pages_Settings$getTranslations(_p2),
+				_2: _ohanhi$elm_taco$Types$NoUpdate
 			};
 		} else {
 			var _p3 = _p1._0;
@@ -15415,28 +15415,28 @@ var _ohanhi$elm_context_pattern$Pages_Settings$update = F3(
 					ctor: '_Tuple3',
 					_0: model,
 					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _ohanhi$elm_context_pattern$Types$UpdateTranslations(_p3._0)
+					_2: _ohanhi$elm_taco$Types$UpdateTranslations(_p3._0)
 				};
 			} else {
-				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _ohanhi$elm_context_pattern$Types$NoUpdate};
+				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _ohanhi$elm_taco$Types$NoUpdate};
 			}
 		}
 	});
-var _ohanhi$elm_context_pattern$Pages_Settings$SelectLanguage = function (a) {
+var _ohanhi$elm_taco$Pages_Settings$SelectLanguage = function (a) {
 	return {ctor: 'SelectLanguage', _0: a};
 };
-var _ohanhi$elm_context_pattern$Pages_Settings$selectionButton = F3(
+var _ohanhi$elm_taco$Pages_Settings$selectionButton = F3(
 	function (model, language, shownName) {
-		var buttonStyles = _elm_lang$core$Native_Utils.eq(model.selectedLanguage, language) ? A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_context_pattern$Styles$actionButtonActive, _ohanhi$elm_context_pattern$Styles$gutterRight) : A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_context_pattern$Styles$actionButton, _ohanhi$elm_context_pattern$Styles$gutterRight);
+		var buttonStyles = _elm_lang$core$Native_Utils.eq(model.selectedLanguage, language) ? A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_taco$Styles$actionButtonActive, _ohanhi$elm_taco$Styles$gutterRight) : A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_taco$Styles$actionButton, _ohanhi$elm_taco$Styles$gutterRight);
 		return A2(
 			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
-				_0: _ohanhi$elm_context_pattern$Styles$styles(buttonStyles),
+				_0: _ohanhi$elm_taco$Styles$styles(buttonStyles),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
-						_ohanhi$elm_context_pattern$Pages_Settings$SelectLanguage(language)),
+						_ohanhi$elm_taco$Pages_Settings$SelectLanguage(language)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -15446,8 +15446,8 @@ var _ohanhi$elm_context_pattern$Pages_Settings$selectionButton = F3(
 				_1: {ctor: '[]'}
 			});
 	});
-var _ohanhi$elm_context_pattern$Pages_Settings$view = F2(
-	function (context, model) {
+var _ohanhi$elm_taco$Pages_Settings$view = F2(
+	function (taco, model) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -15459,25 +15459,25 @@ var _ohanhi$elm_context_pattern$Pages_Settings$view = F2(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							context.translate('language-selection-heading')),
+							taco.translate('language-selection-heading')),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
 					ctor: '::',
-					_0: A3(_ohanhi$elm_context_pattern$Pages_Settings$selectionButton, model, _ohanhi$elm_context_pattern$Types$English, 'English'),
+					_0: A3(_ohanhi$elm_taco$Pages_Settings$selectionButton, model, _ohanhi$elm_taco$Types$English, 'English'),
 					_1: {
 						ctor: '::',
-						_0: A3(_ohanhi$elm_context_pattern$Pages_Settings$selectionButton, model, _ohanhi$elm_context_pattern$Types$FinnishFormal, 'Suomi (virallinen)'),
+						_0: A3(_ohanhi$elm_taco$Pages_Settings$selectionButton, model, _ohanhi$elm_taco$Types$FinnishFormal, 'Suomi (virallinen)'),
 						_1: {
 							ctor: '::',
-							_0: A3(_ohanhi$elm_context_pattern$Pages_Settings$selectionButton, model, _ohanhi$elm_context_pattern$Types$Finnish, 'Suomi (puhekieli)'),
+							_0: A3(_ohanhi$elm_taco$Pages_Settings$selectionButton, model, _ohanhi$elm_taco$Types$Finnish, 'Suomi (puhekieli)'),
 							_1: {
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$pre,
 									{
 										ctor: '::',
-										_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$card),
+										_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$card),
 										_1: {ctor: '[]'}
 									},
 									{
@@ -15485,8 +15485,8 @@ var _ohanhi$elm_context_pattern$Pages_Settings$view = F2(
 										_0: _elm_lang$html$Html$text(
 											A2(
 												_elm_lang$core$Basics_ops['++'],
-												'context == ',
-												_elm_lang$core$Basics$toString(context))),
+												'taco == ',
+												_elm_lang$core$Basics$toString(taco))),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -15497,16 +15497,16 @@ var _ohanhi$elm_context_pattern$Pages_Settings$view = F2(
 			});
 	});
 
-var _ohanhi$elm_context_pattern$Routing_Router$Model = F3(
+var _ohanhi$elm_taco$Routing_Router$Model = F3(
 	function (a, b, c) {
 		return {homeModel: a, settingsModel: b, route: c};
 	});
-var _ohanhi$elm_context_pattern$Routing_Router$SettingsMsg = function (a) {
+var _ohanhi$elm_taco$Routing_Router$SettingsMsg = function (a) {
 	return {ctor: 'SettingsMsg', _0: a};
 };
-var _ohanhi$elm_context_pattern$Routing_Router$updateSettings = F3(
-	function (context, model, settingsMsg) {
-		var _p0 = A3(_ohanhi$elm_context_pattern$Pages_Settings$update, context, settingsMsg, model.settingsModel);
+var _ohanhi$elm_taco$Routing_Router$updateSettings = F2(
+	function (model, settingsMsg) {
+		var _p0 = A2(_ohanhi$elm_taco$Pages_Settings$update, settingsMsg, model.settingsModel);
 		var nextSettingsModel = _p0._0;
 		var settingsCmd = _p0._1;
 		var ctxUpdate = _p0._2;
@@ -15515,32 +15515,31 @@ var _ohanhi$elm_context_pattern$Routing_Router$updateSettings = F3(
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{settingsModel: nextSettingsModel}),
-			_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_context_pattern$Routing_Router$SettingsMsg, settingsCmd),
+			_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_taco$Routing_Router$SettingsMsg, settingsCmd),
 			_2: ctxUpdate
 		};
 	});
-var _ohanhi$elm_context_pattern$Routing_Router$HomeMsg = function (a) {
+var _ohanhi$elm_taco$Routing_Router$HomeMsg = function (a) {
 	return {ctor: 'HomeMsg', _0: a};
 };
-var _ohanhi$elm_context_pattern$Routing_Router$init = F2(
-	function (context, location) {
-		var settingsModel = _ohanhi$elm_context_pattern$Pages_Settings$initModel;
-		var _p1 = _ohanhi$elm_context_pattern$Pages_Home$init;
-		var homeModel = _p1._0;
-		var homeCmd = _p1._1;
-		return {
-			ctor: '_Tuple2',
-			_0: {
-				homeModel: homeModel,
-				settingsModel: settingsModel,
-				route: _ohanhi$elm_context_pattern$Routing_Helpers$parseLocation(location)
-			},
-			_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_context_pattern$Routing_Router$HomeMsg, homeCmd)
-		};
-	});
-var _ohanhi$elm_context_pattern$Routing_Router$updateHome = F3(
-	function (context, model, homeMsg) {
-		var _p2 = A2(_ohanhi$elm_context_pattern$Pages_Home$update, homeMsg, model.homeModel);
+var _ohanhi$elm_taco$Routing_Router$init = function (location) {
+	var settingsModel = _ohanhi$elm_taco$Pages_Settings$initModel;
+	var _p1 = _ohanhi$elm_taco$Pages_Home$init;
+	var homeModel = _p1._0;
+	var homeCmd = _p1._1;
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			homeModel: homeModel,
+			settingsModel: settingsModel,
+			route: _ohanhi$elm_taco$Routing_Helpers$parseLocation(location)
+		},
+		_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_taco$Routing_Router$HomeMsg, homeCmd)
+	};
+};
+var _ohanhi$elm_taco$Routing_Router$updateHome = F2(
+	function (model, homeMsg) {
+		var _p2 = A2(_ohanhi$elm_taco$Pages_Home$update, homeMsg, model.homeModel);
 		var nextHomeModel = _p2._0;
 		var homeCmd = _p2._1;
 		return {
@@ -15548,12 +15547,12 @@ var _ohanhi$elm_context_pattern$Routing_Router$updateHome = F3(
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{homeModel: nextHomeModel}),
-			_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_context_pattern$Routing_Router$HomeMsg, homeCmd),
-			_2: _ohanhi$elm_context_pattern$Types$NoUpdate
+			_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_taco$Routing_Router$HomeMsg, homeCmd),
+			_2: _ohanhi$elm_taco$Types$NoUpdate
 		};
 	});
-var _ohanhi$elm_context_pattern$Routing_Router$update = F3(
-	function (context, msg, model) {
+var _ohanhi$elm_taco$Routing_Router$update = F2(
+	function (msg, model) {
 		var _p3 = msg;
 		switch (_p3.ctor) {
 			case 'UrlChange':
@@ -15562,32 +15561,32 @@ var _ohanhi$elm_context_pattern$Routing_Router$update = F3(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							route: _ohanhi$elm_context_pattern$Routing_Helpers$parseLocation(_p3._0)
+							route: _ohanhi$elm_taco$Routing_Helpers$parseLocation(_p3._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _ohanhi$elm_context_pattern$Types$NoUpdate
+					_2: _ohanhi$elm_taco$Types$NoUpdate
 				};
 			case 'NavigateTo':
 				return {
 					ctor: '_Tuple3',
 					_0: model,
 					_1: _elm_lang$navigation$Navigation$newUrl(
-						_ohanhi$elm_context_pattern$Routing_Helpers$reverseRoute(_p3._0)),
-					_2: _ohanhi$elm_context_pattern$Types$NoUpdate
+						_ohanhi$elm_taco$Routing_Helpers$reverseRoute(_p3._0)),
+					_2: _ohanhi$elm_taco$Types$NoUpdate
 				};
 			case 'HomeMsg':
-				return A3(_ohanhi$elm_context_pattern$Routing_Router$updateHome, context, model, _p3._0);
+				return A2(_ohanhi$elm_taco$Routing_Router$updateHome, model, _p3._0);
 			default:
-				return A3(_ohanhi$elm_context_pattern$Routing_Router$updateSettings, context, model, _p3._0);
+				return A2(_ohanhi$elm_taco$Routing_Router$updateSettings, model, _p3._0);
 		}
 	});
-var _ohanhi$elm_context_pattern$Routing_Router$pageView = F2(
-	function (context, model) {
+var _ohanhi$elm_taco$Routing_Router$pageView = F2(
+	function (taco, model) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$activeView),
+				_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$activeView),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -15598,13 +15597,13 @@ var _ohanhi$elm_context_pattern$Routing_Router$pageView = F2(
 						case 'HomeRoute':
 							return A2(
 								_elm_lang$html$Html$map,
-								_ohanhi$elm_context_pattern$Routing_Router$HomeMsg,
-								A2(_ohanhi$elm_context_pattern$Pages_Home$view, context, model.homeModel));
+								_ohanhi$elm_taco$Routing_Router$HomeMsg,
+								A2(_ohanhi$elm_taco$Pages_Home$view, taco, model.homeModel));
 						case 'SettingsRoute':
 							return A2(
 								_elm_lang$html$Html$map,
-								_ohanhi$elm_context_pattern$Routing_Router$SettingsMsg,
-								A2(_ohanhi$elm_context_pattern$Pages_Settings$view, context, model.settingsModel));
+								_ohanhi$elm_taco$Routing_Router$SettingsMsg,
+								A2(_ohanhi$elm_taco$Pages_Settings$view, taco, model.settingsModel));
 						default:
 							return A2(
 								_elm_lang$html$Html$h1,
@@ -15619,20 +15618,20 @@ var _ohanhi$elm_context_pattern$Routing_Router$pageView = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _ohanhi$elm_context_pattern$Routing_Router$NavigateTo = function (a) {
+var _ohanhi$elm_taco$Routing_Router$NavigateTo = function (a) {
 	return {ctor: 'NavigateTo', _0: a};
 };
-var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
-	function (context, model) {
+var _ohanhi$elm_taco$Routing_Router$view = F2(
+	function (taco, model) {
 		var buttonStyles = function (route) {
-			return _elm_lang$core$Native_Utils.eq(model.route, route) ? _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$navigationButtonActive) : _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$navigationButton);
+			return _elm_lang$core$Native_Utils.eq(model.route, route) ? _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$navigationButtonActive) : _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$navigationButton);
 		};
 		return A2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _ohanhi$elm_context_pattern$Styles$styles(
-					A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_context_pattern$Styles$appStyles, _ohanhi$elm_context_pattern$Styles$wrapper)),
+				_0: _ohanhi$elm_taco$Styles$styles(
+					A2(_elm_lang$core$Basics_ops['++'], _ohanhi$elm_taco$Styles$appStyles, _ohanhi$elm_taco$Styles$wrapper)),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -15641,7 +15640,7 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 					_elm_lang$html$Html$header,
 					{
 						ctor: '::',
-						_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$headerSection),
+						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$headerSection),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -15652,7 +15651,7 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									context.translate('site-title')),
+									taco.translate('site-title')),
 								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
@@ -15663,7 +15662,7 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 						_elm_lang$html$Html$nav,
 						{
 							ctor: '::',
-							_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$navigationBar),
+							_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$navigationBar),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -15673,17 +15672,17 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onClick(
-										_ohanhi$elm_context_pattern$Routing_Router$NavigateTo(_ohanhi$elm_context_pattern$Routing_Helpers$HomeRoute)),
+										_ohanhi$elm_taco$Routing_Router$NavigateTo(_ohanhi$elm_taco$Routing_Helpers$HomeRoute)),
 									_1: {
 										ctor: '::',
-										_0: buttonStyles(_ohanhi$elm_context_pattern$Routing_Helpers$HomeRoute),
+										_0: buttonStyles(_ohanhi$elm_taco$Routing_Helpers$HomeRoute),
 										_1: {ctor: '[]'}
 									}
 								},
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										context.translate('page-title-home')),
+										taco.translate('page-title-home')),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -15693,17 +15692,17 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(
-											_ohanhi$elm_context_pattern$Routing_Router$NavigateTo(_ohanhi$elm_context_pattern$Routing_Helpers$SettingsRoute)),
+											_ohanhi$elm_taco$Routing_Router$NavigateTo(_ohanhi$elm_taco$Routing_Helpers$SettingsRoute)),
 										_1: {
 											ctor: '::',
-											_0: buttonStyles(_ohanhi$elm_context_pattern$Routing_Helpers$SettingsRoute),
+											_0: buttonStyles(_ohanhi$elm_taco$Routing_Helpers$SettingsRoute),
 											_1: {ctor: '[]'}
 										}
 									},
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text(
-											context.translate('page-title-settings')),
+											taco.translate('page-title-settings')),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -15711,14 +15710,14 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 						}),
 					_1: {
 						ctor: '::',
-						_0: A2(_ohanhi$elm_context_pattern$Routing_Router$pageView, context, model),
+						_0: A2(_ohanhi$elm_taco$Routing_Router$pageView, taco, model),
 						_1: {
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$footer,
 								{
 									ctor: '::',
-									_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$footerSection),
+									_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$footerSection),
 									_1: {ctor: '[]'}
 								},
 								{
@@ -15726,7 +15725,7 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 									_0: _elm_lang$html$Html$text(
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											context.translate('footer-github-before'),
+											taco.translate('footer-github-before'),
 											' ')),
 									_1: {
 										ctor: '::',
@@ -15734,10 +15733,10 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 											_elm_lang$html$Html$a,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$href('https://github.com/ohanhi/elm-context-pattern'),
+												_0: _elm_lang$html$Html_Attributes$href('https://github.com/ohanhi/elm-taco-pattern'),
 												_1: {
 													ctor: '::',
-													_0: _ohanhi$elm_context_pattern$Styles$styles(_ohanhi$elm_context_pattern$Styles$footerLink),
+													_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$footerLink),
 													_1: {ctor: '[]'}
 												}
 											},
@@ -15749,7 +15748,7 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html$text(
-												context.translate('footer-github-after')),
+												taco.translate('footer-github-after')),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -15760,43 +15759,43 @@ var _ohanhi$elm_context_pattern$Routing_Router$view = F2(
 				}
 			});
 	});
-var _ohanhi$elm_context_pattern$Routing_Router$UrlChange = function (a) {
+var _ohanhi$elm_taco$Routing_Router$UrlChange = function (a) {
 	return {ctor: 'UrlChange', _0: a};
 };
 
-var _ohanhi$elm_context_pattern$Main$updateContext = F2(
-	function (context, ctxUpdate) {
+var _ohanhi$elm_taco$Main$updateTaco = F2(
+	function (taco, ctxUpdate) {
 		var _p0 = ctxUpdate;
 		switch (_p0.ctor) {
 			case 'UpdateTime':
 				return _elm_lang$core$Native_Utils.update(
-					context,
+					taco,
 					{currentTime: _p0._0});
 			case 'UpdateTranslations':
 				return _elm_lang$core$Native_Utils.update(
-					context,
+					taco,
 					{
-						translate: _ohanhi$elm_context_pattern$I18n$get(_p0._0)
+						translate: _ohanhi$elm_taco$I18n$get(_p0._0)
 					});
 			default:
-				return context;
+				return taco;
 		}
 	});
-var _ohanhi$elm_context_pattern$Main$Model = F2(
+var _ohanhi$elm_taco$Main$Model = F2(
 	function (a, b) {
 		return {appState: a, location: b};
 	});
-var _ohanhi$elm_context_pattern$Main$Flags = function (a) {
+var _ohanhi$elm_taco$Main$Flags = function (a) {
 	return {currentTime: a};
 };
-var _ohanhi$elm_context_pattern$Main$Ready = F2(
+var _ohanhi$elm_taco$Main$Ready = F2(
 	function (a, b) {
 		return {ctor: 'Ready', _0: a, _1: b};
 	});
-var _ohanhi$elm_context_pattern$Main$NotReady = function (a) {
+var _ohanhi$elm_taco$Main$NotReady = function (a) {
 	return {ctor: 'NotReady', _0: a};
 };
-var _ohanhi$elm_context_pattern$Main$updateTime = F2(
+var _ohanhi$elm_taco$Main$updateTime = F2(
 	function (model, time) {
 		var _p1 = model.appState;
 		if (_p1.ctor === 'NotReady') {
@@ -15805,7 +15804,7 @@ var _ohanhi$elm_context_pattern$Main$updateTime = F2(
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						appState: _ohanhi$elm_context_pattern$Main$NotReady(time)
+						appState: _ohanhi$elm_taco$Main$NotReady(time)
 					}),
 				_1: _elm_lang$core$Platform_Cmd$none
 			};
@@ -15816,82 +15815,79 @@ var _ohanhi$elm_context_pattern$Main$updateTime = F2(
 					model,
 					{
 						appState: A2(
-							_ohanhi$elm_context_pattern$Main$Ready,
+							_ohanhi$elm_taco$Main$Ready,
 							A2(
-								_ohanhi$elm_context_pattern$Main$updateContext,
+								_ohanhi$elm_taco$Main$updateTaco,
 								_p1._0,
-								_ohanhi$elm_context_pattern$Types$UpdateTime(time)),
+								_ohanhi$elm_taco$Types$UpdateTime(time)),
 							_p1._1)
 					}),
 				_1: _elm_lang$core$Platform_Cmd$none
 			};
 		}
 	});
-var _ohanhi$elm_context_pattern$Main$RouterMsg = function (a) {
+var _ohanhi$elm_taco$Main$RouterMsg = function (a) {
 	return {ctor: 'RouterMsg', _0: a};
 };
-var _ohanhi$elm_context_pattern$Main$updateRouter = F2(
-	function (model, pageParentMsg) {
+var _ohanhi$elm_taco$Main$updateRouter = F2(
+	function (model, routerMsg) {
 		var _p2 = model.appState;
 		if (_p2.ctor === 'Ready') {
-			var _p4 = _p2._0;
-			var _p3 = A3(_ohanhi$elm_context_pattern$Routing_Router$update, _p4, pageParentMsg, _p2._1);
+			var _p3 = A2(_ohanhi$elm_taco$Routing_Router$update, routerMsg, _p2._1);
 			var nextRouterModel = _p3._0;
-			var pageParentCmd = _p3._1;
+			var routerCmd = _p3._1;
 			var ctxUpdate = _p3._2;
+			var nextTaco = A2(_ohanhi$elm_taco$Main$updateTaco, _p2._0, ctxUpdate);
 			return {
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						appState: A2(
-							_ohanhi$elm_context_pattern$Main$Ready,
-							A2(_ohanhi$elm_context_pattern$Main$updateContext, _p4, ctxUpdate),
-							nextRouterModel)
+						appState: A2(_ohanhi$elm_taco$Main$Ready, nextTaco, nextRouterModel)
 					}),
-				_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_context_pattern$Main$RouterMsg, pageParentCmd)
+				_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_taco$Main$RouterMsg, routerCmd)
 			};
 		} else {
 			return _elm_lang$core$Native_Utils.crashCase(
 				'Main',
 				{
 					start: {line: 88, column: 5},
-					end: {line: 99, column: 118}
+					end: {line: 102, column: 118}
 				},
 				_p2)('Ooops. We got a sub-component message even though it wasn\'t supposed to be initialized?!?!?');
 		}
 	});
-var _ohanhi$elm_context_pattern$Main$updateTranslations = F2(
+var _ohanhi$elm_taco$Main$updateTranslations = F2(
 	function (model, webData) {
-		var _p6 = webData;
-		switch (_p6.ctor) {
+		var _p5 = webData;
+		switch (_p5.ctor) {
 			case 'Failure':
 				return _elm_lang$core$Native_Utils.crashCase(
 					'Main',
 					{
-						start: {line: 104, column: 5},
-						end: {line: 130, column: 32}
+						start: {line: 107, column: 5},
+						end: {line: 133, column: 32}
 					},
-					_p6)('OMG CANT EVEN DOWNLOAD.');
+					_p5)('OMG CANT EVEN DOWNLOAD.');
 			case 'Success':
-				var _p10 = _p6._0;
-				var _p8 = model.appState;
-				if (_p8.ctor === 'NotReady') {
-					var initContext = {
-						currentTime: _p8._0,
-						translate: _ohanhi$elm_context_pattern$I18n$get(_p10)
+				var _p9 = _p5._0;
+				var _p7 = model.appState;
+				if (_p7.ctor === 'NotReady') {
+					var _p8 = _ohanhi$elm_taco$Routing_Router$init(model.location);
+					var initRouterModel = _p8._0;
+					var routerCmd = _p8._1;
+					var initTaco = {
+						currentTime: _p7._0,
+						translate: _ohanhi$elm_taco$I18n$get(_p9)
 					};
-					var _p9 = A2(_ohanhi$elm_context_pattern$Routing_Router$init, initContext, model.location);
-					var initRouterModel = _p9._0;
-					var pageParentCmd = _p9._1;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								appState: A2(_ohanhi$elm_context_pattern$Main$Ready, initContext, initRouterModel)
+								appState: A2(_ohanhi$elm_taco$Main$Ready, initTaco, initRouterModel)
 							}),
-						_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_context_pattern$Main$RouterMsg, pageParentCmd)
+						_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_taco$Main$RouterMsg, routerCmd)
 					};
 				} else {
 					return {
@@ -15900,12 +15896,12 @@ var _ohanhi$elm_context_pattern$Main$updateTranslations = F2(
 							model,
 							{
 								appState: A2(
-									_ohanhi$elm_context_pattern$Main$Ready,
+									_ohanhi$elm_taco$Main$Ready,
 									A2(
-										_ohanhi$elm_context_pattern$Main$updateContext,
-										_p8._0,
-										_ohanhi$elm_context_pattern$Types$UpdateTranslations(_p10)),
-									_p8._1)
+										_ohanhi$elm_taco$Main$updateTaco,
+										_p7._0,
+										_ohanhi$elm_taco$Types$UpdateTranslations(_p9)),
+									_p7._1)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -15914,66 +15910,66 @@ var _ohanhi$elm_context_pattern$Main$updateTranslations = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _ohanhi$elm_context_pattern$Main$update = F2(
+var _ohanhi$elm_taco$Main$update = F2(
 	function (msg, model) {
-		var _p11 = msg;
-		switch (_p11.ctor) {
+		var _p10 = msg;
+		switch (_p10.ctor) {
 			case 'TimeChange':
-				return A2(_ohanhi$elm_context_pattern$Main$updateTime, model, _p11._0);
+				return A2(_ohanhi$elm_taco$Main$updateTime, model, _p10._0);
 			case 'HandleTranslationsResponse':
-				return A2(_ohanhi$elm_context_pattern$Main$updateTranslations, model, _p11._0);
+				return A2(_ohanhi$elm_taco$Main$updateTranslations, model, _p10._0);
 			case 'UrlChange':
-				var _p12 = _p11._0;
+				var _p11 = _p10._0;
 				return A2(
-					_ohanhi$elm_context_pattern$Main$updateRouter,
+					_ohanhi$elm_taco$Main$updateRouter,
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{location: _p12}),
-					_ohanhi$elm_context_pattern$Routing_Router$UrlChange(_p12));
+						{location: _p11}),
+					_ohanhi$elm_taco$Routing_Router$UrlChange(_p11));
 			default:
-				return A2(_ohanhi$elm_context_pattern$Main$updateRouter, model, _p11._0);
+				return A2(_ohanhi$elm_taco$Main$updateRouter, model, _p10._0);
 		}
 	});
-var _ohanhi$elm_context_pattern$Main$view = function (model) {
-	var _p13 = model.appState;
-	if (_p13.ctor === 'Ready') {
+var _ohanhi$elm_taco$Main$view = function (model) {
+	var _p12 = model.appState;
+	if (_p12.ctor === 'Ready') {
 		return A2(
 			_elm_lang$html$Html$map,
-			_ohanhi$elm_context_pattern$Main$RouterMsg,
-			A2(_ohanhi$elm_context_pattern$Routing_Router$view, _p13._0, _p13._1));
+			_ohanhi$elm_taco$Main$RouterMsg,
+			A2(_ohanhi$elm_taco$Routing_Router$view, _p12._0, _p12._1));
 	} else {
 		return _elm_lang$html$Html$text('Loading');
 	}
 };
-var _ohanhi$elm_context_pattern$Main$HandleTranslationsResponse = function (a) {
+var _ohanhi$elm_taco$Main$HandleTranslationsResponse = function (a) {
 	return {ctor: 'HandleTranslationsResponse', _0: a};
 };
-var _ohanhi$elm_context_pattern$Main$init = F2(
+var _ohanhi$elm_taco$Main$init = F2(
 	function (flags, location) {
 		return {
 			ctor: '_Tuple2',
 			_0: {
-				appState: _ohanhi$elm_context_pattern$Main$NotReady(flags.currentTime),
+				appState: _ohanhi$elm_taco$Main$NotReady(flags.currentTime),
 				location: location
 			},
-			_1: A3(_ohanhi$elm_web_data$WebData_Http$get, './api/en.json', _ohanhi$elm_context_pattern$Main$HandleTranslationsResponse, _ohanhi$elm_context_pattern$Decoders$decodeTranslations)
+			_1: A3(_ohanhi$elm_web_data$WebData_Http$get, './api/en.json', _ohanhi$elm_taco$Main$HandleTranslationsResponse, _ohanhi$elm_taco$Decoders$decodeTranslations)
 		};
 	});
-var _ohanhi$elm_context_pattern$Main$TimeChange = function (a) {
+var _ohanhi$elm_taco$Main$TimeChange = function (a) {
 	return {ctor: 'TimeChange', _0: a};
 };
-var _ohanhi$elm_context_pattern$Main$UrlChange = function (a) {
+var _ohanhi$elm_taco$Main$UrlChange = function (a) {
 	return {ctor: 'UrlChange', _0: a};
 };
-var _ohanhi$elm_context_pattern$Main$main = A2(
+var _ohanhi$elm_taco$Main$main = A2(
 	_elm_lang$navigation$Navigation$programWithFlags,
-	_ohanhi$elm_context_pattern$Main$UrlChange,
+	_ohanhi$elm_taco$Main$UrlChange,
 	{
-		init: _ohanhi$elm_context_pattern$Main$init,
-		update: _ohanhi$elm_context_pattern$Main$update,
-		view: _ohanhi$elm_context_pattern$Main$view,
-		subscriptions: function (_p14) {
-			return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _ohanhi$elm_context_pattern$Main$TimeChange);
+		init: _ohanhi$elm_taco$Main$init,
+		update: _ohanhi$elm_taco$Main$update,
+		view: _ohanhi$elm_taco$Main$view,
+		subscriptions: function (_p13) {
+			return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _ohanhi$elm_taco$Main$TimeChange);
 		}
 	})(
 	A2(
@@ -15986,8 +15982,8 @@ var _ohanhi$elm_context_pattern$Main$main = A2(
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
-if (typeof _ohanhi$elm_context_pattern$Main$main !== 'undefined') {
-    _ohanhi$elm_context_pattern$Main$main(Elm['Main'], 'Main', undefined);
+if (typeof _ohanhi$elm_taco$Main$main !== 'undefined') {
+    _ohanhi$elm_taco$Main$main(Elm['Main'], 'Main', undefined);
 }
 
 if (typeof define === "function" && define['amd'])
