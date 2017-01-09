@@ -6,7 +6,7 @@ import Html exposing (..)
 import WebData exposing (WebData(..))
 import WebData.Http as Http
 import Decoders
-import Types exposing (ContextUpdate(..), Context, Translations)
+import Types exposing (TacoUpdate(..), Taco, Translations)
 import Routing.Router as Router
 import I18n
 
@@ -34,7 +34,7 @@ type alias Flags =
 
 type AppState
     = NotReady Time
-    | Ready Context Router.Model
+    | Ready Taco Router.Model
 
 
 type Msg
@@ -65,8 +65,8 @@ update msg model =
         UrlChange location ->
             updateRouter { model | location = location } (Router.UrlChange location)
 
-        RouterMsg pageParentMsg ->
-            updateRouter model pageParentMsg
+        RouterMsg routerMsg ->
+            updateRouter model routerMsg
 
 
 updateTime : Model -> Time -> ( Model, Cmd Msg )
@@ -77,22 +77,25 @@ updateTime model time =
             , Cmd.none
             )
 
-        Ready context pageParentModel ->
-            ( { model | appState = Ready (updateContext context (UpdateTime time)) pageParentModel }
+        Ready taco routerModel ->
+            ( { model | appState = Ready (updateTaco taco (UpdateTime time)) routerModel }
             , Cmd.none
             )
 
 
 updateRouter : Model -> Router.Msg -> ( Model, Cmd Msg )
-updateRouter model pageParentMsg =
+updateRouter model routerMsg =
     case model.appState of
-        Ready context pageParentModel ->
+        Ready taco routerModel ->
             let
-                ( nextRouterModel, pageParentCmd, ctxUpdate ) =
-                    Router.update context pageParentMsg pageParentModel
+                nextTaco =
+                    updateTaco taco ctxUpdate
+
+                ( nextRouterModel, routerCmd, ctxUpdate ) =
+                    Router.update routerMsg routerModel
             in
-                ( { model | appState = Ready (updateContext context ctxUpdate) nextRouterModel }
-                , Cmd.map RouterMsg pageParentCmd
+                ( { model | appState = Ready nextTaco nextRouterModel }
+                , Cmd.map RouterMsg routerCmd
                 )
 
         NotReady _ ->
@@ -109,20 +112,20 @@ updateTranslations model webData =
             case model.appState of
                 NotReady time ->
                     let
-                        initContext =
+                        initTaco =
                             { currentTime = time
                             , translate = I18n.get translations
                             }
 
-                        ( initRouterModel, pageParentCmd ) =
-                            Router.init initContext model.location
+                        ( initRouterModel, routerCmd ) =
+                            Router.init model.location
                     in
-                        ( { model | appState = Ready initContext initRouterModel }
-                        , Cmd.map RouterMsg pageParentCmd
+                        ( { model | appState = Ready initTaco initRouterModel }
+                        , Cmd.map RouterMsg routerCmd
                         )
 
-                Ready context pageParentModel ->
-                    ( { model | appState = Ready (updateContext context (UpdateTranslations translations)) pageParentModel }
+                Ready taco routerModel ->
+                    ( { model | appState = Ready (updateTaco taco (UpdateTranslations translations)) routerModel }
                     , Cmd.none
                     )
 
@@ -130,24 +133,24 @@ updateTranslations model webData =
             ( model, Cmd.none )
 
 
-updateContext : Context -> ContextUpdate -> Context
-updateContext context ctxUpdate =
+updateTaco : Taco -> TacoUpdate -> Taco
+updateTaco taco ctxUpdate =
     case ctxUpdate of
         UpdateTime time ->
-            { context | currentTime = time }
+            { taco | currentTime = time }
 
         UpdateTranslations translations ->
-            { context | translate = I18n.get translations }
+            { taco | translate = I18n.get translations }
 
         NoUpdate ->
-            context
+            taco
 
 
 view : Model -> Html Msg
 view model =
     case model.appState of
-        Ready context pageParentModel ->
-            Router.view context pageParentModel
+        Ready taco routerModel ->
+            Router.view taco routerModel
                 |> Html.map RouterMsg
 
         NotReady _ ->

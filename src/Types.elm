@@ -9,7 +9,7 @@ type alias Translations =
     Dict String String
 
 
-type alias Context =
+type alias Taco =
     { currentTime : Time
     , translate : String -> String
     }
@@ -29,7 +29,7 @@ type alias Stargazer =
     }
 
 
-type ContextUpdate
+type TacoUpdate
     = NoUpdate
     | UpdateTime Time
     | UpdateTranslations Translations

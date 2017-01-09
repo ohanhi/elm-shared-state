@@ -4,7 +4,7 @@ import Navigation exposing (Location)
 import Html exposing (..)
 import Html.Attributes exposing (href)
 import Html.Events exposing (..)
-import Types exposing (ContextUpdate(..), Context, Translations)
+import Types exposing (TacoUpdate(..), Taco, Translations)
 import Routing.Helpers exposing (Route(..), parseLocation, reverseRoute)
 import Styles exposing (..)
 import Pages.Home as Home
@@ -25,8 +25,8 @@ type Msg
     | SettingsMsg Settings.Msg
 
 
-init : Context -> Location -> ( Model, Cmd Msg )
-init context location =
+init : Location -> ( Model, Cmd Msg )
+init location =
     let
         ( homeModel, homeCmd ) =
             Home.init
@@ -42,8 +42,8 @@ init context location =
         )
 
 
-update : Context -> Msg -> Model -> ( Model, Cmd Msg, ContextUpdate )
-update context msg model =
+update : Msg -> Model -> ( Model, Cmd Msg, TacoUpdate )
+update msg model =
     case msg of
         UrlChange location ->
             ( { model | route = parseLocation location }
@@ -58,14 +58,14 @@ update context msg model =
             )
 
         HomeMsg homeMsg ->
-            updateHome context model homeMsg
+            updateHome model homeMsg
 
         SettingsMsg settingsMsg ->
-            updateSettings context model settingsMsg
+            updateSettings model settingsMsg
 
 
-updateHome : Context -> Model -> Home.Msg -> ( Model, Cmd Msg, ContextUpdate )
-updateHome context model homeMsg =
+updateHome : Model -> Home.Msg -> ( Model, Cmd Msg, TacoUpdate )
+updateHome model homeMsg =
     let
         ( nextHomeModel, homeCmd ) =
             Home.update homeMsg model.homeModel
@@ -76,11 +76,11 @@ updateHome context model homeMsg =
         )
 
 
-updateSettings : Context -> Model -> Settings.Msg -> ( Model, Cmd Msg, ContextUpdate )
-updateSettings context model settingsMsg =
+updateSettings : Model -> Settings.Msg -> ( Model, Cmd Msg, TacoUpdate )
+updateSettings model settingsMsg =
     let
         ( nextSettingsModel, settingsCmd, ctxUpdate ) =
-            Settings.update context settingsMsg model.settingsModel
+            Settings.update settingsMsg model.settingsModel
     in
         ( { model | settingsModel = nextSettingsModel }
         , Cmd.map SettingsMsg settingsCmd
@@ -88,8 +88,8 @@ updateSettings context model settingsMsg =
         )
 
 
-view : Context -> Model -> Html Msg
-view context model =
+view : Taco -> Model -> Html Msg
+view taco model =
     let
         buttonStyles route =
             if model.route == route then
@@ -99,43 +99,43 @@ view context model =
     in
         div [ styles (appStyles ++ wrapper) ]
             [ header [ styles headerSection ]
-                [ h1 [] [ text (context.translate "site-title") ]
+                [ h1 [] [ text (taco.translate "site-title") ]
                 ]
             , nav [ styles navigationBar ]
                 [ button
                     [ onClick (NavigateTo HomeRoute)
                     , buttonStyles HomeRoute
                     ]
-                    [ text (context.translate "page-title-home") ]
+                    [ text (taco.translate "page-title-home") ]
                 , button
                     [ onClick (NavigateTo SettingsRoute)
                     , buttonStyles SettingsRoute
                     ]
-                    [ text (context.translate "page-title-settings") ]
+                    [ text (taco.translate "page-title-settings") ]
                 ]
-            , pageView context model
+            , pageView taco model
             , footer [ styles footerSection ]
-                [ text (context.translate "footer-github-before" ++ " ")
+                [ text (taco.translate "footer-github-before" ++ " ")
                 , a
-                    [ href "https://github.com/ohanhi/elm-context-pattern"
+                    [ href "https://github.com/ohanhi/elm-taco-pattern"
                     , styles footerLink
                     ]
                     [ text "Github" ]
-                , text (context.translate "footer-github-after")
+                , text (taco.translate "footer-github-after")
                 ]
             ]
 
 
-pageView : Context -> Model -> Html Msg
-pageView context model =
+pageView : Taco -> Model -> Html Msg
+pageView taco model =
     div [ styles activeView ]
         [ (case model.route of
             HomeRoute ->
-                Home.view context model.homeModel
+                Home.view taco model.homeModel
                     |> Html.map HomeMsg
 
             SettingsRoute ->
-                Settings.view context model.settingsModel
+                Settings.view taco model.settingsModel
                     |> Html.map SettingsMsg
 
             NotFoundRoute ->

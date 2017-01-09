@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "Example application displaying the context pattern",
-    "repository": "https://github.com/ohanhi/elm-context-pattern.git",
+    "summary": "🌮 — a simple concept for managing common information in large Elm SPAs",
+    "repository": "https://github.com/ohanhi/elm-taco.git",
     "license": "BSD3",
     "source-directories": [
         "src"
