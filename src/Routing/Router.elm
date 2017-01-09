@@ -117,7 +117,7 @@ view taco model =
             , footer [ styles footerSection ]
                 [ text (taco.translate "footer-github-before" ++ " ")
                 , a
-                    [ href "https://github.com/ohanhi/elm-taco-pattern"
+                    [ href "https://github.com/ohanhi/elm-taco/"
                     , styles footerLink
                     ]
                     [ text "Github" ]
