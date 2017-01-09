@@ -15850,7 +15850,7 @@ var _ohanhi$elm_taco$Routing_Router$view = F2(
 											_elm_lang$html$Html$a,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$href('https://github.com/ohanhi/elm-taco-pattern'),
+												_0: _elm_lang$html$Html_Attributes$href('https://github.com/ohanhi/elm-taco/'),
 												_1: {
 													ctor: '::',
 													_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$footerLink),
