@@ -220,4 +220,7 @@ stargazerName : List Mixin
 stargazerName =
     [ paddingLeft (Css.rem 0.5)
     , boxSizing borderBox
+    , color colorDarkGreen
+    , displayFlex
+    , alignItems center
     ]

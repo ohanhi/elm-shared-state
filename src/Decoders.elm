@@ -2,6 +2,7 @@ module Decoders exposing (..)
 
 import Date exposing (Date)
 import Json.Decode exposing (Decoder, field, at, string, int, float, dict)
+import Json.Decode.Pipeline exposing (decode, required, requiredAt)
 import Types exposing (..)
 
 
@@ -12,11 +13,11 @@ decodeTranslations =
 
 decodeCommit : Decoder Commit
 decodeCommit =
-    Json.Decode.map4 Commit
-        (at [ "commit", "author", "name" ] Json.Decode.string)
-        (at [ "sha" ] Json.Decode.string)
-        (at [ "commit", "author", "date" ] dateDecoder)
-        (at [ "commit", "message" ] Json.Decode.string)
+    decode Commit
+        |> requiredAt [ "commit", "author", "name" ] string
+        |> requiredAt [ "sha" ] string
+        |> requiredAt [ "commit", "author", "date" ] dateDecoder
+        |> requiredAt [ "commit", "message" ] string
 
 
 dateDecoder : Decoder Date
@@ -40,9 +41,10 @@ decodeCommitList =
 
 decodeStargazer : Decoder Stargazer
 decodeStargazer =
-    Json.Decode.map2 Stargazer
-        (field "login" string)
-        (field "avatar_url" string)
+    decode Stargazer
+        |> required "login" string
+        |> required "avatar_url" string
+        |> required "html_url" string
 
 
 decodeStargazerList : Decoder (List Stargazer)
