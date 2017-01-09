@@ -44,6 +44,7 @@ decodeStargazer =
     decode Stargazer
         |> required "login" string
         |> required "avatar_url" string
+        |> required "html_url" string
 
 
 decodeStargazerList : Decoder (List Stargazer)

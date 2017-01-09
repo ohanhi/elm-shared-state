@@ -4,7 +4,7 @@ import Date exposing (Date)
 import WebData exposing (WebData(..))
 import WebData.Http
 import Html exposing (..)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (href, src)
 import Html.Events exposing (..)
 import Styles exposing (..)
 import Types exposing (TacoUpdate(..), Taco, Commit, Stargazer)
@@ -81,7 +81,11 @@ update msg model =
 view : Taco -> Model -> Html Msg
 view taco model =
     div []
-        [ h2 [] [ text "ohanhi/elm-taco" ]
+        [ a
+            [ styles appStyles
+            , href "https://github.com/ohanhi/elm-taco/"
+            ]
+            [ h2 [] [ text "ohanhi/elm-taco" ] ]
         , div []
             [ button
                 [ onClick ReloadData
@@ -178,5 +182,9 @@ viewStargazer stargazer =
             , src stargazer.avatarUrl
             ]
             []
-        , p [ styles stargazerName ] [ text stargazer.login ]
+        , a
+            [ styles stargazerName
+            , href stargazer.url
+            ]
+            [ text stargazer.login ]
         ]

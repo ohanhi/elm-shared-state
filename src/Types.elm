@@ -26,6 +26,7 @@ type alias Commit =
 type alias Stargazer =
     { login : String
     , avatarUrl : String
+    , url : String
     }
 
 
