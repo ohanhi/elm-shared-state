@@ -5,6 +5,12 @@ import Html.Attributes
 import Css exposing (..)
 
 
+rem : Float -> Rem
+rem =
+    Css.rem
+
+
+
 -- HELPERS
 
 
@@ -24,27 +30,37 @@ colorLightGrey =
 
 colorOffWhite : Color
 colorOffWhite =
-    hex "fafffa"
+    hex "fffef5"
 
 
-colorDarkGrey : Color
-colorDarkGrey =
-    hex "777777"
+colorLighten : Color
+colorLighten =
+    rgba 255 255 255 0.8
 
 
-colorDarkGreen : Color
-colorDarkGreen =
-    hex "0c480d"
+colorText : Color
+colorText =
+    hex "731c0d"
 
 
-colorMidGreen : Color
-colorMidGreen =
-    hex "347d3e"
+colorSalsa : Color
+colorSalsa =
+    hex "ff6347"
 
 
-colorLightGreen : Color
-colorLightGreen =
-    hex "ebf7ee"
+colorTaco : Color
+colorTaco =
+    hex "fff080"
+
+
+colorLightTaco : Color
+colorLightTaco =
+    hex "fff9cc"
+
+
+defaultShadow : Mixin
+defaultShadow =
+    boxShadow4 (px 0) (px 2) (px 6) (rgba 0 0 0 0.1)
 
 
 
@@ -54,14 +70,14 @@ colorLightGreen =
 container : Mixin
 container =
     mixin
-        [ padding2 (Css.rem 0.5) (Css.rem 1) ]
+        [ padding2 (rem 0.5) (rem 1) ]
 
 
 buttonBase : Mixin
 buttonBase =
     mixin
-        [ fontSize (Css.rem 1)
-        , padding2 (Css.rem 0.5) (Css.rem 1)
+        [ fontSize (rem 1)
+        , padding2 (rem 0.5) (rem 1)
         , borderStyle none
         , outline none
         , cursor pointer
@@ -73,6 +89,12 @@ navigationButtonBase =
     mixin
         [ displayFlex
         , flex (int 1)
+        , outline none
+        , borderStyle none
+        , fontSize (rem 1)
+        , padding3 (rem 1) (rem 1) (rem 0.5)
+        , cursor pointer
+        , fontWeight bold
           -- elm-css has no justify-content support
         , property "justify-content" "center"
         ]
@@ -84,7 +106,7 @@ navigationButtonBase =
 
 appStyles : List Mixin
 appStyles =
-    [ color colorDarkGreen
+    [ color colorText
     ]
 
 
@@ -106,50 +128,53 @@ navigationBar : List Mixin
 navigationBar =
     [ displayFlex
     , flexDirection row
+    , backgroundColor colorTaco
     ]
 
 
 navigationButton : List Mixin
 navigationButton =
-    [ buttonBase
-    , navigationButtonBase
-    , backgroundColor colorMidGreen
-    , color colorLightGreen
+    [ navigationButtonBase
+    , color colorText
+    , backgroundColor colorLightTaco
     ]
 
 
 navigationButtonActive : List Mixin
 navigationButtonActive =
-    [ buttonBase
-    , navigationButtonBase
-    , backgroundColor colorDarkGreen
-    , color colorLightGreen
+    [ navigationButtonBase
+    , color colorText
+    , backgroundColor colorOffWhite
     ]
 
 
 activeView : List Mixin
 activeView =
     [ container
-    , backgroundColor colorLightGreen
-    , paddingBottom (Css.rem 1)
+    , backgroundColor colorOffWhite
+    , paddingBottom (rem 1)
     ]
 
 
 actionButton : List Mixin
 actionButton =
     [ buttonBase
-    , backgroundColor colorMidGreen
-    , color colorLightGreen
+    , backgroundColor transparent
+    , color colorSalsa
+    , border3 (px 2) solid colorSalsa
     , borderRadius (px 4)
+    , defaultShadow
     ]
 
 
 actionButtonActive : List Mixin
 actionButtonActive =
     [ buttonBase
-    , backgroundColor colorDarkGreen
-    , color colorLightGreen
+    , backgroundColor colorSalsa
+    , color colorOffWhite
+    , border3 (px 2) solid colorSalsa
     , borderRadius (px 4)
+    , defaultShadow
     ]
 
 
@@ -162,10 +187,11 @@ commitList =
 
 card : List Mixin
 card =
-    [ padding2 (Css.rem 0.5) (Css.rem 1)
-    , marginBottom (Css.rem 1)
-    , borderLeft3 (px 5) solid colorDarkGreen
-    , backgroundColor colorOffWhite
+    [ padding2 (rem 0.5) (rem 1)
+    , marginBottom (rem 1)
+    , borderLeft3 (px 5) solid colorSalsa
+    , backgroundColor colorLighten
+    , defaultShadow
     ]
 
 
@@ -173,9 +199,9 @@ footerSection : List Mixin
 footerSection =
     [ container
     , textAlign center
-    , backgroundColor colorDarkGreen
+    , backgroundColor colorSalsa
     , color colorOffWhite
-    , marginBottom (Css.rem 2)
+    , marginBottom (rem 2)
     ]
 
 
@@ -186,12 +212,12 @@ footerLink =
 
 gutterTop : List Mixin
 gutterTop =
-    [ marginTop (Css.rem 1) ]
+    [ marginTop (rem 1) ]
 
 
 gutterRight : List Mixin
 gutterRight =
-    [ marginRight (Css.rem 1) ]
+    [ marginRight (rem 1) ]
 
 
 flexContainer : List Mixin
@@ -218,9 +244,9 @@ avatarPicture =
 
 stargazerName : List Mixin
 stargazerName =
-    [ paddingLeft (Css.rem 0.5)
+    [ paddingLeft (rem 0.5)
     , boxSizing borderBox
-    , color colorDarkGreen
+    , color colorText
     , displayFlex
     , alignItems center
     ]
