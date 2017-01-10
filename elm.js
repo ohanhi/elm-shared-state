@@ -14855,18 +14855,6 @@ var _ohanhi$elm_taco$Styles$flexContainer = {
 	_0: _rtfeldman$elm_css$Css$displayFlex,
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_taco$Styles$gutterRight = {
-	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$marginRight(
-		_rtfeldman$elm_css$Css$rem(1)),
-	_1: {ctor: '[]'}
-};
-var _ohanhi$elm_taco$Styles$gutterTop = {
-	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$marginTop(
-		_rtfeldman$elm_css$Css$rem(1)),
-	_1: {ctor: '[]'}
-};
 var _ohanhi$elm_taco$Styles$commitList = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$listStyle(_rtfeldman$elm_css$Css$none),
@@ -14874,15 +14862,6 @@ var _ohanhi$elm_taco$Styles$commitList = {
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$padding(
 			_rtfeldman$elm_css$Css$px(0)),
-		_1: {ctor: '[]'}
-	}
-};
-var _ohanhi$elm_taco$Styles$navigationBar = {
-	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$displayFlex,
-	_1: {
-		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$row),
 		_1: {ctor: '[]'}
 	}
 };
@@ -14896,32 +14875,76 @@ var _ohanhi$elm_taco$Styles$wrapper = {
 		_1: {ctor: '[]'}
 	}
 };
-var _ohanhi$elm_taco$Styles$navigationButtonBase = _rtfeldman$elm_css$Css$mixin(
-	{
+var _ohanhi$elm_taco$Styles$defaultShadow = A4(
+	_rtfeldman$elm_css$Css$boxShadow4,
+	_rtfeldman$elm_css$Css$px(0),
+	_rtfeldman$elm_css$Css$px(2),
+	_rtfeldman$elm_css$Css$px(6),
+	A4(_rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0.1));
+var _ohanhi$elm_taco$Styles$colorLightTaco = _rtfeldman$elm_css$Css$hex('fff9cc');
+var _ohanhi$elm_taco$Styles$colorTaco = _rtfeldman$elm_css$Css$hex('fff080');
+var _ohanhi$elm_taco$Styles$navigationBar = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$displayFlex,
+	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$displayFlex,
+		_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$row),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$flex(
-				_rtfeldman$elm_css$Css$int(1)),
-			_1: {
-				ctor: '::',
-				_0: A2(_rtfeldman$elm_css$Css$property, 'justify-content', 'center'),
-				_1: {ctor: '[]'}
-			}
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorTaco),
+			_1: {ctor: '[]'}
 		}
+	}
+};
+var _ohanhi$elm_taco$Styles$colorSalsa = _rtfeldman$elm_css$Css$hex('ff6347');
+var _ohanhi$elm_taco$Styles$colorText = _rtfeldman$elm_css$Css$hex('731c0d');
+var _ohanhi$elm_taco$Styles$appStyles = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorText),
+	_1: {ctor: '[]'}
+};
+var _ohanhi$elm_taco$Styles$colorLighten = A4(_rtfeldman$elm_css$Css$rgba, 255, 255, 255, 0.8);
+var _ohanhi$elm_taco$Styles$colorOffWhite = _rtfeldman$elm_css$Css$hex('fffef5');
+var _ohanhi$elm_taco$Styles$footerLink = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorOffWhite),
+	_1: {ctor: '[]'}
+};
+var _ohanhi$elm_taco$Styles$colorLightGrey = _rtfeldman$elm_css$Css$hex('e7e7e7');
+var _ohanhi$elm_taco$Styles$styles = function (_p0) {
+	return _elm_lang$html$Html_Attributes$style(
+		_rtfeldman$elm_css$Css$asPairs(_p0));
+};
+var _ohanhi$elm_taco$Styles$rem = _rtfeldman$elm_css$Css$rem;
+var _ohanhi$elm_taco$Styles$container = _rtfeldman$elm_css$Css$mixin(
+	{
+		ctor: '::',
+		_0: A2(
+			_rtfeldman$elm_css$Css$padding2,
+			_ohanhi$elm_taco$Styles$rem(0.5),
+			_ohanhi$elm_taco$Styles$rem(1)),
+		_1: {ctor: '[]'}
 	});
+var _ohanhi$elm_taco$Styles$headerSection = {
+	ctor: '::',
+	_0: _ohanhi$elm_taco$Styles$container,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
+		_1: {ctor: '[]'}
+	}
+};
 var _ohanhi$elm_taco$Styles$buttonBase = _rtfeldman$elm_css$Css$mixin(
 	{
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$fontSize(
-			_rtfeldman$elm_css$Css$rem(1)),
+			_ohanhi$elm_taco$Styles$rem(1)),
 		_1: {
 			ctor: '::',
 			_0: A2(
 				_rtfeldman$elm_css$Css$padding2,
-				_rtfeldman$elm_css$Css$rem(0.5),
-				_rtfeldman$elm_css$Css$rem(1)),
+				_ohanhi$elm_taco$Styles$rem(0.5),
+				_ohanhi$elm_taco$Styles$rem(1)),
 			_1: {
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$borderStyle(_rtfeldman$elm_css$Css$none),
@@ -14937,94 +14960,32 @@ var _ohanhi$elm_taco$Styles$buttonBase = _rtfeldman$elm_css$Css$mixin(
 			}
 		}
 	});
-var _ohanhi$elm_taco$Styles$container = _rtfeldman$elm_css$Css$mixin(
-	{
-		ctor: '::',
-		_0: A2(
-			_rtfeldman$elm_css$Css$padding2,
-			_rtfeldman$elm_css$Css$rem(0.5),
-			_rtfeldman$elm_css$Css$rem(1)),
-		_1: {ctor: '[]'}
-	});
-var _ohanhi$elm_taco$Styles$headerSection = {
-	ctor: '::',
-	_0: _ohanhi$elm_taco$Styles$container,
-	_1: {
-		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
-		_1: {ctor: '[]'}
-	}
-};
-var _ohanhi$elm_taco$Styles$colorLightGreen = _rtfeldman$elm_css$Css$hex('ebf7ee');
-var _ohanhi$elm_taco$Styles$activeView = {
-	ctor: '::',
-	_0: _ohanhi$elm_taco$Styles$container,
-	_1: {
-		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorLightGreen),
-		_1: {
-			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$paddingBottom(
-				_rtfeldman$elm_css$Css$rem(1)),
-			_1: {ctor: '[]'}
-		}
-	}
-};
-var _ohanhi$elm_taco$Styles$colorMidGreen = _rtfeldman$elm_css$Css$hex('347d3e');
-var _ohanhi$elm_taco$Styles$navigationButton = {
-	ctor: '::',
-	_0: _ohanhi$elm_taco$Styles$buttonBase,
-	_1: {
-		ctor: '::',
-		_0: _ohanhi$elm_taco$Styles$navigationButtonBase,
-		_1: {
-			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorMidGreen),
-			_1: {
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
-				_1: {ctor: '[]'}
-			}
-		}
-	}
-};
 var _ohanhi$elm_taco$Styles$actionButton = {
 	ctor: '::',
 	_0: _ohanhi$elm_taco$Styles$buttonBase,
 	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorMidGreen),
+		_0: _rtfeldman$elm_css$Css$backgroundColor(_rtfeldman$elm_css$Css$transparent),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
+			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorSalsa),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$borderRadius(
-					_rtfeldman$elm_css$Css$px(4)),
-				_1: {ctor: '[]'}
-			}
-		}
-	}
-};
-var _ohanhi$elm_taco$Styles$colorDarkGreen = _rtfeldman$elm_css$Css$hex('0c480d');
-var _ohanhi$elm_taco$Styles$appStyles = {
-	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorDarkGreen),
-	_1: {ctor: '[]'}
-};
-var _ohanhi$elm_taco$Styles$navigationButtonActive = {
-	ctor: '::',
-	_0: _ohanhi$elm_taco$Styles$buttonBase,
-	_1: {
-		ctor: '::',
-		_0: _ohanhi$elm_taco$Styles$navigationButtonBase,
-		_1: {
-			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorDarkGreen),
-			_1: {
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
-				_1: {ctor: '[]'}
+				_0: A3(
+					_rtfeldman$elm_css$Css$border3,
+					_rtfeldman$elm_css$Css$px(2),
+					_rtfeldman$elm_css$Css$solid,
+					_ohanhi$elm_taco$Styles$colorSalsa),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$borderRadius(
+						_rtfeldman$elm_css$Css$px(4)),
+					_1: {
+						ctor: '::',
+						_0: _ohanhi$elm_taco$Styles$defaultShadow,
+						_1: {ctor: '[]'}
+					}
+				}
 			}
 		}
 	}
@@ -15034,64 +14995,140 @@ var _ohanhi$elm_taco$Styles$actionButtonActive = {
 	_0: _ohanhi$elm_taco$Styles$buttonBase,
 	_1: {
 		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorDarkGreen),
+		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorSalsa),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorLightGreen),
+			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorOffWhite),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$borderRadius(
-					_rtfeldman$elm_css$Css$px(4)),
-				_1: {ctor: '[]'}
-			}
-		}
-	}
-};
-var _ohanhi$elm_taco$Styles$stargazerName = {
-	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$paddingLeft(
-		_rtfeldman$elm_css$Css$rem(0.5)),
-	_1: {
-		ctor: '::',
-		_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
-		_1: {
-			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorDarkGreen),
-			_1: {
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$displayFlex,
+				_0: A3(
+					_rtfeldman$elm_css$Css$border3,
+					_rtfeldman$elm_css$Css$px(2),
+					_rtfeldman$elm_css$Css$solid,
+					_ohanhi$elm_taco$Styles$colorSalsa),
 				_1: {
 					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
-					_1: {ctor: '[]'}
+					_0: _rtfeldman$elm_css$Css$borderRadius(
+						_rtfeldman$elm_css$Css$px(4)),
+					_1: {
+						ctor: '::',
+						_0: _ohanhi$elm_taco$Styles$defaultShadow,
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		}
 	}
 };
-var _ohanhi$elm_taco$Styles$colorDarkGrey = _rtfeldman$elm_css$Css$hex('777777');
-var _ohanhi$elm_taco$Styles$colorOffWhite = _rtfeldman$elm_css$Css$hex('fafffa');
+var _ohanhi$elm_taco$Styles$navigationButtonBase = _rtfeldman$elm_css$Css$mixin(
+	{
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$displayFlex,
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$flex(
+				_rtfeldman$elm_css$Css$int(1)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$outline(_rtfeldman$elm_css$Css$none),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$borderStyle(_rtfeldman$elm_css$Css$none),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$fontSize(
+							_ohanhi$elm_taco$Styles$rem(1)),
+						_1: {
+							ctor: '::',
+							_0: A3(
+								_rtfeldman$elm_css$Css$padding3,
+								_ohanhi$elm_taco$Styles$rem(1),
+								_ohanhi$elm_taco$Styles$rem(1),
+								_ohanhi$elm_taco$Styles$rem(0.5)),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$fontWeight(_rtfeldman$elm_css$Css$bold),
+									_1: {
+										ctor: '::',
+										_0: A2(_rtfeldman$elm_css$Css$property, 'justify-content', 'center'),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	});
+var _ohanhi$elm_taco$Styles$navigationButton = {
+	ctor: '::',
+	_0: _ohanhi$elm_taco$Styles$navigationButtonBase,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorText),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorLightTaco),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _ohanhi$elm_taco$Styles$navigationButtonActive = {
+	ctor: '::',
+	_0: _ohanhi$elm_taco$Styles$navigationButtonBase,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorText),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorOffWhite),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _ohanhi$elm_taco$Styles$activeView = {
+	ctor: '::',
+	_0: _ohanhi$elm_taco$Styles$container,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorOffWhite),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$paddingBottom(
+				_ohanhi$elm_taco$Styles$rem(1)),
+			_1: {ctor: '[]'}
+		}
+	}
+};
 var _ohanhi$elm_taco$Styles$card = {
 	ctor: '::',
 	_0: A2(
 		_rtfeldman$elm_css$Css$padding2,
-		_rtfeldman$elm_css$Css$rem(0.5),
-		_rtfeldman$elm_css$Css$rem(1)),
+		_ohanhi$elm_taco$Styles$rem(0.5),
+		_ohanhi$elm_taco$Styles$rem(1)),
 	_1: {
 		ctor: '::',
 		_0: _rtfeldman$elm_css$Css$marginBottom(
-			_rtfeldman$elm_css$Css$rem(1)),
+			_ohanhi$elm_taco$Styles$rem(1)),
 		_1: {
 			ctor: '::',
 			_0: A3(
 				_rtfeldman$elm_css$Css$borderLeft3,
 				_rtfeldman$elm_css$Css$px(5),
 				_rtfeldman$elm_css$Css$solid,
-				_ohanhi$elm_taco$Styles$colorDarkGreen),
+				_ohanhi$elm_taco$Styles$colorSalsa),
 			_1: {
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorOffWhite),
-				_1: {ctor: '[]'}
+				_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorLighten),
+				_1: {
+					ctor: '::',
+					_0: _ohanhi$elm_taco$Styles$defaultShadow,
+					_1: {ctor: '[]'}
+				}
 			}
 		}
 	}
@@ -15104,29 +15141,53 @@ var _ohanhi$elm_taco$Styles$footerSection = {
 		_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
 		_1: {
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorDarkGreen),
+			_0: _rtfeldman$elm_css$Css$backgroundColor(_ohanhi$elm_taco$Styles$colorSalsa),
 			_1: {
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorOffWhite),
 				_1: {
 					ctor: '::',
 					_0: _rtfeldman$elm_css$Css$marginBottom(
-						_rtfeldman$elm_css$Css$rem(2)),
+						_ohanhi$elm_taco$Styles$rem(2)),
 					_1: {ctor: '[]'}
 				}
 			}
 		}
 	}
 };
-var _ohanhi$elm_taco$Styles$footerLink = {
+var _ohanhi$elm_taco$Styles$gutterTop = {
 	ctor: '::',
-	_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorOffWhite),
+	_0: _rtfeldman$elm_css$Css$marginTop(
+		_ohanhi$elm_taco$Styles$rem(1)),
 	_1: {ctor: '[]'}
 };
-var _ohanhi$elm_taco$Styles$colorLightGrey = _rtfeldman$elm_css$Css$hex('e7e7e7');
-var _ohanhi$elm_taco$Styles$styles = function (_p0) {
-	return _elm_lang$html$Html_Attributes$style(
-		_rtfeldman$elm_css$Css$asPairs(_p0));
+var _ohanhi$elm_taco$Styles$gutterRight = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$marginRight(
+		_ohanhi$elm_taco$Styles$rem(1)),
+	_1: {ctor: '[]'}
+};
+var _ohanhi$elm_taco$Styles$stargazerName = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$paddingLeft(
+		_ohanhi$elm_taco$Styles$rem(0.5)),
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$color(_ohanhi$elm_taco$Styles$colorText),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$displayFlex,
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
 };
 
 var _ohanhi$elm_taco$Pages_Home$viewStargazer = function (stargazer) {
