@@ -3,6 +3,14 @@
 
 This repository serves as an example for building larger Single-Page Applications (SPAs) in Elm 0.18. The main focus is what we call the _Taco_ model. Taco can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the taco. In a real application, you would likely have the current logged-in user in the taco.
 
+### Why the name?
+
+We wanted to avoid names that have strong programming related connotations already. According to [Wikipedia](https://en.wikipedia.org/wiki/Taco):
+
+> A taco is a traditional Mexican dish composed of a corn or wheat tortilla folded or rolled around a filling. A taco can be made with a variety of fillings, including beef, pork, chicken, seafood, vegetables and cheese, allowing for great versatility and variety.
+
+What we mean by taco is also a vessel for tasty fillings, allowing for great versatility and variety. Plus, taco is short and memorable.
+
 
 ## What's the big 🌮 idea?
 
