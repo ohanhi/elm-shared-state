@@ -79,12 +79,12 @@ updateHome model homeMsg =
 updateSettings : Model -> Settings.Msg -> ( Model, Cmd Msg, TacoUpdate )
 updateSettings model settingsMsg =
     let
-        ( nextSettingsModel, settingsCmd, ctxUpdate ) =
+        ( nextSettingsModel, settingsCmd, tacoUpdate ) =
             Settings.update settingsMsg model.settingsModel
     in
         ( { model | settingsModel = nextSettingsModel }
         , Cmd.map SettingsMsg settingsCmd
-        , ctxUpdate
+        , tacoUpdate
         )
 
 

@@ -89,9 +89,9 @@ updateRouter model routerMsg =
         Ready taco routerModel ->
             let
                 nextTaco =
-                    updateTaco taco ctxUpdate
+                    updateTaco taco tacoUpdate
 
-                ( nextRouterModel, routerCmd, ctxUpdate ) =
+                ( nextRouterModel, routerCmd, tacoUpdate ) =
                     Router.update routerMsg routerModel
             in
                 ( { model | appState = Ready nextTaco nextRouterModel }
@@ -134,8 +134,8 @@ updateTranslations model webData =
 
 
 updateTaco : Taco -> TacoUpdate -> Taco
-updateTaco taco ctxUpdate =
-    case ctxUpdate of
+updateTaco taco tacoUpdate =
+    case tacoUpdate of
         UpdateTime time ->
             { taco | currentTime = time }
 
