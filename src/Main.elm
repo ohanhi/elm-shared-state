@@ -8,7 +8,6 @@ import WebData.Http as Http
 import Decoders
 import Types exposing (TacoUpdate(..), Taco, Translations)
 import Routing.Router as Router
-import I18n
 
 
 main : Program Flags Model Msg
@@ -114,7 +113,7 @@ updateTranslations model webData =
                     let
                         initTaco =
                             { currentTime = time
-                            , translate = I18n.get translations
+                            , translations = translations
                             }
 
                         ( initRouterModel, routerCmd ) =
@@ -140,7 +139,7 @@ updateTaco taco tacoUpdate =
             { taco | currentTime = time }
 
         UpdateTranslations translations ->
-            { taco | translate = I18n.get translations }
+            { taco | translations = translations }
 
         NoUpdate ->
             taco

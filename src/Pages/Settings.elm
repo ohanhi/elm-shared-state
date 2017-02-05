@@ -3,6 +3,7 @@ module Pages.Settings exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import WebData exposing (WebData(..))
+import I18n
 import WebData.Http
 import Styles exposing (..)
 import Types exposing (Language(..), Taco, TacoUpdate(..), Translations)
@@ -63,12 +64,18 @@ getTranslations language =
 view : Taco -> Model -> Html Msg
 view taco model =
     div []
-        [ h2 [] [ text (taco.translate "language-selection-heading") ]
+        [ h2 [] [ text (I18n.get taco.translations "language-selection-heading") ]
         , selectionButton model English "English"
         , selectionButton model FinnishFormal "Suomi (virallinen)"
         , selectionButton model Finnish "Suomi (puhekieli)"
-        , pre [ styles card ] [ text ("taco == " ++ toString taco) ]
+        , h2 [] [ text (I18n.get taco.translations "current-taco-heading") ]
+        , currentTacoView taco
         ]
+
+
+currentTacoView : Taco -> Html never
+currentTacoView taco =
+    div [ styles card ] [ text ("taco == " ++ toString taco) ]
 
 
 selectionButton : Model -> Language -> String -> Html Msg

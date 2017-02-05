@@ -2,6 +2,7 @@ module Pages.Home exposing (..)
 
 import Date exposing (Date)
 import WebData exposing (WebData(..))
+import I18n
 import WebData.Http
 import Html exposing (..)
 import Html.Attributes exposing (href, src)
@@ -91,15 +92,15 @@ view taco model =
                 [ onClick ReloadData
                 , styles actionButton
                 ]
-                [ text ("↻ " ++ taco.translate "commits-refresh") ]
+                [ text ("↻ " ++ I18n.get taco.translations "commits-refresh") ]
             ]
         , div [ styles (flexContainer ++ gutterTop) ]
             [ div [ styles (flex2 ++ gutterRight) ]
-                [ h3 [] [ text (taco.translate "commits-heading") ]
+                [ h3 [] [ text (I18n.get taco.translations "commits-heading") ]
                 , viewCommits taco model
                 ]
             , div [ styles flex1 ]
-                [ h3 [] [ text (taco.translate "stargazers-heading") ]
+                [ h3 [] [ text (I18n.get taco.translations "stargazers-heading") ]
                 , viewStargazers taco model
                 ]
             ]
@@ -110,10 +111,10 @@ viewCommits : Taco -> Model -> Html Msg
 viewCommits taco model =
     case model.commits of
         Loading ->
-            text (taco.translate "status-loading")
+            text (I18n.get taco.translations "status-loading")
 
         Failure _ ->
-            text (taco.translate "status-network-error")
+            text (I18n.get taco.translations "status-network-error")
 
         Success commits ->
             commits
@@ -137,32 +138,44 @@ viewCommit taco commit =
 formatTimestamp : Taco -> Date -> String
 formatTimestamp taco date =
     let
+        timeDiff =
+            taco.currentTime - Date.toTime date
+
         minutes =
-            floor ((taco.currentTime - (Date.toTime date)) / 1000 / 60)
+            floor (timeDiff / 1000 / 60)
+
+        seconds =
+            floor (timeDiff / 1000) % 60
+
+        translate =
+            I18n.get taco.translations
     in
         case minutes of
             0 ->
-                taco.translate "timeformat-zero-minutes"
+                translate "timeformat-zero-minutes"
 
             1 ->
-                taco.translate "timeformat-one-minute-ago"
+                translate "timeformat-one-minute-ago"
 
             n ->
-                taco.translate "timeformat-n-minutes-ago-before"
+                translate "timeformat-n-minutes-ago-before"
                     ++ " "
                     ++ toString n
                     ++ " "
-                    ++ taco.translate "timeformat-n-minutes-ago-after"
+                    ++ translate "timeformat-n-minutes-ago-after"
+                    ++ " (+"
+                    ++ toString seconds
+                    ++ "s)"
 
 
 viewStargazers : Taco -> Model -> Html Msg
 viewStargazers taco model =
     case model.stargazers of
         Loading ->
-            text (taco.translate "status-loading")
+            text (I18n.get taco.translations "status-loading")
 
         Failure _ ->
-            text (taco.translate "status-network-error")
+            text (I18n.get taco.translations "status-network-error")
 
         Success stargazers ->
             stargazers

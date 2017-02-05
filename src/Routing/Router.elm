@@ -4,6 +4,7 @@ import Navigation exposing (Location)
 import Html exposing (..)
 import Html.Attributes exposing (href)
 import Html.Events exposing (..)
+import I18n
 import Types exposing (TacoUpdate(..), Taco, Translations)
 import Routing.Helpers exposing (Route(..), parseLocation, reverseRoute)
 import Styles exposing (..)
@@ -96,32 +97,35 @@ view taco model =
                 styles navigationButtonActive
             else
                 styles navigationButton
+
+        translate =
+            I18n.get taco.translations
     in
         div [ styles (appStyles ++ wrapper) ]
             [ header [ styles headerSection ]
-                [ h1 [] [ text (taco.translate "site-title") ]
+                [ h1 [] [ text (translate "site-title") ]
                 ]
             , nav [ styles navigationBar ]
                 [ button
                     [ onClick (NavigateTo HomeRoute)
                     , buttonStyles HomeRoute
                     ]
-                    [ text (taco.translate "page-title-home") ]
+                    [ text (translate "page-title-home") ]
                 , button
                     [ onClick (NavigateTo SettingsRoute)
                     , buttonStyles SettingsRoute
                     ]
-                    [ text (taco.translate "page-title-settings") ]
+                    [ text (translate "page-title-settings") ]
                 ]
             , pageView taco model
             , footer [ styles footerSection ]
-                [ text (taco.translate "footer-github-before" ++ " ")
+                [ text (translate "footer-github-before" ++ " ")
                 , a
                     [ href "https://github.com/ohanhi/elm-taco/"
                     , styles footerLink
                     ]
                     [ text "Github" ]
-                , text (taco.translate "footer-github-after")
+                , text (translate "footer-github-after")
                 ]
             ]
 
