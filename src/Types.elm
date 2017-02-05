@@ -11,7 +11,7 @@ type alias Translations =
 
 type alias Taco =
     { currentTime : Time
-    , translate : String -> String
+    , translations : Translations
     }
 
 

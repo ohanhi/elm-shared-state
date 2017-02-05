@@ -3,6 +3,8 @@ module Pages.Settings exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import WebData exposing (WebData(..))
+import Dict
+import I18n
 import WebData.Http
 import Styles exposing (..)
 import Types exposing (Language(..), Taco, TacoUpdate(..), Translations)
@@ -63,11 +65,30 @@ getTranslations language =
 view : Taco -> Model -> Html Msg
 view taco model =
     div []
-        [ h2 [] [ text (taco.translate "language-selection-heading") ]
+        [ h2 [] [ text (I18n.get taco.translations "language-selection-heading") ]
         , selectionButton model English "English"
         , selectionButton model FinnishFormal "Suomi (virallinen)"
         , selectionButton model Finnish "Suomi (puhekieli)"
-        , pre [ styles card ] [ text ("taco == " ++ toString taco) ]
+        , h2 [] [ text (I18n.get taco.translations "current-taco-heading") ]
+        , currentTacoView taco
+        ]
+
+
+currentTacoView : Taco -> Html never
+currentTacoView taco =
+    div [ styles card ]
+        [ h4 [ styles monospaceFont ] [ text "currentTime" ]
+        , pre [] [ text (toString taco.currentTime) ]
+        , h4 [ styles monospaceFont ] [ text "translations" ]
+        , table [ styles tacoTable ] (List.map translationRow (Dict.toList taco.translations))
+        ]
+
+
+translationRow : ( String, String ) -> Html never
+translationRow ( key, value ) =
+    tr []
+        [ td [ styles tableCell ] [ text key ]
+        , td [ styles tableCell ] [ text value ]
         ]
 
 

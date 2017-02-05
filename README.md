@@ -1,4 +1,4 @@
-# 🌮 Taco 🌮
+# :taco: Taco :taco:
 
 
 This repository serves as an example for building larger Single-Page Applications (SPAs) in Elm 0.18. The main focus is what we call the _Taco_ model. Taco can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the taco. In a real application, you would likely have the current logged-in user in the taco.
@@ -12,7 +12,7 @@ We wanted to avoid names that have strong programming related connotations alrea
 What we mean by taco is also a vessel for tasty fillings, allowing for great versatility and variety. Plus, taco is short and memorable.
 
 
-## What's the big 🌮 idea?
+## What's the big :taco: idea?
 
 Oftentimes in web applications there are some things that are singular and common by nature. The current time is an easy example of this. Of course we could have each module find out the current time on their own, but it does make sense to only handle that stuff in one place. Especially when the shared information is something like the translation files in our example app, it becomes apparent that retrieving the same file in every module would be a waste of time and resources.
 
@@ -29,7 +29,7 @@ The Taco is managed at the top-most module in the module hierarchy (`Main`), and
 If need be, the Taco can just as well be given as a parameter to childrens' `init` and/or `update` functions. Most of the time it is not necessary, though, as is the case in this example application.
 
 
-## How to try 🌮
+## How to try :taco:
 
 There is a live demo here: [https://ohanhi.github.io/elm-taco/](https://ohanhi.github.io/elm-taco/)
 
@@ -70,7 +70,7 @@ $ elm-reactor
 ```
 
 
-## How 🌮 works
+## How :taco: works
 
 ### Initializing the application
 
@@ -234,11 +234,11 @@ updateRouter model routerMsg =
     case model.appState of
         Ready taco routerModel ->
             let
-                ( nextRouterModel, routerCmd, ctxUpdate ) =
+                ( nextRouterModel, routerCmd, tacoUpdate ) =
                     Router.update routerMsg routerModel
 
                 nextTaco =
-                    updateTaco taco ctxUpdate
+                    updateTaco taco tacoUpdate
             in
                 ( { model | appState = Ready nextTaco nextRouterModel }
                 , Cmd.map RouterMsg routerCmd
@@ -247,8 +247,8 @@ updateRouter model routerMsg =
 -- ...
 
 updateTaco : Taco -> TacoUpdate -> Taco
-updateTaco taco ctxUpdate =
-    case ctxUpdate of
+updateTaco taco tacoUpdate =
+    case tacoUpdate of
         UpdateTime time ->
             { taco | currentTime = time }
 

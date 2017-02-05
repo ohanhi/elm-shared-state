@@ -250,3 +250,22 @@ stargazerName =
     , displayFlex
     , alignItems center
     ]
+
+
+tacoTable : List Mixin
+tacoTable =
+    [ property "border-collapse" "collapse"
+    , fontFamily monospace
+    ]
+
+
+tableCell : List Mixin
+tableCell =
+    [ border3 (px 1) solid colorTaco
+    , padding2 (rem 0.5) (rem 1)
+    ]
+
+
+monospaceFont : List Mixin
+monospaceFont =
+    [ fontFamily monospace ]
