@@ -3,6 +3,7 @@ module Pages.Settings exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import WebData exposing (WebData(..))
+import Dict
 import I18n
 import WebData.Http
 import Styles exposing (..)
@@ -75,7 +76,20 @@ view taco model =
 
 currentTacoView : Taco -> Html never
 currentTacoView taco =
-    div [ styles card ] [ text ("taco == " ++ toString taco) ]
+    div [ styles card ]
+        [ h4 [ styles monospaceFont ] [ text "currentTime" ]
+        , pre [] [ text (toString taco.currentTime) ]
+        , h4 [ styles monospaceFont ] [ text "translations" ]
+        , table [ styles tacoTable ] (List.map translationRow (Dict.toList taco.translations))
+        ]
+
+
+translationRow : ( String, String ) -> Html never
+translationRow ( key, value ) =
+    tr []
+        [ td [ styles tableCell ] [ text key ]
+        , td [ styles tableCell ] [ text value ]
+        ]
 
 
 selectionButton : Model -> Language -> String -> Html Msg
