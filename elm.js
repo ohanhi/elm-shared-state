@@ -10161,7 +10161,7 @@ var _evancz$url_parser$UrlParser$intParam = function (name) {
 
 var _ohanhi$elm_taco$Types$Taco = F2(
 	function (a, b) {
-		return {currentTime: a, translate: b};
+		return {currentTime: a, translations: b};
 	});
 var _ohanhi$elm_taco$Types$Commit = F4(
 	function (a, b, c, d) {
@@ -12742,8 +12742,7 @@ var _rtfeldman$elm_css$Css$makeSnippet = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _rtfeldman$elm_css$Css_ops = _rtfeldman$elm_css$Css_ops || {};
-_rtfeldman$elm_css$Css_ops['.'] = F2(
+var _rtfeldman$elm_css$Css$class = F2(
 	function ($class, mixins) {
 		return A2(
 			_rtfeldman$elm_css$Css$makeSnippet,
@@ -12773,9 +12772,8 @@ var _rtfeldman$elm_css$Css$everything = function (mixins) {
 		_rtfeldman$elm_css$Css_Structure$UniversalSelectorSequence(
 			{ctor: '[]'}));
 };
-var _rtfeldman$elm_css$Css_ops = _rtfeldman$elm_css$Css_ops || {};
-_rtfeldman$elm_css$Css_ops['#'] = F2(
-	function (id, mixins) {
+var _rtfeldman$elm_css$Css$id = F2(
+	function (identifier, mixins) {
 		return A2(
 			_rtfeldman$elm_css$Css$makeSnippet,
 			mixins,
@@ -12783,7 +12781,7 @@ _rtfeldman$elm_css$Css_ops['#'] = F2(
 				{
 					ctor: '::',
 					_0: _rtfeldman$elm_css$Css_Structure$IdSelector(
-						A2(_rtfeldman$elm_css_util$Css_Helpers$identifierToString, '', id)),
+						A2(_rtfeldman$elm_css_util$Css_Helpers$identifierToString, '', identifier)),
 					_1: {ctor: '[]'}
 				}));
 	});
@@ -13062,6 +13060,41 @@ var _rtfeldman$elm_css$Css$textEmphasisColor = function (c) {
 var _rtfeldman$elm_css$Css$textDecorationColor = function (c) {
 	return A3(_rtfeldman$elm_css$Css$propertyWithWarnings, c.warnings, 'text-decoration-color', c.value);
 };
+var _rtfeldman$elm_css$Css$prop6 = F7(
+	function (key, argA, argB, argC, argD, argE, argF) {
+		return A2(
+			_rtfeldman$elm_css$Css$property,
+			key,
+			A2(
+				_elm_lang$core$String$join,
+				' ',
+				{
+					ctor: '::',
+					_0: argA.value,
+					_1: {
+						ctor: '::',
+						_0: argB.value,
+						_1: {
+							ctor: '::',
+							_0: argC.value,
+							_1: {
+								ctor: '::',
+								_0: argD.value,
+								_1: {
+									ctor: '::',
+									_0: argE.value,
+									_1: {
+										ctor: '::',
+										_0: argF.value,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}));
+	});
+var _rtfeldman$elm_css$Css$boxShadow6 = _rtfeldman$elm_css$Css$prop6('box-shadow');
 var _rtfeldman$elm_css$Css$prop5 = F6(
 	function (key, argA, argB, argC, argD, argE) {
 		return A2(
@@ -13305,9 +13338,12 @@ var _rtfeldman$elm_css$Css$outline = _rtfeldman$elm_css$Css$prop1('outline');
 var _rtfeldman$elm_css$Css$outlineWidth = _rtfeldman$elm_css$Css$prop1('outline-width');
 var _rtfeldman$elm_css$Css$outlineStyle = _rtfeldman$elm_css$Css$prop1('outline-style');
 var _rtfeldman$elm_css$Css$outlineOffset = _rtfeldman$elm_css$Css$prop1('outline-offset');
+var _rtfeldman$elm_css$Css$resize = _rtfeldman$elm_css$Css$prop1('resize');
+var _rtfeldman$elm_css$Css$fill = _rtfeldman$elm_css$Css$prop1('fill');
 var _rtfeldman$elm_css$Css$overflow = _rtfeldman$elm_css$Css$prop1('overflow');
 var _rtfeldman$elm_css$Css$overflowX = _rtfeldman$elm_css$Css$prop1('overflow-x');
 var _rtfeldman$elm_css$Css$overflowY = _rtfeldman$elm_css$Css$prop1('overflow-y');
+var _rtfeldman$elm_css$Css$overflowWrap = _rtfeldman$elm_css$Css$prop1('overflow-wrap');
 var _rtfeldman$elm_css$Css$whiteSpace = _rtfeldman$elm_css$Css$prop1('white-space');
 var _rtfeldman$elm_css$Css$backgroundRepeat = _rtfeldman$elm_css$Css$prop1('background-repeat');
 var _rtfeldman$elm_css$Css$backgroundAttachment = _rtfeldman$elm_css$Css$prop1('background-attachment');
@@ -13352,6 +13388,7 @@ var _rtfeldman$elm_css$Css$textDecorationLines = function (_p15) {
 		_rtfeldman$elm_css$Css$valuesOrNone(_p15));
 };
 var _rtfeldman$elm_css$Css$textDecorationStyle = _rtfeldman$elm_css$Css$prop1('text-decoration-style');
+var _rtfeldman$elm_css$Css$zIndex = _rtfeldman$elm_css$Css$prop1('z-index');
 var _rtfeldman$elm_css$Css$position = _rtfeldman$elm_css$Css$prop1('position');
 var _rtfeldman$elm_css$Css$textBottom = _rtfeldman$elm_css$Css$prop1('text-bottom');
 var _rtfeldman$elm_css$Css$textTop = _rtfeldman$elm_css$Css$prop1('text-top');
@@ -13360,6 +13397,8 @@ var _rtfeldman$elm_css$Css$sub = _rtfeldman$elm_css$Css$prop1('sub');
 var _rtfeldman$elm_css$Css$baseline = _rtfeldman$elm_css$Css$prop1('baseline');
 var _rtfeldman$elm_css$Css$middle = _rtfeldman$elm_css$Css$prop1('middle');
 var _rtfeldman$elm_css$Css$stretch = _rtfeldman$elm_css$Css$prop1('stretch');
+var _rtfeldman$elm_css$Css$spaceBetween = _rtfeldman$elm_css$Css$prop1('space-between');
+var _rtfeldman$elm_css$Css$spaceAround = _rtfeldman$elm_css$Css$prop1('space-around');
 var _rtfeldman$elm_css$Css$flexEnd = _rtfeldman$elm_css$Css$prop1('flex-end');
 var _rtfeldman$elm_css$Css$flexStart = _rtfeldman$elm_css$Css$prop1('flex-start');
 var _rtfeldman$elm_css$Css$order = _rtfeldman$elm_css$Css$prop1('order');
@@ -13425,9 +13464,10 @@ var _rtfeldman$elm_css$Css$important = _rtfeldman$elm_css$Css_Preprocess$mapLast
 var _rtfeldman$elm_css$Css$all = _rtfeldman$elm_css$Css$prop1('all');
 var _rtfeldman$elm_css$Css$combineLengths = F3(
 	function (operation, first, second) {
+		var numericValue = A2(operation, first.numericValue, second.numericValue);
 		var value = A2(
 			_elm_lang$core$String$join,
-			' ',
+			'',
 			A2(
 				_elm_lang$core$List$filter,
 				function (_p17) {
@@ -13435,8 +13475,7 @@ var _rtfeldman$elm_css$Css$combineLengths = F3(
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$core$Basics$toString(
-						A2(operation, first.numericValue, second.numericValue)),
+					_0: _elm_lang$core$Basics$toString(numericValue),
 					_1: {
 						ctor: '::',
 						_0: first.unitLabel,
@@ -13445,7 +13484,7 @@ var _rtfeldman$elm_css$Css$combineLengths = F3(
 				}));
 		return _elm_lang$core$Native_Utils.update(
 			first,
-			{value: value});
+			{value: value, numericValue: numericValue});
 	});
 var _rtfeldman$elm_css$Css_ops = _rtfeldman$elm_css$Css_ops || {};
 _rtfeldman$elm_css$Css_ops['|*|'] = _rtfeldman$elm_css$Css$combineLengths(
@@ -13686,7 +13725,11 @@ var _rtfeldman$elm_css$Css$BasicProperty = function (a) {
 																																											return function (_18) {
 																																												return function (_19) {
 																																													return function (_20) {
-																																														return {value: a, all: b, alignItems: c, borderStyle: d, boxSizing: e, color: f, cursor: g, display: h, flexBasis: i, flexWrap: j, flexDirection: k, flexDirectionOrWrap: l, none: m, number: n, outline: o, overflow: p, textDecorationLine: q, textRendering: r, textIndent: s, textDecorationStyle: t, length: u, lengthOrAuto: v, lengthOrNone: w, lengthOrNumber: x, lengthOrMinMaxDimension: y, lengthOrNoneOrMinMaxDimension: z, lengthOrNumberOrAutoOrNoneOrContent: _1, listStyleType: _2, listStylePosition: _3, listStyleTypeOrPositionOrImage: _4, fontFamily: _5, fontSize: _6, fontStyle: _7, fontWeight: _8, fontVariant: _9, units: _10, numericValue: _11, unitLabel: _12, warnings: _13, backgroundRepeat: _14, backgroundRepeatShorthand: _15, backgroundAttachment: _16, backgroundBlendMode: _17, backgroundOrigin: _18, backgroundImage: _19, lengthOrAutoOrCoverOrContain: _20};
+																																														return function (_21) {
+																																															return function (_22) {
+																																																return {value: a, all: b, alignItems: c, borderStyle: d, boxSizing: e, color: f, cursor: g, display: h, flexBasis: i, flexWrap: j, flexDirection: k, flexDirectionOrWrap: l, justifyContent: m, none: n, number: o, outline: p, overflow: q, textDecorationLine: r, textRendering: s, textIndent: t, textDecorationStyle: u, length: v, lengthOrAuto: w, lengthOrNone: x, lengthOrNumber: y, lengthOrMinMaxDimension: z, lengthOrNoneOrMinMaxDimension: _1, lengthOrNumberOrAutoOrNoneOrContent: _2, listStyleType: _3, listStylePosition: _4, listStyleTypeOrPositionOrImage: _5, fontFamily: _6, fontSize: _7, fontStyle: _8, fontWeight: _9, fontVariant: _10, units: _11, numericValue: _12, unitLabel: _13, warnings: _14, backgroundRepeat: _15, backgroundRepeatShorthand: _16, backgroundAttachment: _17, backgroundBlendMode: _18, backgroundOrigin: _19, backgroundImage: _20, lengthOrAutoOrCoverOrContain: _21, intOrAuto: _22};
+																																															};
+																																														};
 																																													};
 																																												};
 																																											};
@@ -13754,6 +13797,10 @@ var _rtfeldman$elm_css$Css$currentColor = {
 };
 var _rtfeldman$elm_css$Css$visible = {value: 'visible', overflow: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$scroll = {value: 'scroll', overflow: _rtfeldman$elm_css$Css$Compatible, backgroundAttachment: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$breakWord = {value: 'break-word', overflowWrap: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$both = {value: 'both', resize: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$horizontal = {value: 'horizontal', resize: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$vertical = {value: 'vertical', resize: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$paddingBox = {value: 'padding-box', backgroundClip: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$url = function (urlValue) {
 	return {
@@ -14008,13 +14055,13 @@ var _rtfeldman$elm_css$Css$outset = {value: 'outset', borderStyle: _rtfeldman$el
 var _rtfeldman$elm_css$Css$separate = {value: 'separate', borderCollapse: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$collapse = {value: 'collapse', borderCollapse: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$lengthConverter = F3(
-	function (units, unitLabel, num) {
+	function (units, unitLabel, numericValue) {
 		return {
 			value: A2(
 				_elm_lang$core$Basics_ops['++'],
-				_rtfeldman$elm_css$Css$numberToString(num),
+				_rtfeldman$elm_css$Css$numberToString(numericValue),
 				unitLabel),
-			numericValue: num,
+			numericValue: numericValue,
 			units: units,
 			unitLabel: unitLabel,
 			length: _rtfeldman$elm_css$Css$Compatible,
@@ -14598,12 +14645,19 @@ var _rtfeldman$elm_css$Css$block = {value: 'block', display: _rtfeldman$elm_css$
 var _rtfeldman$elm_css$Css$inlineBlock = {value: 'inline-block', display: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$inline = {value: 'inline', display: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$table = {value: 'table', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$inlineTable = {value: 'inline-table', display: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$tableRow = {value: 'table-row', display: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$tableCell = {value: 'table-cell', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$tableColumn = {value: 'table-column', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$tableCaption = {value: 'table-caption', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$tableRowGroup = {value: 'table-row-group', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$tableColumnGroup = {value: 'table-column-group', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$tableHeaderGroup = {value: 'table-header-group', display: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$tableFooterGroup = {value: 'table-footer-group', display: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$listItem = {value: 'list-item', display: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$inlineListItem = {value: 'inline-list-item', display: _rtfeldman$elm_css$Css$Compatible};
-var _rtfeldman$elm_css$Css$none = {value: 'none', cursor: _rtfeldman$elm_css$Css$Compatible, none: _rtfeldman$elm_css$Css$Compatible, lengthOrNone: _rtfeldman$elm_css$Css$Compatible, lengthOrNoneOrMinMaxDimension: _rtfeldman$elm_css$Css$Compatible, lengthOrNumberOrAutoOrNoneOrContent: _rtfeldman$elm_css$Css$Compatible, textDecorationLine: _rtfeldman$elm_css$Css$Compatible, listStyleType: _rtfeldman$elm_css$Css$Compatible, listStyleTypeOrPositionOrImage: _rtfeldman$elm_css$Css$Compatible, display: _rtfeldman$elm_css$Css$Compatible, outline: _rtfeldman$elm_css$Css$Compatible, transform: _rtfeldman$elm_css$Css$Compatible, borderStyle: _rtfeldman$elm_css$Css$Compatible};
-var _rtfeldman$elm_css$Css$auto = {value: 'auto', cursor: _rtfeldman$elm_css$Css$Compatible, flexBasis: _rtfeldman$elm_css$Css$Compatible, overflow: _rtfeldman$elm_css$Css$Compatible, textRendering: _rtfeldman$elm_css$Css$Compatible, lengthOrAuto: _rtfeldman$elm_css$Css$Compatible, lengthOrNumberOrAutoOrNoneOrContent: _rtfeldman$elm_css$Css$Compatible, alignItemsOrAuto: _rtfeldman$elm_css$Css$Compatible, lengthOrAutoOrCoverOrContain: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$none = {value: 'none', cursor: _rtfeldman$elm_css$Css$Compatible, none: _rtfeldman$elm_css$Css$Compatible, lengthOrNone: _rtfeldman$elm_css$Css$Compatible, lengthOrNoneOrMinMaxDimension: _rtfeldman$elm_css$Css$Compatible, lengthOrNumberOrAutoOrNoneOrContent: _rtfeldman$elm_css$Css$Compatible, textDecorationLine: _rtfeldman$elm_css$Css$Compatible, listStyleType: _rtfeldman$elm_css$Css$Compatible, listStyleTypeOrPositionOrImage: _rtfeldman$elm_css$Css$Compatible, display: _rtfeldman$elm_css$Css$Compatible, outline: _rtfeldman$elm_css$Css$Compatible, resize: _rtfeldman$elm_css$Css$Compatible, transform: _rtfeldman$elm_css$Css$Compatible, borderStyle: _rtfeldman$elm_css$Css$Compatible};
+var _rtfeldman$elm_css$Css$auto = {value: 'auto', cursor: _rtfeldman$elm_css$Css$Compatible, flexBasis: _rtfeldman$elm_css$Css$Compatible, overflow: _rtfeldman$elm_css$Css$Compatible, textRendering: _rtfeldman$elm_css$Css$Compatible, lengthOrAuto: _rtfeldman$elm_css$Css$Compatible, lengthOrNumberOrAutoOrNoneOrContent: _rtfeldman$elm_css$Css$Compatible, alignItemsOrAuto: _rtfeldman$elm_css$Css$Compatible, lengthOrAutoOrCoverOrContain: _rtfeldman$elm_css$Css$Compatible, justifyContentOrAuto: _rtfeldman$elm_css$Css$Compatible, intOrAuto: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$noWrap = {value: 'nowrap', whiteSpace: _rtfeldman$elm_css$Css$Compatible, flexWrap: _rtfeldman$elm_css$Css$Compatible, flexDirectionOrWrap: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$fillAvailable = {value: 'fill-available', minMaxDimension: _rtfeldman$elm_css$Css$Compatible, lengthOrMinMaxDimension: _rtfeldman$elm_css$Css$Compatible, lengthOrNoneOrMinMaxDimension: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$maxContent = _elm_lang$core$Native_Utils.update(
@@ -14639,7 +14693,8 @@ var _rtfeldman$elm_css$Css$normal = {
 	warnings: {ctor: '[]'},
 	fontStyle: _rtfeldman$elm_css$Css$Compatible,
 	fontWeight: _rtfeldman$elm_css$Css$Compatible,
-	featureTagValue: _rtfeldman$elm_css$Css$Compatible
+	featureTagValue: _rtfeldman$elm_css$Css$Compatible,
+	overflowWrap: _rtfeldman$elm_css$Css$Compatible
 };
 var _rtfeldman$elm_css$Css$italic = {value: 'italic', fontStyle: _rtfeldman$elm_css$Css$Compatible};
 var _rtfeldman$elm_css$Css$oblique = {value: 'oblique', fontStyle: _rtfeldman$elm_css$Css$Compatible};
@@ -14798,6 +14853,7 @@ var _rtfeldman$elm_css$Css$int = function (val) {
 		number: _rtfeldman$elm_css$Css$Compatible,
 		fontWeight: _rtfeldman$elm_css$Css$Compatible,
 		lengthOrNumberOrAutoOrNoneOrContent: _rtfeldman$elm_css$Css$Compatible,
+		intOrAuto: _rtfeldman$elm_css$Css$Compatible,
 		numericValue: _elm_lang$core$Basics$toFloat(val),
 		unitLabel: '',
 		units: _rtfeldman$elm_css$Css$UnitlessInteger
@@ -14832,6 +14888,7 @@ var _rtfeldman$elm_css$Css$initial = {
 	display: _rtfeldman$elm_css$Css$Compatible,
 	all: _rtfeldman$elm_css$Css$Compatible,
 	alignItems: _rtfeldman$elm_css$Css$Compatible,
+	justifyContent: _rtfeldman$elm_css$Css$Compatible,
 	length: _rtfeldman$elm_css$Css$Compatible,
 	lengthOrAuto: _rtfeldman$elm_css$Css$Compatible,
 	lengthOrNone: _rtfeldman$elm_css$Css$Compatible,
@@ -14862,7 +14919,8 @@ var _rtfeldman$elm_css$Css$initial = {
 	backgroundBlendMode: _rtfeldman$elm_css$Css$Compatible,
 	backgroundOrigin: _rtfeldman$elm_css$Css$Compatible,
 	backgroundImage: _rtfeldman$elm_css$Css$Compatible,
-	lengthOrAutoOrCoverOrContain: _rtfeldman$elm_css$Css$Compatible
+	lengthOrAutoOrCoverOrContain: _rtfeldman$elm_css$Css$Compatible,
+	intOrAuto: _rtfeldman$elm_css$Css$Compatible
 };
 var _rtfeldman$elm_css$Css$unset = _elm_lang$core$Native_Utils.update(
 	_rtfeldman$elm_css$Css$initial,
@@ -14883,6 +14941,13 @@ var _rtfeldman$elm_css$Css$alignSelf = function (fn) {
 		_rtfeldman$elm_css$Css$getOverloadedProperty,
 		'alignSelf',
 		'align-self',
+		fn(_rtfeldman$elm_css$Css$lengthForOverloadedProperty));
+};
+var _rtfeldman$elm_css$Css$justifyContent = function (fn) {
+	return A3(
+		_rtfeldman$elm_css$Css$getOverloadedProperty,
+		'justifyContent',
+		'justify-content',
 		fn(_rtfeldman$elm_css$Css$lengthForOverloadedProperty));
 };
 var _rtfeldman$elm_css$Css$float = function (fn) {
@@ -14927,6 +14992,20 @@ var _rtfeldman$elm_css$Css$thin = _rtfeldman$elm_css$Css$IntentionallyUnsupporte
 var _rtfeldman$elm_css$Css$thick = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 var _rtfeldman$elm_css$Css$blink = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 
+var _ohanhi$elm_taco$Styles$monospaceFont = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$fontFamily(_rtfeldman$elm_css$Css$monospace),
+	_1: {ctor: '[]'}
+};
+var _ohanhi$elm_taco$Styles$tacoTable = {
+	ctor: '::',
+	_0: A2(_rtfeldman$elm_css$Css$property, 'border-collapse', 'collapse'),
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$fontFamily(_rtfeldman$elm_css$Css$monospace),
+		_1: {ctor: '[]'}
+	}
+};
 var _ohanhi$elm_taco$Styles$avatarPicture = {
 	ctor: '::',
 	_0: _rtfeldman$elm_css$Css$width(
@@ -15289,6 +15368,22 @@ var _ohanhi$elm_taco$Styles$stargazerName = {
 		}
 	}
 };
+var _ohanhi$elm_taco$Styles$tableCell = {
+	ctor: '::',
+	_0: A3(
+		_rtfeldman$elm_css$Css$border3,
+		_rtfeldman$elm_css$Css$px(1),
+		_rtfeldman$elm_css$Css$solid,
+		_ohanhi$elm_taco$Styles$colorTaco),
+	_1: {
+		ctor: '::',
+		_0: A2(
+			_rtfeldman$elm_css$Css$padding2,
+			_ohanhi$elm_taco$Styles$rem(0.5),
+			_ohanhi$elm_taco$Styles$rem(1)),
+		_1: {ctor: '[]'}
+	}
+};
 
 var _ohanhi$elm_taco$Pages_Home$viewStargazer = function (stargazer) {
 	return A2(
@@ -15341,10 +15436,10 @@ var _ohanhi$elm_taco$Pages_Home$viewStargazers = F2(
 		switch (_p0.ctor) {
 			case 'Loading':
 				return _elm_lang$html$Html$text(
-					taco.translate('status-loading'));
+					A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'status-loading'));
 			case 'Failure':
 				return _elm_lang$html$Html$text(
-					taco.translate('status-network-error'));
+					A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'status-network-error'));
 			case 'Success':
 				return A2(
 					_elm_lang$html$Html$ul,
@@ -15363,18 +15458,23 @@ var _ohanhi$elm_taco$Pages_Home$viewStargazers = F2(
 	});
 var _ohanhi$elm_taco$Pages_Home$formatTimestamp = F2(
 	function (taco, date) {
-		var minutes = _elm_lang$core$Basics$floor(
-			((taco.currentTime - _elm_lang$core$Date$toTime(date)) / 1000) / 60);
+		var translate = _ohanhi$elm_taco$I18n$get(taco.translations);
+		var timeDiff = taco.currentTime - _elm_lang$core$Date$toTime(date);
+		var minutes = _elm_lang$core$Basics$floor((timeDiff / 1000) / 60);
+		var seconds = A2(
+			_elm_lang$core$Basics_ops['%'],
+			_elm_lang$core$Basics$floor(timeDiff / 1000),
+			60);
 		var _p1 = minutes;
 		switch (_p1) {
 			case 0:
-				return taco.translate('timeformat-zero-minutes');
+				return translate('timeformat-zero-minutes');
 			case 1:
-				return taco.translate('timeformat-one-minute-ago');
+				return translate('timeformat-one-minute-ago');
 			default:
 				return A2(
 					_elm_lang$core$Basics_ops['++'],
-					taco.translate('timeformat-n-minutes-ago-before'),
+					translate('timeformat-n-minutes-ago-before'),
 					A2(
 						_elm_lang$core$Basics_ops['++'],
 						' ',
@@ -15384,7 +15484,16 @@ var _ohanhi$elm_taco$Pages_Home$formatTimestamp = F2(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								' ',
-								taco.translate('timeformat-n-minutes-ago-after')))));
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									translate('timeformat-n-minutes-ago-after'),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										' (+',
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_elm_lang$core$Basics$toString(seconds),
+											's)')))))));
 		}
 	});
 var _ohanhi$elm_taco$Pages_Home$viewCommit = F2(
@@ -15438,10 +15547,10 @@ var _ohanhi$elm_taco$Pages_Home$viewCommits = F2(
 		switch (_p2.ctor) {
 			case 'Loading':
 				return _elm_lang$html$Html$text(
-					taco.translate('status-loading'));
+					A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'status-loading'));
 			case 'Failure':
 				return _elm_lang$html$Html$text(
-					taco.translate('status-network-error'));
+					A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'status-network-error'));
 			case 'Success':
 				return A2(
 					_elm_lang$html$Html$ul,
@@ -15522,7 +15631,7 @@ var _ohanhi$elm_taco$Pages_Home$view = F2(
 										A2(
 											_elm_lang$core$Basics_ops['++'],
 											'↻ ',
-											taco.translate('commits-refresh'))),
+											A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'commits-refresh'))),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -15555,7 +15664,7 @@ var _ohanhi$elm_taco$Pages_Home$view = F2(
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html$text(
-													taco.translate('commits-heading')),
+													A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'commits-heading')),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
@@ -15581,7 +15690,7 @@ var _ohanhi$elm_taco$Pages_Home$view = F2(
 												{
 													ctor: '::',
 													_0: _elm_lang$html$Html$text(
-														taco.translate('stargazers-heading')),
+														A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'stargazers-heading')),
 													_1: {ctor: '[]'}
 												}),
 											_1: {
@@ -15652,6 +15761,109 @@ var _ohanhi$elm_taco$Pages_Home$update = F2(
 		}
 	});
 
+var _ohanhi$elm_taco$Pages_Settings$translationRow = function (_p0) {
+	var _p1 = _p0;
+	return A2(
+		_elm_lang$html$Html$tr,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$td,
+				{
+					ctor: '::',
+					_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$tableCell),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(_p1._0),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$td,
+					{
+						ctor: '::',
+						_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$tableCell),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(_p1._1),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _ohanhi$elm_taco$Pages_Settings$currentTacoView = function (taco) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$card),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h4,
+				{
+					ctor: '::',
+					_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$monospaceFont),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('currentTime'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$pre,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_elm_lang$core$Basics$toString(taco.currentTime)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h4,
+						{
+							ctor: '::',
+							_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$monospaceFont),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('translations'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$table,
+							{
+								ctor: '::',
+								_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$tacoTable),
+								_1: {ctor: '[]'}
+							},
+							A2(
+								_elm_lang$core$List$map,
+								_ohanhi$elm_taco$Pages_Settings$translationRow,
+								_elm_lang$core$Dict$toList(taco.translations))),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
 var _ohanhi$elm_taco$Pages_Settings$initModel = {selectedLanguage: _ohanhi$elm_taco$Types$English};
 var _ohanhi$elm_taco$Pages_Settings$Model = function (a) {
 	return {selectedLanguage: a};
@@ -15661,8 +15873,8 @@ var _ohanhi$elm_taco$Pages_Settings$HandleTranslationsResponse = function (a) {
 };
 var _ohanhi$elm_taco$Pages_Settings$getTranslations = function (language) {
 	var url = function () {
-		var _p0 = language;
-		switch (_p0.ctor) {
+		var _p2 = language;
+		switch (_p2.ctor) {
 			case 'English':
 				return './api/en.json';
 			case 'Finnish':
@@ -15675,25 +15887,25 @@ var _ohanhi$elm_taco$Pages_Settings$getTranslations = function (language) {
 };
 var _ohanhi$elm_taco$Pages_Settings$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		if (_p1.ctor === 'SelectLanguage') {
-			var _p2 = _p1._0;
+		var _p3 = msg;
+		if (_p3.ctor === 'SelectLanguage') {
+			var _p4 = _p3._0;
 			return {
 				ctor: '_Tuple3',
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
-					{selectedLanguage: _p2}),
-				_1: _ohanhi$elm_taco$Pages_Settings$getTranslations(_p2),
+					{selectedLanguage: _p4}),
+				_1: _ohanhi$elm_taco$Pages_Settings$getTranslations(_p4),
 				_2: _ohanhi$elm_taco$Types$NoUpdate
 			};
 		} else {
-			var _p3 = _p1._0;
-			if (_p3.ctor === 'Success') {
+			var _p5 = _p3._0;
+			if (_p5.ctor === 'Success') {
 				return {
 					ctor: '_Tuple3',
 					_0: model,
 					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _ohanhi$elm_taco$Types$UpdateTranslations(_p3._0)
+					_2: _ohanhi$elm_taco$Types$UpdateTranslations(_p5._0)
 				};
 			} else {
 				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _ohanhi$elm_taco$Types$NoUpdate};
@@ -15737,7 +15949,7 @@ var _ohanhi$elm_taco$Pages_Settings$view = F2(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							taco.translate('language-selection-heading')),
+							A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'language-selection-heading')),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -15752,22 +15964,19 @@ var _ohanhi$elm_taco$Pages_Settings$view = F2(
 							_1: {
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$pre,
-									{
-										ctor: '::',
-										_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$card),
-										_1: {ctor: '[]'}
-									},
+									_elm_lang$html$Html$h2,
+									{ctor: '[]'},
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text(
-											A2(
-												_elm_lang$core$Basics_ops['++'],
-												'taco == ',
-												_elm_lang$core$Basics$toString(taco))),
+											A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'current-taco-heading')),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _ohanhi$elm_taco$Pages_Settings$currentTacoView(taco),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
@@ -15787,14 +15996,14 @@ var _ohanhi$elm_taco$Routing_Router$updateSettings = F2(
 		var _p0 = A2(_ohanhi$elm_taco$Pages_Settings$update, settingsMsg, model.settingsModel);
 		var nextSettingsModel = _p0._0;
 		var settingsCmd = _p0._1;
-		var ctxUpdate = _p0._2;
+		var tacoUpdate = _p0._2;
 		return {
 			ctor: '_Tuple3',
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{settingsModel: nextSettingsModel}),
 			_1: A2(_elm_lang$core$Platform_Cmd$map, _ohanhi$elm_taco$Routing_Router$SettingsMsg, settingsCmd),
-			_2: ctxUpdate
+			_2: tacoUpdate
 		};
 	});
 var _ohanhi$elm_taco$Routing_Router$HomeMsg = function (a) {
@@ -15901,6 +16110,7 @@ var _ohanhi$elm_taco$Routing_Router$NavigateTo = function (a) {
 };
 var _ohanhi$elm_taco$Routing_Router$view = F2(
 	function (taco, model) {
+		var translate = _ohanhi$elm_taco$I18n$get(taco.translations);
 		var buttonStyles = function (route) {
 			return _elm_lang$core$Native_Utils.eq(model.route, route) ? _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$navigationButtonActive) : _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$navigationButton);
 		};
@@ -15929,7 +16139,7 @@ var _ohanhi$elm_taco$Routing_Router$view = F2(
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									taco.translate('site-title')),
+									translate('site-title')),
 								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
@@ -15960,7 +16170,7 @@ var _ohanhi$elm_taco$Routing_Router$view = F2(
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										taco.translate('page-title-home')),
+										translate('page-title-home')),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -15980,7 +16190,7 @@ var _ohanhi$elm_taco$Routing_Router$view = F2(
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text(
-											taco.translate('page-title-settings')),
+											translate('page-title-settings')),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -16003,7 +16213,7 @@ var _ohanhi$elm_taco$Routing_Router$view = F2(
 									_0: _elm_lang$html$Html$text(
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											taco.translate('footer-github-before'),
+											translate('footer-github-before'),
 											' ')),
 									_1: {
 										ctor: '::',
@@ -16026,7 +16236,7 @@ var _ohanhi$elm_taco$Routing_Router$view = F2(
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html$text(
-												taco.translate('footer-github-after')),
+												translate('footer-github-after')),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -16042,8 +16252,8 @@ var _ohanhi$elm_taco$Routing_Router$UrlChange = function (a) {
 };
 
 var _ohanhi$elm_taco$Main$updateTaco = F2(
-	function (taco, ctxUpdate) {
-		var _p0 = ctxUpdate;
+	function (taco, tacoUpdate) {
+		var _p0 = tacoUpdate;
 		switch (_p0.ctor) {
 			case 'UpdateTime':
 				return _elm_lang$core$Native_Utils.update(
@@ -16052,9 +16262,7 @@ var _ohanhi$elm_taco$Main$updateTaco = F2(
 			case 'UpdateTranslations':
 				return _elm_lang$core$Native_Utils.update(
 					taco,
-					{
-						translate: _ohanhi$elm_taco$I18n$get(_p0._0)
-					});
+					{translations: _p0._0});
 			default:
 				return taco;
 		}
@@ -16114,8 +16322,8 @@ var _ohanhi$elm_taco$Main$updateRouter = F2(
 			var _p3 = A2(_ohanhi$elm_taco$Routing_Router$update, routerMsg, _p2._1);
 			var nextRouterModel = _p3._0;
 			var routerCmd = _p3._1;
-			var ctxUpdate = _p3._2;
-			var nextTaco = A2(_ohanhi$elm_taco$Main$updateTaco, _p2._0, ctxUpdate);
+			var tacoUpdate = _p3._2;
+			var nextTaco = A2(_ohanhi$elm_taco$Main$updateTaco, _p2._0, tacoUpdate);
 			return {
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
@@ -16129,8 +16337,8 @@ var _ohanhi$elm_taco$Main$updateRouter = F2(
 			return _elm_lang$core$Native_Utils.crashCase(
 				'Main',
 				{
-					start: {line: 88, column: 5},
-					end: {line: 102, column: 118}
+					start: {line: 87, column: 5},
+					end: {line: 101, column: 118}
 				},
 				_p2)('Ooops. We got a sub-component message even though it wasn\'t supposed to be initialized?!?!?');
 		}
@@ -16143,8 +16351,8 @@ var _ohanhi$elm_taco$Main$updateTranslations = F2(
 				return _elm_lang$core$Native_Utils.crashCase(
 					'Main',
 					{
-						start: {line: 107, column: 5},
-						end: {line: 133, column: 32}
+						start: {line: 106, column: 5},
+						end: {line: 132, column: 32}
 					},
 					_p5)('OMG CANT EVEN DOWNLOAD.');
 			case 'Success':
@@ -16154,10 +16362,7 @@ var _ohanhi$elm_taco$Main$updateTranslations = F2(
 					var _p8 = _ohanhi$elm_taco$Routing_Router$init(model.location);
 					var initRouterModel = _p8._0;
 					var routerCmd = _p8._1;
-					var initTaco = {
-						currentTime: _p7._0,
-						translate: _ohanhi$elm_taco$I18n$get(_p9)
-					};
+					var initTaco = {currentTime: _p7._0, translations: _p9};
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
