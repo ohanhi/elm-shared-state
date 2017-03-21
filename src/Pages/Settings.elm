@@ -4,11 +4,13 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import RemoteData.Http
+import Navigation
 import Dict
 import I18n
 import Styles exposing (..)
 import Types exposing (Language(..), Taco, TacoUpdate(..), Translations)
 import Decoders
+import Routing.Helpers exposing (Route(HomeRoute), reverseRoute)
 
 
 type alias Model =
@@ -19,6 +21,7 @@ type alias Model =
 type Msg
     = SelectLanguage Language
     | HandleTranslationsResponse (WebData Translations)
+    | NavigateTo Route
 
 
 initModel : Model
@@ -44,6 +47,9 @@ update msg model =
                 _ ->
                     ( model, Cmd.none, NoUpdate )
 
+        NavigateTo route ->
+            ( model, Navigation.newUrl (reverseRoute route), NoUpdate )
+
 
 getTranslations : Language -> Cmd Msg
 getTranslations language =
@@ -59,19 +65,27 @@ getTranslations language =
                 FinnishFormal ->
                     "/api/fi-formal.json"
     in
-        WebData.Http.get url HandleTranslationsResponse Decoders.decodeTranslations
+        RemoteData.Http.get url HandleTranslationsResponse Decoders.decodeTranslations
 
 
 view : Taco -> Model -> Html Msg
 view taco model =
-    div []
-        [ h2 [] [ text (I18n.get taco.translations "language-selection-heading") ]
-        , selectionButton model English "English"
-        , selectionButton model FinnishFormal "Suomi (virallinen)"
-        , selectionButton model Finnish "Suomi (puhekieli)"
-        , h2 [] [ text (I18n.get taco.translations "current-taco-heading") ]
-        , currentTacoView taco
-        ]
+    let
+        t =
+            I18n.get taco.translations
+    in
+        div []
+            [ h2 [] [ text (t "language-selection-heading") ]
+            , selectionButton model English "English"
+            , selectionButton model FinnishFormal "Suomi (virallinen)"
+            , selectionButton model Finnish "Suomi (puhekieli)"
+            , h2 [] [ text (t "navigation-button-heading") ]
+            , p [] [ text (t "navigation-button-desc") ]
+            , button [ onClick (NavigateTo HomeRoute), styles actionButton ]
+                [ text (t "page-title-home") ]
+            , h2 [] [ text (t "current-taco-heading") ]
+            , currentTacoView taco
+            ]
 
 
 currentTacoView : Taco -> Html never

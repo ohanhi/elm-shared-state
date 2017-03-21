@@ -13,6 +13,8 @@
     "footer-github-after": "",
     "timeformat-zero-minutes": "Just now",
     "timeformat-one-minute-ago": "A minute ago",
-    "timeformat-n-minutes-ago-before": "Around",
-    "timeformat-n-minutes-ago-after": "minutes ago"
+    "timeformat-n-minutes-ago-before": "",
+    "timeformat-n-minutes-ago-after": "minutes ago",
+    "navigation-button-heading": "NavigateTo button",
+    "navigation-button-desc": "The button below serves as a demonstration on how to do navigation from one page to another. Take a look at the source code of src/Pages/Settings.elm to see how it works."
 }

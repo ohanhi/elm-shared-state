@@ -13,6 +13,8 @@
     "footer-github-after": "issa",
     "timeformat-zero-minutes": "Tovi sitten",
     "timeformat-one-minute-ago": "Minuutti sitten",
-    "timeformat-n-minutes-ago-before": "Suunnilleen",
-    "timeformat-n-minutes-ago-after": "minuuttia sitten"
+    "timeformat-n-minutes-ago-before": "",
+    "timeformat-n-minutes-ago-after": "minuuttia sitten",
+    "navigation-button-heading": "NavigateTo-painike",
+    "navigation-button-desc": "Alla oleva painike esittelee kuinka sivulta voidaan ohjata toiselle. Tarkastele tiedoston src/Pages/Settings.elm lähdekoodia tarkemmin nähdäksesi miten tämä toimii."
 }
