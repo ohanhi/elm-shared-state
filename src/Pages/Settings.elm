@@ -2,10 +2,10 @@ module Pages.Settings exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
-import WebData exposing (WebData(..))
+import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData.Http
 import Dict
 import I18n
-import WebData.Http
 import Styles exposing (..)
 import Types exposing (Language(..), Taco, TacoUpdate(..), Translations)
 import Decoders
