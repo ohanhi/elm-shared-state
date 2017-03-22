@@ -5837,6 +5837,172 @@ var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required = F3(
 			decoder);
 	});
 
+var _elm_lang$core$Color$fmod = F2(
+	function (f, n) {
+		var integer = _elm_lang$core$Basics$floor(f);
+		return (_elm_lang$core$Basics$toFloat(
+			A2(_elm_lang$core$Basics_ops['%'], integer, n)) + f) - _elm_lang$core$Basics$toFloat(integer);
+	});
+var _elm_lang$core$Color$rgbToHsl = F3(
+	function (red, green, blue) {
+		var b = _elm_lang$core$Basics$toFloat(blue) / 255;
+		var g = _elm_lang$core$Basics$toFloat(green) / 255;
+		var r = _elm_lang$core$Basics$toFloat(red) / 255;
+		var cMax = A2(
+			_elm_lang$core$Basics$max,
+			A2(_elm_lang$core$Basics$max, r, g),
+			b);
+		var cMin = A2(
+			_elm_lang$core$Basics$min,
+			A2(_elm_lang$core$Basics$min, r, g),
+			b);
+		var c = cMax - cMin;
+		var lightness = (cMax + cMin) / 2;
+		var saturation = _elm_lang$core$Native_Utils.eq(lightness, 0) ? 0 : (c / (1 - _elm_lang$core$Basics$abs((2 * lightness) - 1)));
+		var hue = _elm_lang$core$Basics$degrees(60) * (_elm_lang$core$Native_Utils.eq(cMax, r) ? A2(_elm_lang$core$Color$fmod, (g - b) / c, 6) : (_elm_lang$core$Native_Utils.eq(cMax, g) ? (((b - r) / c) + 2) : (((r - g) / c) + 4)));
+		return {ctor: '_Tuple3', _0: hue, _1: saturation, _2: lightness};
+	});
+var _elm_lang$core$Color$hslToRgb = F3(
+	function (hue, saturation, lightness) {
+		var normHue = hue / _elm_lang$core$Basics$degrees(60);
+		var chroma = (1 - _elm_lang$core$Basics$abs((2 * lightness) - 1)) * saturation;
+		var x = chroma * (1 - _elm_lang$core$Basics$abs(
+			A2(_elm_lang$core$Color$fmod, normHue, 2) - 1));
+		var _p0 = (_elm_lang$core$Native_Utils.cmp(normHue, 0) < 0) ? {ctor: '_Tuple3', _0: 0, _1: 0, _2: 0} : ((_elm_lang$core$Native_Utils.cmp(normHue, 1) < 0) ? {ctor: '_Tuple3', _0: chroma, _1: x, _2: 0} : ((_elm_lang$core$Native_Utils.cmp(normHue, 2) < 0) ? {ctor: '_Tuple3', _0: x, _1: chroma, _2: 0} : ((_elm_lang$core$Native_Utils.cmp(normHue, 3) < 0) ? {ctor: '_Tuple3', _0: 0, _1: chroma, _2: x} : ((_elm_lang$core$Native_Utils.cmp(normHue, 4) < 0) ? {ctor: '_Tuple3', _0: 0, _1: x, _2: chroma} : ((_elm_lang$core$Native_Utils.cmp(normHue, 5) < 0) ? {ctor: '_Tuple3', _0: x, _1: 0, _2: chroma} : ((_elm_lang$core$Native_Utils.cmp(normHue, 6) < 0) ? {ctor: '_Tuple3', _0: chroma, _1: 0, _2: x} : {ctor: '_Tuple3', _0: 0, _1: 0, _2: 0}))))));
+		var r = _p0._0;
+		var g = _p0._1;
+		var b = _p0._2;
+		var m = lightness - (chroma / 2);
+		return {ctor: '_Tuple3', _0: r + m, _1: g + m, _2: b + m};
+	});
+var _elm_lang$core$Color$toRgb = function (color) {
+	var _p1 = color;
+	if (_p1.ctor === 'RGBA') {
+		return {red: _p1._0, green: _p1._1, blue: _p1._2, alpha: _p1._3};
+	} else {
+		var _p2 = A3(_elm_lang$core$Color$hslToRgb, _p1._0, _p1._1, _p1._2);
+		var r = _p2._0;
+		var g = _p2._1;
+		var b = _p2._2;
+		return {
+			red: _elm_lang$core$Basics$round(255 * r),
+			green: _elm_lang$core$Basics$round(255 * g),
+			blue: _elm_lang$core$Basics$round(255 * b),
+			alpha: _p1._3
+		};
+	}
+};
+var _elm_lang$core$Color$toHsl = function (color) {
+	var _p3 = color;
+	if (_p3.ctor === 'HSLA') {
+		return {hue: _p3._0, saturation: _p3._1, lightness: _p3._2, alpha: _p3._3};
+	} else {
+		var _p4 = A3(_elm_lang$core$Color$rgbToHsl, _p3._0, _p3._1, _p3._2);
+		var h = _p4._0;
+		var s = _p4._1;
+		var l = _p4._2;
+		return {hue: h, saturation: s, lightness: l, alpha: _p3._3};
+	}
+};
+var _elm_lang$core$Color$HSLA = F4(
+	function (a, b, c, d) {
+		return {ctor: 'HSLA', _0: a, _1: b, _2: c, _3: d};
+	});
+var _elm_lang$core$Color$hsla = F4(
+	function (hue, saturation, lightness, alpha) {
+		return A4(
+			_elm_lang$core$Color$HSLA,
+			hue - _elm_lang$core$Basics$turns(
+				_elm_lang$core$Basics$toFloat(
+					_elm_lang$core$Basics$floor(hue / (2 * _elm_lang$core$Basics$pi)))),
+			saturation,
+			lightness,
+			alpha);
+	});
+var _elm_lang$core$Color$hsl = F3(
+	function (hue, saturation, lightness) {
+		return A4(_elm_lang$core$Color$hsla, hue, saturation, lightness, 1);
+	});
+var _elm_lang$core$Color$complement = function (color) {
+	var _p5 = color;
+	if (_p5.ctor === 'HSLA') {
+		return A4(
+			_elm_lang$core$Color$hsla,
+			_p5._0 + _elm_lang$core$Basics$degrees(180),
+			_p5._1,
+			_p5._2,
+			_p5._3);
+	} else {
+		var _p6 = A3(_elm_lang$core$Color$rgbToHsl, _p5._0, _p5._1, _p5._2);
+		var h = _p6._0;
+		var s = _p6._1;
+		var l = _p6._2;
+		return A4(
+			_elm_lang$core$Color$hsla,
+			h + _elm_lang$core$Basics$degrees(180),
+			s,
+			l,
+			_p5._3);
+	}
+};
+var _elm_lang$core$Color$grayscale = function (p) {
+	return A4(_elm_lang$core$Color$HSLA, 0, 0, 1 - p, 1);
+};
+var _elm_lang$core$Color$greyscale = function (p) {
+	return A4(_elm_lang$core$Color$HSLA, 0, 0, 1 - p, 1);
+};
+var _elm_lang$core$Color$RGBA = F4(
+	function (a, b, c, d) {
+		return {ctor: 'RGBA', _0: a, _1: b, _2: c, _3: d};
+	});
+var _elm_lang$core$Color$rgba = _elm_lang$core$Color$RGBA;
+var _elm_lang$core$Color$rgb = F3(
+	function (r, g, b) {
+		return A4(_elm_lang$core$Color$RGBA, r, g, b, 1);
+	});
+var _elm_lang$core$Color$lightRed = A4(_elm_lang$core$Color$RGBA, 239, 41, 41, 1);
+var _elm_lang$core$Color$red = A4(_elm_lang$core$Color$RGBA, 204, 0, 0, 1);
+var _elm_lang$core$Color$darkRed = A4(_elm_lang$core$Color$RGBA, 164, 0, 0, 1);
+var _elm_lang$core$Color$lightOrange = A4(_elm_lang$core$Color$RGBA, 252, 175, 62, 1);
+var _elm_lang$core$Color$orange = A4(_elm_lang$core$Color$RGBA, 245, 121, 0, 1);
+var _elm_lang$core$Color$darkOrange = A4(_elm_lang$core$Color$RGBA, 206, 92, 0, 1);
+var _elm_lang$core$Color$lightYellow = A4(_elm_lang$core$Color$RGBA, 255, 233, 79, 1);
+var _elm_lang$core$Color$yellow = A4(_elm_lang$core$Color$RGBA, 237, 212, 0, 1);
+var _elm_lang$core$Color$darkYellow = A4(_elm_lang$core$Color$RGBA, 196, 160, 0, 1);
+var _elm_lang$core$Color$lightGreen = A4(_elm_lang$core$Color$RGBA, 138, 226, 52, 1);
+var _elm_lang$core$Color$green = A4(_elm_lang$core$Color$RGBA, 115, 210, 22, 1);
+var _elm_lang$core$Color$darkGreen = A4(_elm_lang$core$Color$RGBA, 78, 154, 6, 1);
+var _elm_lang$core$Color$lightBlue = A4(_elm_lang$core$Color$RGBA, 114, 159, 207, 1);
+var _elm_lang$core$Color$blue = A4(_elm_lang$core$Color$RGBA, 52, 101, 164, 1);
+var _elm_lang$core$Color$darkBlue = A4(_elm_lang$core$Color$RGBA, 32, 74, 135, 1);
+var _elm_lang$core$Color$lightPurple = A4(_elm_lang$core$Color$RGBA, 173, 127, 168, 1);
+var _elm_lang$core$Color$purple = A4(_elm_lang$core$Color$RGBA, 117, 80, 123, 1);
+var _elm_lang$core$Color$darkPurple = A4(_elm_lang$core$Color$RGBA, 92, 53, 102, 1);
+var _elm_lang$core$Color$lightBrown = A4(_elm_lang$core$Color$RGBA, 233, 185, 110, 1);
+var _elm_lang$core$Color$brown = A4(_elm_lang$core$Color$RGBA, 193, 125, 17, 1);
+var _elm_lang$core$Color$darkBrown = A4(_elm_lang$core$Color$RGBA, 143, 89, 2, 1);
+var _elm_lang$core$Color$black = A4(_elm_lang$core$Color$RGBA, 0, 0, 0, 1);
+var _elm_lang$core$Color$white = A4(_elm_lang$core$Color$RGBA, 255, 255, 255, 1);
+var _elm_lang$core$Color$lightGrey = A4(_elm_lang$core$Color$RGBA, 238, 238, 236, 1);
+var _elm_lang$core$Color$grey = A4(_elm_lang$core$Color$RGBA, 211, 215, 207, 1);
+var _elm_lang$core$Color$darkGrey = A4(_elm_lang$core$Color$RGBA, 186, 189, 182, 1);
+var _elm_lang$core$Color$lightGray = A4(_elm_lang$core$Color$RGBA, 238, 238, 236, 1);
+var _elm_lang$core$Color$gray = A4(_elm_lang$core$Color$RGBA, 211, 215, 207, 1);
+var _elm_lang$core$Color$darkGray = A4(_elm_lang$core$Color$RGBA, 186, 189, 182, 1);
+var _elm_lang$core$Color$lightCharcoal = A4(_elm_lang$core$Color$RGBA, 136, 138, 133, 1);
+var _elm_lang$core$Color$charcoal = A4(_elm_lang$core$Color$RGBA, 85, 87, 83, 1);
+var _elm_lang$core$Color$darkCharcoal = A4(_elm_lang$core$Color$RGBA, 46, 52, 54, 1);
+var _elm_lang$core$Color$Radial = F5(
+	function (a, b, c, d, e) {
+		return {ctor: 'Radial', _0: a, _1: b, _2: c, _3: d, _4: e};
+	});
+var _elm_lang$core$Color$radial = _elm_lang$core$Color$Radial;
+var _elm_lang$core$Color$Linear = F3(
+	function (a, b, c) {
+		return {ctor: 'Linear', _0: a, _1: b, _2: c};
+	});
+var _elm_lang$core$Color$linear = _elm_lang$core$Color$Linear;
+
 //import Result //
 
 var _elm_lang$core$Native_Date = function() {
@@ -10159,6 +10325,222 @@ var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
 
+var _krisajenkins$remotedata$RemoteData$isNotAsked = function (data) {
+	var _p0 = data;
+	if (_p0.ctor === 'NotAsked') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _krisajenkins$remotedata$RemoteData$isLoading = function (data) {
+	var _p1 = data;
+	if (_p1.ctor === 'Loading') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _krisajenkins$remotedata$RemoteData$isFailure = function (data) {
+	var _p2 = data;
+	if (_p2.ctor === 'Failure') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _krisajenkins$remotedata$RemoteData$isSuccess = function (data) {
+	var _p3 = data;
+	if (_p3.ctor === 'Success') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _krisajenkins$remotedata$RemoteData$withDefault = F2(
+	function ($default, data) {
+		var _p4 = data;
+		if (_p4.ctor === 'Success') {
+			return _p4._0;
+		} else {
+			return $default;
+		}
+	});
+var _krisajenkins$remotedata$RemoteData$Success = function (a) {
+	return {ctor: 'Success', _0: a};
+};
+var _krisajenkins$remotedata$RemoteData$succeed = _krisajenkins$remotedata$RemoteData$Success;
+var _krisajenkins$remotedata$RemoteData$prism = {
+	reverseGet: _krisajenkins$remotedata$RemoteData$Success,
+	getOption: function (data) {
+		var _p5 = data;
+		if (_p5.ctor === 'Success') {
+			return _elm_lang$core$Maybe$Just(_p5._0);
+		} else {
+			return _elm_lang$core$Maybe$Nothing;
+		}
+	}
+};
+var _krisajenkins$remotedata$RemoteData$Failure = function (a) {
+	return {ctor: 'Failure', _0: a};
+};
+var _krisajenkins$remotedata$RemoteData$fromResult = function (result) {
+	var _p6 = result;
+	if (_p6.ctor === 'Err') {
+		return _krisajenkins$remotedata$RemoteData$Failure(_p6._0);
+	} else {
+		return _krisajenkins$remotedata$RemoteData$Success(_p6._0);
+	}
+};
+var _krisajenkins$remotedata$RemoteData$asCmd = _elm_lang$core$Task$attempt(_krisajenkins$remotedata$RemoteData$fromResult);
+var _krisajenkins$remotedata$RemoteData$sendRequest = _elm_lang$http$Http$send(_krisajenkins$remotedata$RemoteData$fromResult);
+var _krisajenkins$remotedata$RemoteData$fromTask = function (_p7) {
+	return A2(
+		_elm_lang$core$Task$onError,
+		function (_p8) {
+			return _elm_lang$core$Task$succeed(
+				_krisajenkins$remotedata$RemoteData$Failure(_p8));
+		},
+		A2(_elm_lang$core$Task$map, _krisajenkins$remotedata$RemoteData$Success, _p7));
+};
+var _krisajenkins$remotedata$RemoteData$Loading = {ctor: 'Loading'};
+var _krisajenkins$remotedata$RemoteData$NotAsked = {ctor: 'NotAsked'};
+var _krisajenkins$remotedata$RemoteData$map = F2(
+	function (f, data) {
+		var _p9 = data;
+		switch (_p9.ctor) {
+			case 'Success':
+				return _krisajenkins$remotedata$RemoteData$Success(
+					f(_p9._0));
+			case 'Loading':
+				return _krisajenkins$remotedata$RemoteData$Loading;
+			case 'NotAsked':
+				return _krisajenkins$remotedata$RemoteData$NotAsked;
+			default:
+				return _krisajenkins$remotedata$RemoteData$Failure(_p9._0);
+		}
+	});
+var _krisajenkins$remotedata$RemoteData$toMaybe = function (_p10) {
+	return A2(
+		_krisajenkins$remotedata$RemoteData$withDefault,
+		_elm_lang$core$Maybe$Nothing,
+		A2(_krisajenkins$remotedata$RemoteData$map, _elm_lang$core$Maybe$Just, _p10));
+};
+var _krisajenkins$remotedata$RemoteData$mapError = F2(
+	function (f, data) {
+		var _p11 = data;
+		switch (_p11.ctor) {
+			case 'Success':
+				return _krisajenkins$remotedata$RemoteData$Success(_p11._0);
+			case 'Failure':
+				return _krisajenkins$remotedata$RemoteData$Failure(
+					f(_p11._0));
+			case 'Loading':
+				return _krisajenkins$remotedata$RemoteData$Loading;
+			default:
+				return _krisajenkins$remotedata$RemoteData$NotAsked;
+		}
+	});
+var _krisajenkins$remotedata$RemoteData$mapBoth = F3(
+	function (successFn, errorFn, data) {
+		var _p12 = data;
+		switch (_p12.ctor) {
+			case 'Success':
+				return _krisajenkins$remotedata$RemoteData$Success(
+					successFn(_p12._0));
+			case 'Failure':
+				return _krisajenkins$remotedata$RemoteData$Failure(
+					errorFn(_p12._0));
+			case 'Loading':
+				return _krisajenkins$remotedata$RemoteData$Loading;
+			default:
+				return _krisajenkins$remotedata$RemoteData$NotAsked;
+		}
+	});
+var _krisajenkins$remotedata$RemoteData$andThen = F2(
+	function (f, data) {
+		var _p13 = data;
+		switch (_p13.ctor) {
+			case 'Success':
+				return f(_p13._0);
+			case 'Failure':
+				return _krisajenkins$remotedata$RemoteData$Failure(_p13._0);
+			case 'NotAsked':
+				return _krisajenkins$remotedata$RemoteData$NotAsked;
+			default:
+				return _krisajenkins$remotedata$RemoteData$Loading;
+		}
+	});
+var _krisajenkins$remotedata$RemoteData$andMap = F2(
+	function (wrappedValue, wrappedFunction) {
+		var _p14 = wrappedFunction;
+		switch (_p14.ctor) {
+			case 'Success':
+				return A2(_krisajenkins$remotedata$RemoteData$map, _p14._0, wrappedValue);
+			case 'Failure':
+				return _krisajenkins$remotedata$RemoteData$Failure(_p14._0);
+			case 'Loading':
+				return _krisajenkins$remotedata$RemoteData$Loading;
+			default:
+				return _krisajenkins$remotedata$RemoteData$NotAsked;
+		}
+	});
+var _krisajenkins$remotedata$RemoteData$map2 = F3(
+	function (f, a, b) {
+		return A2(
+			_krisajenkins$remotedata$RemoteData$andMap,
+			b,
+			A2(_krisajenkins$remotedata$RemoteData$map, f, a));
+	});
+var _krisajenkins$remotedata$RemoteData$map3 = F4(
+	function (f, a, b, c) {
+		return A2(
+			_krisajenkins$remotedata$RemoteData$andMap,
+			c,
+			A2(
+				_krisajenkins$remotedata$RemoteData$andMap,
+				b,
+				A2(_krisajenkins$remotedata$RemoteData$map, f, a)));
+	});
+var _krisajenkins$remotedata$RemoteData$append = F2(
+	function (a, b) {
+		return A2(
+			_krisajenkins$remotedata$RemoteData$andMap,
+			b,
+			A2(
+				_krisajenkins$remotedata$RemoteData$map,
+				F2(
+					function (v0, v1) {
+						return {ctor: '_Tuple2', _0: v0, _1: v1};
+					}),
+				a));
+	});
+var _krisajenkins$remotedata$RemoteData$update = F2(
+	function (f, remoteData) {
+		var _p15 = remoteData;
+		switch (_p15.ctor) {
+			case 'Success':
+				var _p16 = f(_p15._0);
+				var first = _p16._0;
+				var second = _p16._1;
+				return {
+					ctor: '_Tuple2',
+					_0: _krisajenkins$remotedata$RemoteData$Success(first),
+					_1: second
+				};
+			case 'NotAsked':
+				return {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$NotAsked, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Loading':
+				return {ctor: '_Tuple2', _0: _krisajenkins$remotedata$RemoteData$Loading, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _krisajenkins$remotedata$RemoteData$Failure(_p15._0),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+
 var _ohanhi$elm_taco$Types$Taco = F2(
 	function (a, b) {
 		return {currentTime: a, translations: b};
@@ -10271,32 +10653,7 @@ var _ohanhi$elm_taco$I18n$get = F2(
 			A2(_elm_lang$core$Dict$get, key, dict));
 	});
 
-var _ohanhi$elm_web_data$WebData$toMaybe = function (state) {
-	var _p0 = state;
-	if (_p0.ctor === 'Success') {
-		return _elm_lang$core$Maybe$Just(_p0._0);
-	} else {
-		return _elm_lang$core$Maybe$Nothing;
-	}
-};
-var _ohanhi$elm_web_data$WebData$Success = function (a) {
-	return {ctor: 'Success', _0: a};
-};
-var _ohanhi$elm_web_data$WebData$Failure = function (a) {
-	return {ctor: 'Failure', _0: a};
-};
-var _ohanhi$elm_web_data$WebData$fromResult = function (result) {
-	var _p1 = result;
-	if (_p1.ctor === 'Err') {
-		return _ohanhi$elm_web_data$WebData$Failure(_p1._0);
-	} else {
-		return _ohanhi$elm_web_data$WebData$Success(_p1._0);
-	}
-};
-var _ohanhi$elm_web_data$WebData$Loading = {ctor: 'Loading'};
-var _ohanhi$elm_web_data$WebData$NotAsked = {ctor: 'NotAsked'};
-
-var _ohanhi$elm_web_data$WebData_Http$queryEscape = function (string) {
+var _ohanhi$remotedata_http$RemoteData_Http$queryEscape = function (string) {
 	return A2(
 		_elm_lang$core$String$join,
 		'+',
@@ -10305,17 +10662,17 @@ var _ohanhi$elm_web_data$WebData_Http$queryEscape = function (string) {
 			'%20',
 			_elm_lang$http$Http$encodeUri(string)));
 };
-var _ohanhi$elm_web_data$WebData_Http$queryPair = function (_p0) {
+var _ohanhi$remotedata_http$RemoteData_Http$queryPair = function (_p0) {
 	var _p1 = _p0;
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
-		_ohanhi$elm_web_data$WebData_Http$queryEscape(_p1._0),
+		_ohanhi$remotedata_http$RemoteData_Http$queryEscape(_p1._0),
 		A2(
 			_elm_lang$core$Basics_ops['++'],
 			'=',
-			_ohanhi$elm_web_data$WebData_Http$queryEscape(_p1._1)));
+			_ohanhi$remotedata_http$RemoteData_Http$queryEscape(_p1._1)));
 };
-var _ohanhi$elm_web_data$WebData_Http$url = F2(
+var _ohanhi$remotedata_http$RemoteData_Http$url = F2(
 	function (baseUrl, args) {
 		var _p2 = args;
 		if (_p2.ctor === '[]') {
@@ -10330,189 +10687,187 @@ var _ohanhi$elm_web_data$WebData_Http$url = F2(
 					A2(
 						_elm_lang$core$String$join,
 						'&',
-						A2(_elm_lang$core$List$map, _ohanhi$elm_web_data$WebData_Http$queryPair, args))));
+						A2(_elm_lang$core$List$map, _ohanhi$remotedata_http$RemoteData_Http$queryPair, args))));
 		}
 	});
-var _ohanhi$elm_web_data$WebData_Http$request = F5(
-	function (method, headers, url, successDecoder, body) {
+var _ohanhi$remotedata_http$RemoteData_Http$defaultConfig = {
+	headers: {ctor: '[]'},
+	withCredentials: false,
+	timeout: _elm_lang$core$Maybe$Nothing
+};
+var _ohanhi$remotedata_http$RemoteData_Http$request = F5(
+	function (config, method, url, successDecoder, body) {
 		return _elm_lang$http$Http$request(
 			{
 				method: method,
-				headers: headers,
+				headers: config.headers,
 				url: url,
 				body: body,
 				expect: _elm_lang$http$Http$expectJson(successDecoder),
-				timeout: _elm_lang$core$Maybe$Nothing,
-				withCredentials: false
+				timeout: config.timeout,
+				withCredentials: config.withCredentials
 			});
 	});
-var _ohanhi$elm_web_data$WebData_Http$getRequest = F3(
-	function (headers, url, decoder) {
-		return A5(_ohanhi$elm_web_data$WebData_Http$request, 'GET', headers, url, decoder, _elm_lang$http$Http$emptyBody);
+var _ohanhi$remotedata_http$RemoteData_Http$getRequest = F3(
+	function (config, url, decoder) {
+		return A5(_ohanhi$remotedata_http$RemoteData_Http$request, config, 'GET', url, decoder, _elm_lang$http$Http$emptyBody);
 	});
-var _ohanhi$elm_web_data$WebData_Http$toTask = function (request) {
+var _ohanhi$remotedata_http$RemoteData_Http$toTask = function (request) {
 	return A2(
 		_elm_lang$core$Task$onError,
 		function (_p3) {
 			return _elm_lang$core$Task$succeed(
-				_ohanhi$elm_web_data$WebData$Failure(_p3));
+				_krisajenkins$remotedata$RemoteData$Failure(_p3));
 		},
 		A2(
 			_elm_lang$core$Task$map,
-			_ohanhi$elm_web_data$WebData$Success,
+			_krisajenkins$remotedata$RemoteData$Success,
 			_elm_lang$http$Http$toTask(request)));
 };
-var _ohanhi$elm_web_data$WebData_Http$getWithCacheTask = F2(
-	function (url, decoder) {
-		return _ohanhi$elm_web_data$WebData_Http$toTask(
-			A3(
-				_ohanhi$elm_web_data$WebData_Http$getRequest,
-				{ctor: '[]'},
-				url,
-				decoder));
+var _ohanhi$remotedata_http$RemoteData_Http$getTaskWithConfig = F3(
+	function (config, url, decoder) {
+		return _ohanhi$remotedata_http$RemoteData_Http$toTask(
+			A3(_ohanhi$remotedata_http$RemoteData_Http$getRequest, config, url, decoder));
 	});
-var _ohanhi$elm_web_data$WebData_Http$postTask = F3(
-	function (url, decoder, body) {
-		return _ohanhi$elm_web_data$WebData_Http$toTask(
+var _ohanhi$remotedata_http$RemoteData_Http$postTaskWithConfig = F4(
+	function (config, url, decoder, body) {
+		return _ohanhi$remotedata_http$RemoteData_Http$toTask(
 			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
+				_ohanhi$remotedata_http$RemoteData_Http$request,
+				config,
 				'POST',
-				{ctor: '[]'},
 				url,
 				decoder,
 				_elm_lang$http$Http$jsonBody(body)));
 	});
-var _ohanhi$elm_web_data$WebData_Http$putTask = F3(
-	function (url, decoder, body) {
-		return _ohanhi$elm_web_data$WebData_Http$toTask(
+var _ohanhi$remotedata_http$RemoteData_Http$postTask = _ohanhi$remotedata_http$RemoteData_Http$postTaskWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$putTaskWithConfig = F4(
+	function (config, url, decoder, body) {
+		return _ohanhi$remotedata_http$RemoteData_Http$toTask(
 			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
+				_ohanhi$remotedata_http$RemoteData_Http$request,
+				config,
 				'PUT',
-				{ctor: '[]'},
 				url,
 				decoder,
 				_elm_lang$http$Http$jsonBody(body)));
 	});
-var _ohanhi$elm_web_data$WebData_Http$patchTask = F3(
-	function (url, decoder, body) {
-		return _ohanhi$elm_web_data$WebData_Http$toTask(
+var _ohanhi$remotedata_http$RemoteData_Http$putTask = _ohanhi$remotedata_http$RemoteData_Http$putTaskWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$patchTaskWithConfig = F4(
+	function (config, url, decoder, body) {
+		return _ohanhi$remotedata_http$RemoteData_Http$toTask(
 			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
+				_ohanhi$remotedata_http$RemoteData_Http$request,
+				config,
 				'PATCH',
-				{ctor: '[]'},
 				url,
 				decoder,
 				_elm_lang$http$Http$jsonBody(body)));
 	});
-var _ohanhi$elm_web_data$WebData_Http$deleteTask = F3(
-	function (url, decoder, body) {
-		return _ohanhi$elm_web_data$WebData_Http$toTask(
-			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
-				'DELETE',
-				{ctor: '[]'},
-				url,
-				decoder,
-				_elm_lang$http$Http$jsonBody(body)));
+var _ohanhi$remotedata_http$RemoteData_Http$patchTask = _ohanhi$remotedata_http$RemoteData_Http$patchTaskWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$deleteTaskWithConfig = F3(
+	function (config, url, body) {
+		return _ohanhi$remotedata_http$RemoteData_Http$toTask(
+			_elm_lang$http$Http$request(
+				{
+					method: 'DELETE',
+					headers: config.headers,
+					url: url,
+					body: _elm_lang$http$Http$jsonBody(body),
+					expect: _elm_lang$http$Http$expectString,
+					timeout: config.timeout,
+					withCredentials: config.withCredentials
+				}));
 	});
-var _ohanhi$elm_web_data$WebData_Http$toCmd = function (tagger) {
+var _ohanhi$remotedata_http$RemoteData_Http$deleteTask = _ohanhi$remotedata_http$RemoteData_Http$deleteTaskWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$toCmd = function (tagger) {
 	return _elm_lang$http$Http$send(
 		function (_p4) {
 			return tagger(
-				_ohanhi$elm_web_data$WebData$fromResult(_p4));
+				_krisajenkins$remotedata$RemoteData$fromResult(_p4));
 		});
 };
-var _ohanhi$elm_web_data$WebData_Http$getWithCache = F3(
-	function (url, tagger, decoder) {
+var _ohanhi$remotedata_http$RemoteData_Http$getWithConfig = F4(
+	function (config, url, tagger, decoder) {
 		return A2(
-			_ohanhi$elm_web_data$WebData_Http$toCmd,
+			_ohanhi$remotedata_http$RemoteData_Http$toCmd,
 			tagger,
-			A3(
-				_ohanhi$elm_web_data$WebData_Http$getRequest,
-				{ctor: '[]'},
-				url,
-				decoder));
+			A3(_ohanhi$remotedata_http$RemoteData_Http$getRequest, config, url, decoder));
 	});
-var _ohanhi$elm_web_data$WebData_Http$post = F4(
-	function (url, tagger, decoder, body) {
+var _ohanhi$remotedata_http$RemoteData_Http$postWithConfig = F5(
+	function (config, url, tagger, decoder, body) {
 		return A2(
-			_ohanhi$elm_web_data$WebData_Http$toCmd,
+			_ohanhi$remotedata_http$RemoteData_Http$toCmd,
 			tagger,
 			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
+				_ohanhi$remotedata_http$RemoteData_Http$request,
+				config,
 				'POST',
-				{ctor: '[]'},
 				url,
 				decoder,
 				_elm_lang$http$Http$jsonBody(body)));
 	});
-var _ohanhi$elm_web_data$WebData_Http$put = F4(
-	function (url, tagger, decoder, body) {
+var _ohanhi$remotedata_http$RemoteData_Http$post = _ohanhi$remotedata_http$RemoteData_Http$postWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$putWithConfig = F5(
+	function (config, url, tagger, decoder, body) {
 		return A2(
-			_ohanhi$elm_web_data$WebData_Http$toCmd,
+			_ohanhi$remotedata_http$RemoteData_Http$toCmd,
 			tagger,
 			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
+				_ohanhi$remotedata_http$RemoteData_Http$request,
+				config,
 				'PUT',
-				{ctor: '[]'},
 				url,
 				decoder,
 				_elm_lang$http$Http$jsonBody(body)));
 	});
-var _ohanhi$elm_web_data$WebData_Http$patch = F4(
-	function (url, tagger, decoder, body) {
+var _ohanhi$remotedata_http$RemoteData_Http$put = _ohanhi$remotedata_http$RemoteData_Http$putWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$patchWithConfig = F5(
+	function (config, url, tagger, decoder, body) {
 		return A2(
-			_ohanhi$elm_web_data$WebData_Http$toCmd,
+			_ohanhi$remotedata_http$RemoteData_Http$toCmd,
 			tagger,
 			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
+				_ohanhi$remotedata_http$RemoteData_Http$request,
+				config,
 				'PATCH',
-				{ctor: '[]'},
 				url,
 				decoder,
 				_elm_lang$http$Http$jsonBody(body)));
 	});
-var _ohanhi$elm_web_data$WebData_Http$delete = F4(
-	function (url, tagger, decoder, body) {
+var _ohanhi$remotedata_http$RemoteData_Http$patch = _ohanhi$remotedata_http$RemoteData_Http$patchWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$deleteWithConfig = F4(
+	function (config, url, tagger, body) {
 		return A2(
-			_ohanhi$elm_web_data$WebData_Http$toCmd,
+			_ohanhi$remotedata_http$RemoteData_Http$toCmd,
 			tagger,
-			A5(
-				_ohanhi$elm_web_data$WebData_Http$request,
-				'DELETE',
-				{ctor: '[]'},
-				url,
-				decoder,
-				_elm_lang$http$Http$jsonBody(body)));
-	});
-var _ohanhi$elm_web_data$WebData_Http$noCache = A2(_elm_lang$http$Http$header, 'Cache-Control', 'no-store, must-revalidate, no-cache, max-age=0');
-var _ohanhi$elm_web_data$WebData_Http$getTask = F2(
-	function (url, decoder) {
-		return _ohanhi$elm_web_data$WebData_Http$toTask(
-			A3(
-				_ohanhi$elm_web_data$WebData_Http$getRequest,
+			_elm_lang$http$Http$request(
 				{
-					ctor: '::',
-					_0: _ohanhi$elm_web_data$WebData_Http$noCache,
-					_1: {ctor: '[]'}
-				},
-				url,
-				decoder));
+					method: 'DELETE',
+					headers: config.headers,
+					url: url,
+					body: _elm_lang$http$Http$jsonBody(body),
+					expect: _elm_lang$http$Http$expectString,
+					timeout: config.timeout,
+					withCredentials: config.withCredentials
+				}));
 	});
-var _ohanhi$elm_web_data$WebData_Http$get = F3(
-	function (url, tagger, decoder) {
-		return A2(
-			_ohanhi$elm_web_data$WebData_Http$toCmd,
-			tagger,
-			A3(
-				_ohanhi$elm_web_data$WebData_Http$getRequest,
-				{
-					ctor: '::',
-					_0: _ohanhi$elm_web_data$WebData_Http$noCache,
-					_1: {ctor: '[]'}
-				},
-				url,
-				decoder));
+var _ohanhi$remotedata_http$RemoteData_Http$delete = _ohanhi$remotedata_http$RemoteData_Http$deleteWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$noCache = A2(_elm_lang$http$Http$header, 'Cache-Control', 'no-store, must-revalidate, no-cache, max-age=0');
+var _ohanhi$remotedata_http$RemoteData_Http$noCacheConfig = _elm_lang$core$Native_Utils.update(
+	_ohanhi$remotedata_http$RemoteData_Http$defaultConfig,
+	{
+		headers: {
+			ctor: '::',
+			_0: _ohanhi$remotedata_http$RemoteData_Http$noCache,
+			_1: {ctor: '[]'}
+		}
+	});
+var _ohanhi$remotedata_http$RemoteData_Http$getTask = _ohanhi$remotedata_http$RemoteData_Http$getTaskWithConfig(_ohanhi$remotedata_http$RemoteData_Http$noCacheConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$get = _ohanhi$remotedata_http$RemoteData_Http$getWithConfig(_ohanhi$remotedata_http$RemoteData_Http$noCacheConfig);
+var _ohanhi$remotedata_http$RemoteData_Http$Config = F3(
+	function (a, b, c) {
+		return {headers: a, withCredentials: b, timeout: c};
 	});
 
 var _ohanhi$elm_taco$Routing_Helpers$reverseRoute = function (route) {
@@ -12473,6 +12828,201 @@ var _rtfeldman$elm_css$Css_Preprocess_Resolve$DeclarationsAndWarnings = F2(
 		return {declarations: a, warnings: b};
 	});
 
+var _rtfeldman$hex$Hex$toString = function (num) {
+	return _elm_lang$core$String$fromList(
+		(_elm_lang$core$Native_Utils.cmp(num, 0) < 0) ? {
+			ctor: '::',
+			_0: _elm_lang$core$Native_Utils.chr('-'),
+			_1: A2(
+				_rtfeldman$hex$Hex$unsafePositiveToDigits,
+				{ctor: '[]'},
+				_elm_lang$core$Basics$negate(num))
+		} : A2(
+			_rtfeldman$hex$Hex$unsafePositiveToDigits,
+			{ctor: '[]'},
+			num));
+};
+var _rtfeldman$hex$Hex$unsafePositiveToDigits = F2(
+	function (digits, num) {
+		unsafePositiveToDigits:
+		while (true) {
+			if (_elm_lang$core$Native_Utils.cmp(num, 16) < 0) {
+				return {
+					ctor: '::',
+					_0: _rtfeldman$hex$Hex$unsafeToDigit(num),
+					_1: digits
+				};
+			} else {
+				var _v0 = {
+					ctor: '::',
+					_0: _rtfeldman$hex$Hex$unsafeToDigit(
+						A2(_elm_lang$core$Basics_ops['%'], num, 16)),
+					_1: digits
+				},
+					_v1 = (num / 16) | 0;
+				digits = _v0;
+				num = _v1;
+				continue unsafePositiveToDigits;
+			}
+		}
+	});
+var _rtfeldman$hex$Hex$unsafeToDigit = function (num) {
+	var _p0 = num;
+	switch (_p0) {
+		case 0:
+			return _elm_lang$core$Native_Utils.chr('0');
+		case 1:
+			return _elm_lang$core$Native_Utils.chr('1');
+		case 2:
+			return _elm_lang$core$Native_Utils.chr('2');
+		case 3:
+			return _elm_lang$core$Native_Utils.chr('3');
+		case 4:
+			return _elm_lang$core$Native_Utils.chr('4');
+		case 5:
+			return _elm_lang$core$Native_Utils.chr('5');
+		case 6:
+			return _elm_lang$core$Native_Utils.chr('6');
+		case 7:
+			return _elm_lang$core$Native_Utils.chr('7');
+		case 8:
+			return _elm_lang$core$Native_Utils.chr('8');
+		case 9:
+			return _elm_lang$core$Native_Utils.chr('9');
+		case 10:
+			return _elm_lang$core$Native_Utils.chr('a');
+		case 11:
+			return _elm_lang$core$Native_Utils.chr('b');
+		case 12:
+			return _elm_lang$core$Native_Utils.chr('c');
+		case 13:
+			return _elm_lang$core$Native_Utils.chr('d');
+		case 14:
+			return _elm_lang$core$Native_Utils.chr('e');
+		case 15:
+			return _elm_lang$core$Native_Utils.chr('f');
+		default:
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Hex',
+				{
+					start: {line: 138, column: 5},
+					end: {line: 188, column: 84}
+				},
+				_p0)(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'Tried to convert ',
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_rtfeldman$hex$Hex$toString(num),
+						' to hexadecimal.')));
+	}
+};
+var _rtfeldman$hex$Hex$fromStringHelp = F3(
+	function (position, chars, accumulated) {
+		var _p2 = chars;
+		if (_p2.ctor === '[]') {
+			return _elm_lang$core$Result$Ok(accumulated);
+		} else {
+			var recurse = function (additional) {
+				return A3(
+					_rtfeldman$hex$Hex$fromStringHelp,
+					position - 1,
+					_p2._1,
+					accumulated + (additional * Math.pow(16, position)));
+			};
+			var _p3 = _p2._0;
+			switch (_p3.valueOf()) {
+				case '0':
+					return recurse(0);
+				case '1':
+					return recurse(1);
+				case '2':
+					return recurse(2);
+				case '3':
+					return recurse(3);
+				case '4':
+					return recurse(4);
+				case '5':
+					return recurse(5);
+				case '6':
+					return recurse(6);
+				case '7':
+					return recurse(7);
+				case '8':
+					return recurse(8);
+				case '9':
+					return recurse(9);
+				case 'a':
+					return recurse(10);
+				case 'b':
+					return recurse(11);
+				case 'c':
+					return recurse(12);
+				case 'd':
+					return recurse(13);
+				case 'e':
+					return recurse(14);
+				case 'f':
+					return recurse(15);
+				default:
+					return _elm_lang$core$Result$Err(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(_p3),
+							' is not a valid hexadecimal character.'));
+			}
+		}
+	});
+var _rtfeldman$hex$Hex$fromString = function (str) {
+	if (_elm_lang$core$String$isEmpty(str)) {
+		return _elm_lang$core$Result$Err('Empty strings are not valid hexadecimal strings.');
+	} else {
+		var formatError = function (err) {
+			return A2(
+				_elm_lang$core$String$join,
+				' ',
+				{
+					ctor: '::',
+					_0: _elm_lang$core$Basics$toString(str),
+					_1: {
+						ctor: '::',
+						_0: 'is not a valid hexadecimal string because',
+						_1: {
+							ctor: '::',
+							_0: err,
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		};
+		var result = function () {
+			if (A2(_elm_lang$core$String$startsWith, '-', str)) {
+				var list = A2(
+					_elm_lang$core$Maybe$withDefault,
+					{ctor: '[]'},
+					_elm_lang$core$List$tail(
+						_elm_lang$core$String$toList(str)));
+				return A2(
+					_elm_lang$core$Result$map,
+					_elm_lang$core$Basics$negate,
+					A3(
+						_rtfeldman$hex$Hex$fromStringHelp,
+						_elm_lang$core$List$length(list) - 1,
+						list,
+						0));
+			} else {
+				return A3(
+					_rtfeldman$hex$Hex$fromStringHelp,
+					_elm_lang$core$String$length(str) - 1,
+					_elm_lang$core$String$toList(str),
+					0);
+			}
+		}();
+		return A2(_elm_lang$core$Result$mapError, formatError, result);
+	}
+};
+
 var _rtfeldman$elm_css$Css$asPairs = _rtfeldman$elm_css$Css_Preprocess$toPropertyPairs;
 var _rtfeldman$elm_css$Css$collectSelectors = function (declarations) {
 	collectSelectors:
@@ -12587,116 +13137,88 @@ var _rtfeldman$elm_css$Css$withClass = function ($class) {
 			A2(_rtfeldman$elm_css_util$Css_Helpers$identifierToString, '', $class)));
 };
 var _rtfeldman$elm_css$Css$children = _rtfeldman$elm_css$Css_Preprocess$NestSnippet(_rtfeldman$elm_css$Css_Structure$Child);
-var _rtfeldman$elm_css$Css$selection = _rtfeldman$elm_css$Css_Preprocess$WithPseudoElement(
-	_rtfeldman$elm_css$Css_Structure$PseudoElement('selection'));
-var _rtfeldman$elm_css$Css$firstLine = _rtfeldman$elm_css$Css_Preprocess$WithPseudoElement(
-	_rtfeldman$elm_css$Css_Structure$PseudoElement('first-line'));
-var _rtfeldman$elm_css$Css$firstLetter = _rtfeldman$elm_css$Css_Preprocess$WithPseudoElement(
-	_rtfeldman$elm_css$Css_Structure$PseudoElement('first-letter'));
-var _rtfeldman$elm_css$Css$before = _rtfeldman$elm_css$Css_Preprocess$WithPseudoElement(
-	_rtfeldman$elm_css$Css_Structure$PseudoElement('before'));
-var _rtfeldman$elm_css$Css$after = _rtfeldman$elm_css$Css_Preprocess$WithPseudoElement(
-	_rtfeldman$elm_css$Css_Structure$PseudoElement('after'));
-var _rtfeldman$elm_css$Css$valid = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('valid'));
-var _rtfeldman$elm_css$Css$target = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('target'));
-var _rtfeldman$elm_css$Css$scope = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('scope'));
-var _rtfeldman$elm_css$Css$root = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('root'));
-var _rtfeldman$elm_css$Css$required = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('required'));
-var _rtfeldman$elm_css$Css$readWrite = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('read-write'));
-var _rtfeldman$elm_css$Css$outOfRange = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('out-of-range'));
-var _rtfeldman$elm_css$Css$optional = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('optional'));
-var _rtfeldman$elm_css$Css$onlyOfType = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('only-of-type'));
-var _rtfeldman$elm_css$Css$onlyChild = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('only-child'));
-var _rtfeldman$elm_css$Css$nthOfType = function (str) {
-	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'nth-of-type(',
-				A2(_elm_lang$core$Basics_ops['++'], str, ')'))));
+var _rtfeldman$elm_css$Css$pseudoElement = function (element) {
+	return _rtfeldman$elm_css$Css_Preprocess$WithPseudoElement(
+		_rtfeldman$elm_css$Css_Structure$PseudoElement(element));
 };
-var _rtfeldman$elm_css$Css$nthLastOfType = function (str) {
+var _rtfeldman$elm_css$Css$after = _rtfeldman$elm_css$Css$pseudoElement('after');
+var _rtfeldman$elm_css$Css$before = _rtfeldman$elm_css$Css$pseudoElement('before');
+var _rtfeldman$elm_css$Css$firstLetter = _rtfeldman$elm_css$Css$pseudoElement('first-letter');
+var _rtfeldman$elm_css$Css$firstLine = _rtfeldman$elm_css$Css$pseudoElement('first-line');
+var _rtfeldman$elm_css$Css$selection = _rtfeldman$elm_css$Css$pseudoElement('selection');
+var _rtfeldman$elm_css$Css$pseudoClass = function ($class) {
 	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'nth-last-of-type(',
-				A2(_elm_lang$core$Basics_ops['++'], str, ')'))));
+		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector($class));
+};
+var _rtfeldman$elm_css$Css$active = _rtfeldman$elm_css$Css$pseudoClass('active');
+var _rtfeldman$elm_css$Css$any = function (str) {
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'any(',
+			A2(_elm_lang$core$Basics_ops['++'], str, ')')));
+};
+var _rtfeldman$elm_css$Css$checked = _rtfeldman$elm_css$Css$pseudoClass('checked');
+var _rtfeldman$elm_css$Css$disabled = _rtfeldman$elm_css$Css$pseudoClass('disabled');
+var _rtfeldman$elm_css$Css$empty = _rtfeldman$elm_css$Css$pseudoClass('empty');
+var _rtfeldman$elm_css$Css$enabled = _rtfeldman$elm_css$Css$pseudoClass('enabled');
+var _rtfeldman$elm_css$Css$first = _rtfeldman$elm_css$Css$pseudoClass('first');
+var _rtfeldman$elm_css$Css$firstChild = _rtfeldman$elm_css$Css$pseudoClass('first-child');
+var _rtfeldman$elm_css$Css$firstOfType = _rtfeldman$elm_css$Css$pseudoClass('first-of-type');
+var _rtfeldman$elm_css$Css$fullscreen = _rtfeldman$elm_css$Css$pseudoClass('fullscreen');
+var _rtfeldman$elm_css$Css$focus = _rtfeldman$elm_css$Css$pseudoClass('focus');
+var _rtfeldman$elm_css$Css$hover = _rtfeldman$elm_css$Css$pseudoClass('hover');
+var _rtfeldman$elm_css$Css$visited = _rtfeldman$elm_css$Css$pseudoClass('visited');
+var _rtfeldman$elm_css$Css$indeterminate = _rtfeldman$elm_css$Css$pseudoClass('indeterminate');
+var _rtfeldman$elm_css$Css$invalid = _rtfeldman$elm_css$Css$pseudoClass('invalid');
+var _rtfeldman$elm_css$Css$lang = function (str) {
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'lang(',
+			A2(_elm_lang$core$Basics_ops['++'], str, ')')));
+};
+var _rtfeldman$elm_css$Css$lastChild = _rtfeldman$elm_css$Css$pseudoClass('last-child');
+var _rtfeldman$elm_css$Css$lastOfType = _rtfeldman$elm_css$Css$pseudoClass('last-of-type');
+var _rtfeldman$elm_css$Css$link = _rtfeldman$elm_css$Css$pseudoClass('link');
+var _rtfeldman$elm_css$Css$nthChild = function (str) {
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'nth-child(',
+			A2(_elm_lang$core$Basics_ops['++'], str, ')')));
 };
 var _rtfeldman$elm_css$Css$nthLastChild = function (str) {
-	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'nth-last-child(',
-				A2(_elm_lang$core$Basics_ops['++'], str, ')'))));
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'nth-last-child(',
+			A2(_elm_lang$core$Basics_ops['++'], str, ')')));
 };
-var _rtfeldman$elm_css$Css$nthChild = function (str) {
-	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'nth-child(',
-				A2(_elm_lang$core$Basics_ops['++'], str, ')'))));
+var _rtfeldman$elm_css$Css$nthLastOfType = function (str) {
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'nth-last-of-type(',
+			A2(_elm_lang$core$Basics_ops['++'], str, ')')));
 };
-var _rtfeldman$elm_css$Css$link = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('link'));
-var _rtfeldman$elm_css$Css$lastOfType = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('last-of-type'));
-var _rtfeldman$elm_css$Css$lastChild = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('last-child'));
-var _rtfeldman$elm_css$Css$lang = function (str) {
-	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'lang(',
-				A2(_elm_lang$core$Basics_ops['++'], str, ')'))));
+var _rtfeldman$elm_css$Css$nthOfType = function (str) {
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'nth-of-type(',
+			A2(_elm_lang$core$Basics_ops['++'], str, ')')));
 };
-var _rtfeldman$elm_css$Css$invalid = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('invalid'));
-var _rtfeldman$elm_css$Css$indeterminate = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('indeterminate'));
-var _rtfeldman$elm_css$Css$hover = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('hover'));
-var _rtfeldman$elm_css$Css$focus = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('focus'));
-var _rtfeldman$elm_css$Css$fullscreen = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('fullscreen'));
-var _rtfeldman$elm_css$Css$firstOfType = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('first-of-type'));
-var _rtfeldman$elm_css$Css$firstChild = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('first-child'));
-var _rtfeldman$elm_css$Css$first = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('first'));
-var _rtfeldman$elm_css$Css$enabled = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('enabled'));
-var _rtfeldman$elm_css$Css$empty = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('empty'));
-var _rtfeldman$elm_css$Css$disabled = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('disabled'));
-var _rtfeldman$elm_css$Css$checked = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('checked'));
-var _rtfeldman$elm_css$Css$any = function (str) {
-	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'any(',
-				A2(_elm_lang$core$Basics_ops['++'], str, ')'))));
-};
-var _rtfeldman$elm_css$Css$active = _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-	_rtfeldman$elm_css$Css_Structure$PseudoClassSelector('active'));
+var _rtfeldman$elm_css$Css$onlyChild = _rtfeldman$elm_css$Css$pseudoClass('only-child');
+var _rtfeldman$elm_css$Css$onlyOfType = _rtfeldman$elm_css$Css$pseudoClass('only-of-type');
+var _rtfeldman$elm_css$Css$optional = _rtfeldman$elm_css$Css$pseudoClass('optional');
+var _rtfeldman$elm_css$Css$outOfRange = _rtfeldman$elm_css$Css$pseudoClass('out-of-range');
+var _rtfeldman$elm_css$Css$readWrite = _rtfeldman$elm_css$Css$pseudoClass('read-write');
+var _rtfeldman$elm_css$Css$required = _rtfeldman$elm_css$Css$pseudoClass('required');
+var _rtfeldman$elm_css$Css$root = _rtfeldman$elm_css$Css$pseudoClass('root');
+var _rtfeldman$elm_css$Css$scope = _rtfeldman$elm_css$Css$pseudoClass('scope');
+var _rtfeldman$elm_css$Css$target = _rtfeldman$elm_css$Css$pseudoClass('target');
+var _rtfeldman$elm_css$Css$valid = _rtfeldman$elm_css$Css$pseudoClass('valid');
 var _rtfeldman$elm_css$Css$directionalityToString = function (directionality) {
 	var _p2 = directionality;
 	if (_p2.ctor === 'Ltr') {
@@ -12706,15 +13228,14 @@ var _rtfeldman$elm_css$Css$directionalityToString = function (directionality) {
 	}
 };
 var _rtfeldman$elm_css$Css$dir = function (directionality) {
-	return _rtfeldman$elm_css$Css_Preprocess$ExtendSelector(
-		_rtfeldman$elm_css$Css_Structure$PseudoClassSelector(
+	return _rtfeldman$elm_css$Css$pseudoClass(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'dir(',
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				'dir(',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_rtfeldman$elm_css$Css$directionalityToString(directionality),
-					')'))));
+				_rtfeldman$elm_css$Css$directionalityToString(directionality),
+				')')));
 };
 var _rtfeldman$elm_css$Css$propertyWithWarnings = F3(
 	function (warnings, key, value) {
@@ -13441,6 +13962,12 @@ var _rtfeldman$elm_css$Css$start = _rtfeldman$elm_css$Css$prop1('start');
 var _rtfeldman$elm_css$Css$justifyAll = _rtfeldman$elm_css$Css$prop1('justify-all');
 var _rtfeldman$elm_css$Css$textJustify = _rtfeldman$elm_css$Css$prop1('text-justify');
 var _rtfeldman$elm_css$Css$center = _rtfeldman$elm_css$Css$prop1('center');
+var _rtfeldman$elm_css$Css$withPrecedingHash = function (str) {
+	return A2(_elm_lang$core$String$startsWith, '#', str) ? str : A2(
+		_elm_lang$core$String$cons,
+		_elm_lang$core$Native_Utils.chr('#'),
+		str);
+};
 var _rtfeldman$elm_css$Css$luminosity = _rtfeldman$elm_css$Css$prop1('luminosity');
 var _rtfeldman$elm_css$Css$saturation = _rtfeldman$elm_css$Css$prop1('saturation');
 var _rtfeldman$elm_css$Css$hue = _rtfeldman$elm_css$Css$prop1('hue');
@@ -13933,44 +14460,186 @@ var _rtfeldman$elm_css$Css$rgba = F4(
 			alpha: alpha
 		};
 	});
-var _rtfeldman$elm_css$Css$hex = function (str) {
-	var value = _elm_lang$core$Native_Utils.eq(
-		A3(_elm_lang$core$String$slice, 0, 1, str),
-		'#') ? str : A2(_elm_lang$core$Basics_ops['++'], '#', str);
-	var warnings = A2(
-		_elm_lang$core$Regex$contains,
-		_elm_lang$core$Regex$regex('^#([a-fA-F0-9]{8}|[a-fA-F0-9]{6}|[a-fA-F0-9]{4}|[a-fA-F0-9]{3})$'),
-		value) ? {ctor: '[]'} : {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$core$String$join,
-			' ',
-			{
-				ctor: '::',
-				_0: 'The syntax of a hex-color is a token whose value consists of 3, 4, 6, or 8 hexadecimal digits.',
-				_1: {
+var _rtfeldman$elm_css$Css$erroneousHex = function (str) {
+	return {
+		value: _rtfeldman$elm_css$Css$withPrecedingHash(str),
+		color: _rtfeldman$elm_css$Css$Compatible,
+		red: 0,
+		green: 0,
+		blue: 0,
+		alpha: 1,
+		warnings: _elm_lang$core$List$singleton(
+			A2(
+				_elm_lang$core$String$join,
+				' ',
+				{
 					ctor: '::',
-					_0: value,
+					_0: 'Hex color strings must contain exactly 3, 4, 6, or 8 hexadecimal digits, optionally preceded by \"#\".',
 					_1: {
 						ctor: '::',
-						_0: 'is not valid.',
+						_0: _elm_lang$core$Basics$toString(str),
 						_1: {
 							ctor: '::',
-							_0: 'Please see: https://drafts.csswg.org/css-color/#hex-notation',
-							_1: {ctor: '[]'}
+							_0: 'is an invalid hex color string.',
+							_1: {
+								ctor: '::',
+								_0: 'Please see: https://drafts.csswg.org/css-color/#hex-notation',
+								_1: {ctor: '[]'}
+							}
 						}
 					}
-				}
-			}),
-		_1: {ctor: '[]'}
+				}))
 	};
-	return {value: value, color: _rtfeldman$elm_css$Css$Compatible, red: 0, green: 0, blue: 0, alpha: 1, warnings: warnings};
+};
+var _rtfeldman$elm_css$Css$validHex = F5(
+	function (str, _p22, _p21, _p20, _p19) {
+		var _p23 = _p22;
+		var _p24 = _p21;
+		var _p25 = _p20;
+		var _p26 = _p19;
+		var toResult = function (_p27) {
+			return _rtfeldman$hex$Hex$fromString(
+				_elm_lang$core$String$toLower(
+					_elm_lang$core$String$fromList(_p27)));
+		};
+		var results = {
+			ctor: '_Tuple4',
+			_0: toResult(
+				{
+					ctor: '::',
+					_0: _p23._0,
+					_1: {
+						ctor: '::',
+						_0: _p23._1,
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: toResult(
+				{
+					ctor: '::',
+					_0: _p24._0,
+					_1: {
+						ctor: '::',
+						_0: _p24._1,
+						_1: {ctor: '[]'}
+					}
+				}),
+			_2: toResult(
+				{
+					ctor: '::',
+					_0: _p25._0,
+					_1: {
+						ctor: '::',
+						_0: _p25._1,
+						_1: {ctor: '[]'}
+					}
+				}),
+			_3: toResult(
+				{
+					ctor: '::',
+					_0: _p26._0,
+					_1: {
+						ctor: '::',
+						_0: _p26._1,
+						_1: {ctor: '[]'}
+					}
+				})
+		};
+		var _p28 = results;
+		if (((((_p28.ctor === '_Tuple4') && (_p28._0.ctor === 'Ok')) && (_p28._1.ctor === 'Ok')) && (_p28._2.ctor === 'Ok')) && (_p28._3.ctor === 'Ok')) {
+			return {
+				value: _rtfeldman$elm_css$Css$withPrecedingHash(str),
+				color: _rtfeldman$elm_css$Css$Compatible,
+				red: _p28._0._0,
+				green: _p28._1._0,
+				blue: _p28._2._0,
+				alpha: _elm_lang$core$Basics$toFloat(_p28._3._0) / 255,
+				warnings: {ctor: '[]'}
+			};
+		} else {
+			return _rtfeldman$elm_css$Css$erroneousHex(str);
+		}
+	});
+var _rtfeldman$elm_css$Css$hex = function (str) {
+	var withoutHash = A2(_elm_lang$core$String$startsWith, '#', str) ? A2(_elm_lang$core$String$dropLeft, 1, str) : str;
+	var _p29 = _elm_lang$core$String$toList(withoutHash);
+	_v22_4:
+	do {
+		if (((_p29.ctor === '::') && (_p29._1.ctor === '::')) && (_p29._1._1.ctor === '::')) {
+			if (_p29._1._1._1.ctor === '[]') {
+				var _p32 = _p29._0;
+				var _p31 = _p29._1._0;
+				var _p30 = _p29._1._1._0;
+				return A5(
+					_rtfeldman$elm_css$Css$validHex,
+					str,
+					{ctor: '_Tuple2', _0: _p32, _1: _p32},
+					{ctor: '_Tuple2', _0: _p31, _1: _p31},
+					{ctor: '_Tuple2', _0: _p30, _1: _p30},
+					{
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.chr('f'),
+						_1: _elm_lang$core$Native_Utils.chr('f')
+					});
+			} else {
+				if (_p29._1._1._1._1.ctor === '[]') {
+					var _p36 = _p29._0;
+					var _p35 = _p29._1._0;
+					var _p34 = _p29._1._1._0;
+					var _p33 = _p29._1._1._1._0;
+					return A5(
+						_rtfeldman$elm_css$Css$validHex,
+						str,
+						{ctor: '_Tuple2', _0: _p36, _1: _p36},
+						{ctor: '_Tuple2', _0: _p35, _1: _p35},
+						{ctor: '_Tuple2', _0: _p34, _1: _p34},
+						{ctor: '_Tuple2', _0: _p33, _1: _p33});
+				} else {
+					if (_p29._1._1._1._1._1.ctor === '::') {
+						if (_p29._1._1._1._1._1._1.ctor === '[]') {
+							return A5(
+								_rtfeldman$elm_css$Css$validHex,
+								str,
+								{ctor: '_Tuple2', _0: _p29._0, _1: _p29._1._0},
+								{ctor: '_Tuple2', _0: _p29._1._1._0, _1: _p29._1._1._1._0},
+								{ctor: '_Tuple2', _0: _p29._1._1._1._1._0, _1: _p29._1._1._1._1._1._0},
+								{
+									ctor: '_Tuple2',
+									_0: _elm_lang$core$Native_Utils.chr('f'),
+									_1: _elm_lang$core$Native_Utils.chr('f')
+								});
+						} else {
+							if ((_p29._1._1._1._1._1._1._1.ctor === '::') && (_p29._1._1._1._1._1._1._1._1.ctor === '[]')) {
+								return A5(
+									_rtfeldman$elm_css$Css$validHex,
+									str,
+									{ctor: '_Tuple2', _0: _p29._0, _1: _p29._1._0},
+									{ctor: '_Tuple2', _0: _p29._1._1._0, _1: _p29._1._1._1._0},
+									{ctor: '_Tuple2', _0: _p29._1._1._1._1._0, _1: _p29._1._1._1._1._1._0},
+									{ctor: '_Tuple2', _0: _p29._1._1._1._1._1._1._0, _1: _p29._1._1._1._1._1._1._1._0});
+							} else {
+								break _v22_4;
+							}
+						}
+					} else {
+						break _v22_4;
+					}
+				}
+			}
+		} else {
+			break _v22_4;
+		}
+	} while(false);
+	return _rtfeldman$elm_css$Css$erroneousHex(str);
 };
 var _rtfeldman$elm_css$Css$hslaToRgba = F6(
-	function (value, warnings, hue, saturation, lightness, alpha) {
-		var blue = 0;
-		var green = 0;
-		var red = 0;
+	function (value, warnings, hue, saturation, lightness, hslAlpha) {
+		var _p37 = _elm_lang$core$Color$toRgb(
+			A4(_elm_lang$core$Color$hsla, hue, saturation, lightness, hslAlpha));
+		var red = _p37.red;
+		var green = _p37.green;
+		var blue = _p37.blue;
+		var alpha = _p37.alpha;
 		return {value: value, color: _rtfeldman$elm_css$Css$Compatible, red: red, green: green, blue: blue, alpha: alpha, warnings: warnings};
 	});
 var _rtfeldman$elm_css$Css$hsl = F3(
@@ -14247,65 +14916,65 @@ var _rtfeldman$elm_css$Css$perspective = function (l) {
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$rotate = function (_p19) {
-	var _p20 = _p19;
+var _rtfeldman$elm_css$Css$rotate = function (_p38) {
+	var _p39 = _p38;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'rotate',
 			{
 				ctor: '::',
-				_0: _p20.value,
+				_0: _p39.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$rotateX = function (_p21) {
-	var _p22 = _p21;
+var _rtfeldman$elm_css$Css$rotateX = function (_p40) {
+	var _p41 = _p40;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'rotateX',
 			{
 				ctor: '::',
-				_0: _p22.value,
+				_0: _p41.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$rotateY = function (_p23) {
-	var _p24 = _p23;
+var _rtfeldman$elm_css$Css$rotateY = function (_p42) {
+	var _p43 = _p42;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'rotateY',
 			{
 				ctor: '::',
-				_0: _p24.value,
+				_0: _p43.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$rotateZ = function (_p25) {
-	var _p26 = _p25;
+var _rtfeldman$elm_css$Css$rotateZ = function (_p44) {
+	var _p45 = _p44;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'rotateZ',
 			{
 				ctor: '::',
-				_0: _p26.value,
+				_0: _p45.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
 var _rtfeldman$elm_css$Css$rotate3d = F4(
-	function (x, y, z, _p27) {
-		var _p28 = _p27;
+	function (x, y, z, _p46) {
+		var _p47 = _p46;
 		var coordsAsStrings = A2(
 			_elm_lang$core$List$map,
 			_rtfeldman$elm_css$Css$numberToString,
@@ -14331,7 +15000,7 @@ var _rtfeldman$elm_css$Css$rotate3d = F4(
 					coordsAsStrings,
 					{
 						ctor: '::',
-						_0: _p28.value,
+						_0: _p47.value,
 						_1: {ctor: '[]'}
 					})),
 			transform: _rtfeldman$elm_css$Css$Compatible
@@ -14422,15 +15091,15 @@ var _rtfeldman$elm_css$Css$scale3d = F3(
 			transform: _rtfeldman$elm_css$Css$Compatible
 		};
 	});
-var _rtfeldman$elm_css$Css$skew = function (_p29) {
-	var _p30 = _p29;
+var _rtfeldman$elm_css$Css$skew = function (_p48) {
+	var _p49 = _p48;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'skew',
 			{
 				ctor: '::',
-				_0: _p30.value,
+				_0: _p49.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
@@ -14454,43 +15123,43 @@ var _rtfeldman$elm_css$Css$skew2 = F2(
 			transform: _rtfeldman$elm_css$Css$Compatible
 		};
 	});
-var _rtfeldman$elm_css$Css$skewX = function (_p31) {
-	var _p32 = _p31;
+var _rtfeldman$elm_css$Css$skewX = function (_p50) {
+	var _p51 = _p50;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'skewX',
 			{
 				ctor: '::',
-				_0: _p32.value,
+				_0: _p51.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$skewY = function (_p33) {
-	var _p34 = _p33;
+var _rtfeldman$elm_css$Css$skewY = function (_p52) {
+	var _p53 = _p52;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'skewY',
 			{
 				ctor: '::',
-				_0: _p34.value,
+				_0: _p53.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$translate = function (_p35) {
-	var _p36 = _p35;
+var _rtfeldman$elm_css$Css$translate = function (_p54) {
+	var _p55 = _p54;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'translate',
 			{
 				ctor: '::',
-				_0: _p36.value,
+				_0: _p55.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
@@ -14514,43 +15183,43 @@ var _rtfeldman$elm_css$Css$translate2 = F2(
 			transform: _rtfeldman$elm_css$Css$Compatible
 		};
 	});
-var _rtfeldman$elm_css$Css$translateX = function (_p37) {
-	var _p38 = _p37;
+var _rtfeldman$elm_css$Css$translateX = function (_p56) {
+	var _p57 = _p56;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'translateX',
 			{
 				ctor: '::',
-				_0: _p38.value,
+				_0: _p57.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$translateY = function (_p39) {
-	var _p40 = _p39;
+var _rtfeldman$elm_css$Css$translateY = function (_p58) {
+	var _p59 = _p58;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'translateY',
 			{
 				ctor: '::',
-				_0: _p40.value,
+				_0: _p59.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
 	};
 };
-var _rtfeldman$elm_css$Css$translateZ = function (_p41) {
-	var _p42 = _p41;
+var _rtfeldman$elm_css$Css$translateZ = function (_p60) {
+	var _p61 = _p60;
 	return {
 		value: A2(
 			_rtfeldman$elm_css$Css$cssFunction,
 			'translateZ',
 			{
 				ctor: '::',
-				_0: _p42.value,
+				_0: _p61.value,
 				_1: {ctor: '[]'}
 			}),
 		transform: _rtfeldman$elm_css$Css$Compatible
@@ -15572,6 +16241,7 @@ var _ohanhi$elm_taco$Pages_Home$viewCommits = F2(
 				return _elm_lang$html$Html$text('');
 		}
 	});
+var _ohanhi$elm_taco$Pages_Home$get = _ohanhi$remotedata_http$RemoteData_Http$getWithConfig(_ohanhi$remotedata_http$RemoteData_Http$defaultConfig);
 var _ohanhi$elm_taco$Pages_Home$Model = F2(
 	function (a, b) {
 		return {commits: a, stargazers: b};
@@ -15710,11 +16380,11 @@ var _ohanhi$elm_taco$Pages_Home$view = F2(
 var _ohanhi$elm_taco$Pages_Home$HandleStargazers = function (a) {
 	return {ctor: 'HandleStargazers', _0: a};
 };
-var _ohanhi$elm_taco$Pages_Home$fetchStargazers = A3(_ohanhi$elm_web_data$WebData_Http$getWithCache, 'https://api.github.com/repos/ohanhi/elm-taco/stargazers', _ohanhi$elm_taco$Pages_Home$HandleStargazers, _ohanhi$elm_taco$Decoders$decodeStargazerList);
+var _ohanhi$elm_taco$Pages_Home$fetchStargazers = A3(_ohanhi$elm_taco$Pages_Home$get, 'https://api.github.com/repos/ohanhi/elm-taco/stargazers', _ohanhi$elm_taco$Pages_Home$HandleStargazers, _ohanhi$elm_taco$Decoders$decodeStargazerList);
 var _ohanhi$elm_taco$Pages_Home$HandleCommits = function (a) {
 	return {ctor: 'HandleCommits', _0: a};
 };
-var _ohanhi$elm_taco$Pages_Home$fetchCommits = A3(_ohanhi$elm_web_data$WebData_Http$getWithCache, 'https://api.github.com/repos/ohanhi/elm-taco/commits', _ohanhi$elm_taco$Pages_Home$HandleCommits, _ohanhi$elm_taco$Decoders$decodeCommitList);
+var _ohanhi$elm_taco$Pages_Home$fetchCommits = A3(_ohanhi$elm_taco$Pages_Home$get, 'https://api.github.com/repos/ohanhi/elm-taco/commits', _ohanhi$elm_taco$Pages_Home$HandleCommits, _ohanhi$elm_taco$Decoders$decodeCommitList);
 var _ohanhi$elm_taco$Pages_Home$fetchData = _elm_lang$core$Platform_Cmd$batch(
 	{
 		ctor: '::',
@@ -15727,7 +16397,7 @@ var _ohanhi$elm_taco$Pages_Home$fetchData = _elm_lang$core$Platform_Cmd$batch(
 	});
 var _ohanhi$elm_taco$Pages_Home$init = {
 	ctor: '_Tuple2',
-	_0: {commits: _ohanhi$elm_web_data$WebData$Loading, stargazers: _ohanhi$elm_web_data$WebData$Loading},
+	_0: {commits: _krisajenkins$remotedata$RemoteData$Loading, stargazers: _krisajenkins$remotedata$RemoteData$Loading},
 	_1: _ohanhi$elm_taco$Pages_Home$fetchData
 };
 var _ohanhi$elm_taco$Pages_Home$update = F2(
@@ -15739,7 +16409,7 @@ var _ohanhi$elm_taco$Pages_Home$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{commits: _ohanhi$elm_web_data$WebData$Loading, stargazers: _ohanhi$elm_web_data$WebData$Loading}),
+						{commits: _krisajenkins$remotedata$RemoteData$Loading, stargazers: _krisajenkins$remotedata$RemoteData$Loading}),
 					_1: _ohanhi$elm_taco$Pages_Home$fetchData
 				};
 			case 'HandleCommits':
@@ -15868,6 +16538,9 @@ var _ohanhi$elm_taco$Pages_Settings$initModel = {selectedLanguage: _ohanhi$elm_t
 var _ohanhi$elm_taco$Pages_Settings$Model = function (a) {
 	return {selectedLanguage: a};
 };
+var _ohanhi$elm_taco$Pages_Settings$NavigateTo = function (a) {
+	return {ctor: 'NavigateTo', _0: a};
+};
 var _ohanhi$elm_taco$Pages_Settings$HandleTranslationsResponse = function (a) {
 	return {ctor: 'HandleTranslationsResponse', _0: a};
 };
@@ -15883,33 +16556,42 @@ var _ohanhi$elm_taco$Pages_Settings$getTranslations = function (language) {
 				return './api/fi-formal.json';
 		}
 	}();
-	return A3(_ohanhi$elm_web_data$WebData_Http$get, url, _ohanhi$elm_taco$Pages_Settings$HandleTranslationsResponse, _ohanhi$elm_taco$Decoders$decodeTranslations);
+	return A3(_ohanhi$remotedata_http$RemoteData_Http$get, url, _ohanhi$elm_taco$Pages_Settings$HandleTranslationsResponse, _ohanhi$elm_taco$Decoders$decodeTranslations);
 };
 var _ohanhi$elm_taco$Pages_Settings$update = F2(
 	function (msg, model) {
 		var _p3 = msg;
-		if (_p3.ctor === 'SelectLanguage') {
-			var _p4 = _p3._0;
-			return {
-				ctor: '_Tuple3',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{selectedLanguage: _p4}),
-				_1: _ohanhi$elm_taco$Pages_Settings$getTranslations(_p4),
-				_2: _ohanhi$elm_taco$Types$NoUpdate
-			};
-		} else {
-			var _p5 = _p3._0;
-			if (_p5.ctor === 'Success') {
+		switch (_p3.ctor) {
+			case 'SelectLanguage':
+				var _p4 = _p3._0;
+				return {
+					ctor: '_Tuple3',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{selectedLanguage: _p4}),
+					_1: _ohanhi$elm_taco$Pages_Settings$getTranslations(_p4),
+					_2: _ohanhi$elm_taco$Types$NoUpdate
+				};
+			case 'HandleTranslationsResponse':
+				var _p5 = _p3._0;
+				if (_p5.ctor === 'Success') {
+					return {
+						ctor: '_Tuple3',
+						_0: model,
+						_1: _elm_lang$core$Platform_Cmd$none,
+						_2: _ohanhi$elm_taco$Types$UpdateTranslations(_p5._0)
+					};
+				} else {
+					return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _ohanhi$elm_taco$Types$NoUpdate};
+				}
+			default:
 				return {
 					ctor: '_Tuple3',
 					_0: model,
-					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _ohanhi$elm_taco$Types$UpdateTranslations(_p5._0)
+					_1: _elm_lang$navigation$Navigation$newUrl(
+						_ohanhi$elm_taco$Routing_Helpers$reverseRoute(_p3._0)),
+					_2: _ohanhi$elm_taco$Types$NoUpdate
 				};
-			} else {
-				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _ohanhi$elm_taco$Types$NoUpdate};
-			}
 		}
 	});
 var _ohanhi$elm_taco$Pages_Settings$SelectLanguage = function (a) {
@@ -15938,6 +16620,7 @@ var _ohanhi$elm_taco$Pages_Settings$selectionButton = F3(
 	});
 var _ohanhi$elm_taco$Pages_Settings$view = F2(
 	function (taco, model) {
+		var t = _ohanhi$elm_taco$I18n$get(taco.translations);
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -15949,7 +16632,7 @@ var _ohanhi$elm_taco$Pages_Settings$view = F2(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'language-selection-heading')),
+							t('language-selection-heading')),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -15969,13 +16652,58 @@ var _ohanhi$elm_taco$Pages_Settings$view = F2(
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text(
-											A2(_ohanhi$elm_taco$I18n$get, taco.translations, 'current-taco-heading')),
+											t('navigation-button-heading')),
 										_1: {ctor: '[]'}
 									}),
 								_1: {
 									ctor: '::',
-									_0: _ohanhi$elm_taco$Pages_Settings$currentTacoView(taco),
-									_1: {ctor: '[]'}
+									_0: A2(
+										_elm_lang$html$Html$p,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(
+												t('navigation-button-desc')),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_ohanhi$elm_taco$Pages_Settings$NavigateTo(_ohanhi$elm_taco$Routing_Helpers$HomeRoute)),
+												_1: {
+													ctor: '::',
+													_0: _ohanhi$elm_taco$Styles$styles(_ohanhi$elm_taco$Styles$actionButton),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													t('page-title-home')),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$h2,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(
+														t('current-taco-heading')),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: _ohanhi$elm_taco$Pages_Settings$currentTacoView(taco),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -16435,7 +17163,7 @@ var _ohanhi$elm_taco$Main$init = F2(
 				appState: _ohanhi$elm_taco$Main$NotReady(flags.currentTime),
 				location: location
 			},
-			_1: A3(_ohanhi$elm_web_data$WebData_Http$get, './api/en.json', _ohanhi$elm_taco$Main$HandleTranslationsResponse, _ohanhi$elm_taco$Decoders$decodeTranslations)
+			_1: A3(_ohanhi$remotedata_http$RemoteData_Http$get, './api/en.json', _ohanhi$elm_taco$Main$HandleTranslationsResponse, _ohanhi$elm_taco$Decoders$decodeTranslations)
 		};
 	});
 var _ohanhi$elm_taco$Main$TimeChange = function (a) {
