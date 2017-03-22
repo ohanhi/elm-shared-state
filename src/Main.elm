@@ -3,8 +3,8 @@ module Main exposing (..)
 import Navigation exposing (Location)
 import Time exposing (Time)
 import Html exposing (..)
-import WebData exposing (WebData(..))
-import WebData.Http as Http
+import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData.Http as Http
 import Decoders
 import Types exposing (TacoUpdate(..), Taco, Translations)
 import Routing.Router as Router

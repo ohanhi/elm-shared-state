@@ -13,6 +13,8 @@
     "footer-github-after": "issa",
     "timeformat-zero-minutes": "Just äsken",
     "timeformat-one-minute-ago": "Minsa sitten",
-    "timeformat-n-minutes-ago-before": "Noin",
-    "timeformat-n-minutes-ago-after": "minsaa sitten"
+    "timeformat-n-minutes-ago-before": "",
+    "timeformat-n-minutes-ago-after": "minsaa sitten",
+    "navigation-button-heading": "NavigateTo-nappi",
+    "navigation-button-desc": "Tää alla oleva nappi on demo sille, miten navigaation sivulta toiselle voi tehdä. Tsekkaa miltä src/Pages/Settings.elm sorsat näyttää, ni snaijaat paremmin."
 }

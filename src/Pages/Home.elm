@@ -1,9 +1,9 @@
 module Pages.Home exposing (..)
 
 import Date exposing (Date)
-import WebData exposing (WebData(..))
+import RemoteData exposing (RemoteData(..), WebData)
 import I18n
-import WebData.Http
+import RemoteData.Http as Http
 import Html exposing (..)
 import Html.Attributes exposing (href, src)
 import Html.Events exposing (..)
@@ -41,18 +41,20 @@ fetchData =
         ]
 
 
+get =
+    Http.getWithConfig Http.defaultConfig
+
+
 fetchCommits : Cmd Msg
 fetchCommits =
-    WebData.Http.getWithCache
-        "https://api.github.com/repos/ohanhi/elm-taco/commits"
+    get "https://api.github.com/repos/ohanhi/elm-taco/commits"
         HandleCommits
         Decoders.decodeCommitList
 
 
 fetchStargazers : Cmd Msg
 fetchStargazers =
-    WebData.Http.getWithCache
-        "https://api.github.com/repos/ohanhi/elm-taco/stargazers"
+    get "https://api.github.com/repos/ohanhi/elm-taco/stargazers"
         HandleStargazers
         Decoders.decodeStargazerList
 

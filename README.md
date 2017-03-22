@@ -1,7 +1,11 @@
 # :taco: Taco :taco:
 
 
-This repository serves as an example for building larger Single-Page Applications (SPAs) in Elm 0.18. The main focus is what we call the _Taco_ model. Taco can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the taco. In a real application, you would likely have the current logged-in user in the taco.
+This repository serves as an example for organizing large Single-Page Applications (SPAs) in Elm 0.18.
+
+This repository assumes understanding of the Elm Architecture and the way you can structure independent concepts into sub-modules in Elm. **This is not a good example to base a small hobby projects on! It is also not an illustrative example for people who are just coming to Elm!**
+
+The main focus of this repository is what we (@ohanhi and @klemola) call the _Taco_ model. Taco can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the taco. In a real application, you would likely have the current logged-in user in the taco.
 
 ### Why the name?
 
