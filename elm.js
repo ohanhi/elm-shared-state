@@ -10243,7 +10243,7 @@ var author$project$Pages$Home$view = F2(
 							_List_Nil,
 							_List_fromArray(
 								[
-									rtfeldman$elm_css$Html$Styled$text('ohanhi/elm-sharedState')
+									rtfeldman$elm_css$Html$Styled$text('ohanhi/elm-shared-state')
 								]))
 						])),
 					A2(
@@ -11351,7 +11351,7 @@ var author$project$Routing$Router$view = F3(
 							rtfeldman$elm_css$Html$Styled$a,
 							_List_fromArray(
 								[
-									rtfeldman$elm_css$Html$Styled$Attributes$href('https://github.com/ohanhi/elm-sharedState/'),
+									rtfeldman$elm_css$Html$Styled$Attributes$href('https://github.com/ohanhi/elm-shared-state/'),
 									author$project$Styles$styles(author$project$Styles$footerLink)
 								]),
 							_List_fromArray(
