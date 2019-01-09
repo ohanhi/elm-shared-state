@@ -1,8 +1,9 @@
-module Decoders exposing (..)
+module Decoders exposing (decodeCommit, decodeCommitList, decodeStargazer, decodeStargazerList, decodeTranslations)
 
-import Date exposing (Date)
-import Json.Decode exposing (Decoder, field, at, string, int, float, dict)
-import Json.Decode.Pipeline exposing (decode, required, requiredAt)
+import Iso8601
+import Json.Decode exposing (Decoder, at, dict, field, float, int, string, succeed)
+import Json.Decode.Pipeline exposing (required, requiredAt)
+import Time exposing (Posix)
 import Types exposing (..)
 
 
@@ -13,25 +14,11 @@ decodeTranslations =
 
 decodeCommit : Decoder Commit
 decodeCommit =
-    decode Commit
+    succeed Commit
         |> requiredAt [ "commit", "author", "name" ] string
         |> requiredAt [ "sha" ] string
-        |> requiredAt [ "commit", "author", "date" ] dateDecoder
+        |> requiredAt [ "commit", "author", "date" ] Iso8601.decoder
         |> requiredAt [ "commit", "message" ] string
-
-
-dateDecoder : Decoder Date
-dateDecoder =
-    Json.Decode.string
-        |> Json.Decode.andThen
-            (\text ->
-                case Date.fromString text of
-                    Ok date ->
-                        Json.Decode.succeed date
-
-                    Err e ->
-                        Json.Decode.fail e
-            )
 
 
 decodeCommitList : Decoder (List Commit)
@@ -41,7 +28,7 @@ decodeCommitList =
 
 decodeStargazer : Decoder Stargazer
 decodeStargazer =
-    decode Stargazer
+    succeed Stargazer
         |> required "login" string
         |> required "avatar_url" string
         |> required "html_url" string
