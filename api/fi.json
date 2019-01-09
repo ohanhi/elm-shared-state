@@ -1,11 +1,11 @@
 {
-    "site-title": "🌮 Taco-demo",
+    "site-title": "SharedState-demo",
     "page-title-home": "Eturi",
     "page-title-settings": "Asetukset",
     "commits-heading": "Commitit repoon",
     "stargazers-heading": "Starranneet",
     "language-selection-heading": "Valkkaa kieli",
-    "current-taco-heading": "Nykyiset tacon täytteet",
+    "current-sharedState-heading": "Jaettu tila just nyt",
     "status-loading": "Ladataan",
     "status-network-error": "Netti poikki!",
     "commits-refresh": "Päivitä",

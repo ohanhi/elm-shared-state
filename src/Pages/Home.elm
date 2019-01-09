@@ -1,15 +1,16 @@
-module Pages.Home exposing (..)
+module Pages.Home exposing (Model, Msg(..), fetchCommits, fetchData, fetchStargazers, formatTimestamp, get, init, update, view, viewCommit, viewCommits, viewStargazer, viewStargazers)
 
-import Date exposing (Date)
-import RemoteData exposing (RemoteData(..), WebData)
-import I18n
-import RemoteData.Http as Http
-import Html exposing (..)
-import Html.Attributes exposing (href, src)
-import Html.Events exposing (..)
-import Styles exposing (..)
-import Types exposing (TacoUpdate(..), Taco, Commit, Stargazer)
+import DateFormat.Relative
 import Decoders
+import Html.Styled as Html exposing (..)
+import Html.Styled.Attributes exposing (href, src)
+import Html.Styled.Events exposing (..)
+import I18n
+import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData.Http as Http
+import Styles exposing (..)
+import Time exposing (Posix)
+import Types exposing (Commit, SharedState, SharedStateUpdate(..), Stargazer)
 
 
 type alias Model =
@@ -81,103 +82,105 @@ update msg model =
             )
 
 
-view : Taco -> Model -> Html Msg
-view taco model =
+view : SharedState -> Model -> Html Msg
+view sharedState model =
     div []
         [ a
             [ styles appStyles
             , href "https://github.com/ohanhi/elm-taco/"
             ]
-            [ h2 [] [ text "ohanhi/elm-taco" ] ]
+            [ h2 [] [ text "ohanhi/elm-sharedState" ] ]
         , div []
             [ button
                 [ onClick ReloadData
                 , styles actionButton
                 ]
-                [ text ("↻ " ++ I18n.get taco.translations "commits-refresh") ]
+                [ text ("↻ " ++ I18n.get sharedState.translations "commits-refresh") ]
             ]
         , div [ styles (flexContainer ++ gutterTop) ]
             [ div [ styles (flex2 ++ gutterRight) ]
-                [ h3 [] [ text (I18n.get taco.translations "commits-heading") ]
-                , viewCommits taco model
+                [ h3 [] [ text (I18n.get sharedState.translations "commits-heading") ]
+                , viewCommits sharedState model
                 ]
             , div [ styles flex1 ]
-                [ h3 [] [ text (I18n.get taco.translations "stargazers-heading") ]
-                , viewStargazers taco model
+                [ h3 [] [ text (I18n.get sharedState.translations "stargazers-heading") ]
+                , viewStargazers sharedState model
                 ]
             ]
         ]
 
 
-viewCommits : Taco -> Model -> Html Msg
-viewCommits taco model =
+viewCommits : SharedState -> Model -> Html Msg
+viewCommits sharedState model =
     case model.commits of
         Loading ->
-            text (I18n.get taco.translations "status-loading")
+            text (I18n.get sharedState.translations "status-loading")
 
         Failure _ ->
-            text (I18n.get taco.translations "status-network-error")
+            text (I18n.get sharedState.translations "status-network-error")
 
         Success commits ->
             commits
-                |> List.sortBy (\commit -> -(Date.toTime commit.date))
-                |> List.map (viewCommit taco)
+                |> List.sortBy (\commit -> -(Time.posixToMillis commit.date))
+                |> List.map (viewCommit sharedState)
                 |> ul [ styles commitList ]
 
         _ ->
             text ""
 
 
-viewCommit : Taco -> Commit -> Html Msg
-viewCommit taco commit =
+viewCommit : SharedState -> Commit -> Html Msg
+viewCommit sharedState commit =
     li [ styles card ]
         [ h4 [] [ text commit.userName ]
-        , em [] [ text (formatTimestamp taco commit.date) ]
+        , em [] [ text (formatTimestamp sharedState commit.date) ]
         , p [] [ text commit.message ]
         ]
 
 
-formatTimestamp : Taco -> Date -> String
-formatTimestamp taco date =
+formatTimestamp : SharedState -> Posix -> String
+formatTimestamp sharedState date =
     let
         timeDiff =
-            taco.currentTime - Date.toTime date
+            Time.posixToMillis sharedState.currentTime
+                - Time.posixToMillis date
+                |> toFloat
 
         minutes =
             floor (timeDiff / 1000 / 60)
 
         seconds =
-            floor (timeDiff / 1000) % 60
+            modBy 60 (floor (timeDiff / 1000))
 
         translate =
-            I18n.get taco.translations
+            I18n.get sharedState.translations
     in
-        case minutes of
-            0 ->
-                translate "timeformat-zero-minutes"
+    case minutes of
+        0 ->
+            translate "timeformat-zero-minutes"
 
-            1 ->
-                translate "timeformat-one-minute-ago"
+        1 ->
+            translate "timeformat-one-minute-ago"
 
-            n ->
-                translate "timeformat-n-minutes-ago-before"
-                    ++ " "
-                    ++ toString n
-                    ++ " "
-                    ++ translate "timeformat-n-minutes-ago-after"
-                    ++ " (+"
-                    ++ toString seconds
-                    ++ "s)"
+        n ->
+            translate "timeformat-n-minutes-ago-before"
+                ++ " "
+                ++ String.fromInt n
+                ++ " "
+                ++ translate "timeformat-n-minutes-ago-after"
+                ++ " (+"
+                ++ String.fromInt seconds
+                ++ "s)"
 
 
-viewStargazers : Taco -> Model -> Html Msg
-viewStargazers taco model =
+viewStargazers : SharedState -> Model -> Html Msg
+viewStargazers sharedState model =
     case model.stargazers of
         Loading ->
-            text (I18n.get taco.translations "status-loading")
+            text (I18n.get sharedState.translations "status-loading")
 
         Failure _ ->
-            text (I18n.get taco.translations "status-network-error")
+            text (I18n.get sharedState.translations "status-network-error")
 
         Success stargazers ->
             stargazers
