@@ -1,8 +1,8 @@
-module Styles exposing (..)
+module Styles exposing (actionButton, actionButtonActive, activeView, appStyles, avatarPicture, buttonBase, card, colorLightGrey, colorLightSharedState, colorLighten, colorOffWhite, colorSalsa, colorSharedState, colorText, commitList, container, defaultShadow, flex1, flex2, flexContainer, footerLink, footerSection, gutterRight, gutterTop, headerSection, monospaceFont, navigationBar, navigationButton, navigationButtonActive, navigationButtonBase, rem, sharedStateTable, stargazerName, styles, tableCell, wrapper)
 
-import Html exposing (Attribute)
-import Html.Attributes
 import Css exposing (..)
+import Html.Styled as Html exposing (Attribute)
+import Html.Styled.Attributes as Attributes
 
 
 rem : Float -> Rem
@@ -10,13 +10,9 @@ rem =
     Css.rem
 
 
-
--- HELPERS
-
-
-styles : List Mixin -> Attribute msg
+styles : List Style -> Attribute msg
 styles =
-    Css.asPairs >> Html.Attributes.style
+    Attributes.css
 
 
 
@@ -48,17 +44,17 @@ colorSalsa =
     hex "ff6347"
 
 
-colorTaco : Color
-colorTaco =
+colorSharedState : Color
+colorSharedState =
     hex "fff080"
 
 
-colorLightTaco : Color
-colorLightTaco =
+colorLightSharedState : Color
+colorLightSharedState =
     hex "fff9cc"
 
 
-defaultShadow : Mixin
+defaultShadow : Style
 defaultShadow =
     boxShadow4 (px 0) (px 2) (px 6) (rgba 0 0 0 0.1)
 
@@ -67,125 +63,119 @@ defaultShadow =
 -- MIXINS
 
 
-container : Mixin
+container : List Style
 container =
-    mixin
-        [ padding2 (rem 0.5) (rem 1) ]
+    [ padding2 (rem 0.5) (rem 1) ]
 
 
-buttonBase : Mixin
+buttonBase : List Style
 buttonBase =
-    mixin
-        [ fontSize (rem 1)
-        , padding2 (rem 0.5) (rem 1)
-        , borderStyle none
-        , outline none
-        , cursor pointer
-        ]
+    [ fontSize (rem 1)
+    , padding2 (rem 0.5) (rem 1)
+    , borderStyle none
+    , outline none
+    , cursor pointer
+    ]
 
 
-navigationButtonBase : Mixin
+navigationButtonBase : List Style
 navigationButtonBase =
-    mixin
-        [ displayFlex
-        , flex (int 1)
-        , outline none
-        , borderStyle none
-        , fontSize (rem 1)
-        , padding3 (rem 1) (rem 1) (rem 0.5)
-        , cursor pointer
-        , fontWeight bold
-          -- elm-css has no justify-content support
-        , property "justify-content" "center"
-        ]
+    [ displayFlex
+    , flex (int 1)
+    , outline none
+    , borderStyle none
+    , fontSize (rem 1)
+    , padding3 (rem 1) (rem 1) (rem 0.5)
+    , cursor pointer
+    , fontWeight bold
+    , justifyContent center
+    ]
 
 
 
 -- ELEMENT STYLES
 
 
-appStyles : List Mixin
+appStyles : List Style
 appStyles =
     [ color colorText
     ]
 
 
-wrapper : List Mixin
+wrapper : List Style
 wrapper =
     [ maxWidth (px 720)
     , margin auto
     ]
 
 
-headerSection : List Mixin
+headerSection : List Style
 headerSection =
-    [ container
-    , textAlign center
-    ]
+    container ++ [ textAlign center ]
 
 
-navigationBar : List Mixin
+navigationBar : List Style
 navigationBar =
     [ displayFlex
     , flexDirection row
-    , backgroundColor colorTaco
+    , backgroundColor colorSharedState
     ]
 
 
-navigationButton : List Mixin
+navigationButton : List Style
 navigationButton =
-    [ navigationButtonBase
-    , color colorText
-    , backgroundColor colorLightTaco
-    ]
+    navigationButtonBase
+        ++ [ color colorText
+           , backgroundColor colorLightSharedState
+           ]
 
 
-navigationButtonActive : List Mixin
+navigationButtonActive : List Style
 navigationButtonActive =
-    [ navigationButtonBase
-    , color colorText
-    , backgroundColor colorOffWhite
-    ]
+    navigationButtonBase
+        ++ [ color colorText
+           , backgroundColor colorOffWhite
+           ]
 
 
-activeView : List Mixin
+activeView : List Style
 activeView =
-    [ container
-    , backgroundColor colorOffWhite
-    , paddingBottom (rem 1)
-    ]
+    container
+        ++ [ backgroundColor colorOffWhite
+           , paddingBottom (rem 1)
+           ]
 
 
-actionButton : List Mixin
+actionButton : List Style
 actionButton =
-    [ buttonBase
-    , backgroundColor transparent
-    , color colorSalsa
-    , border3 (px 2) solid colorSalsa
-    , borderRadius (px 4)
-    , defaultShadow
-    ]
+    buttonBase
+        ++ [ backgroundColor transparent
+           , color colorSalsa
+           , border3 (px 2) solid colorSalsa
+           , borderRadius (px 4)
+           , defaultShadow
+           ]
 
 
-actionButtonActive : List Mixin
+actionButtonActive : List Style
 actionButtonActive =
-    [ buttonBase
-    , backgroundColor colorSalsa
-    , color colorOffWhite
-    , border3 (px 2) solid colorSalsa
-    , borderRadius (px 4)
-    , defaultShadow
-    ]
+    buttonBase
+        ++ [ backgroundColor colorSalsa
+           , color colorOffWhite
+           , border3 (px 2) solid colorSalsa
+           , borderRadius (px 4)
+           , defaultShadow
+           ]
 
 
-commitList : List Mixin
+commitList : List Style
 commitList =
     [ listStyle none
     , padding (px 0)
     ]
 
 
-card : List Mixin
+card : List Style
 card =
     [ padding2 (rem 0.5) (rem 1)
     , marginBottom (rem 1)
@@ -195,54 +185,54 @@ card =
     ]
 
 
-footerSection : List Mixin
+footerSection : List Style
 footerSection =
-    [ container
-    , textAlign center
-    , backgroundColor colorSalsa
-    , color colorOffWhite
-    , marginBottom (rem 2)
-    ]
+    container
+        ++ [ textAlign center
+           , backgroundColor colorSalsa
+           , color colorOffWhite
+           , marginBottom (rem 2)
+           ]
 
 
-footerLink : List Mixin
+footerLink : List Style
 footerLink =
     [ color colorOffWhite ]
 
 
-gutterTop : List Mixin
+gutterTop : List Style
 gutterTop =
     [ marginTop (rem 1) ]
 
 
-gutterRight : List Mixin
+gutterRight : List Style
 gutterRight =
     [ marginRight (rem 1) ]
 
 
-flexContainer : List Mixin
+flexContainer : List Style
 flexContainer =
     [ displayFlex ]
 
 
-flex1 : List Mixin
+flex1 : List Style
 flex1 =
     [ flex (int 1) ]
 
 
-flex2 : List Mixin
+flex2 : List Style
 flex2 =
     [ flex (int 2) ]
 
 
-avatarPicture : List Mixin
+avatarPicture : List Style
 avatarPicture =
     [ width (px 50)
     , height (px 50)
     ]
 
 
-stargazerName : List Mixin
+stargazerName : List Style
 stargazerName =
     [ paddingLeft (rem 0.5)
     , boxSizing borderBox
@@ -252,20 +242,20 @@ stargazerName =
     ]
 
 
-tacoTable : List Mixin
-tacoTable =
+sharedStateTable : List Style
+sharedStateTable =
     [ property "border-collapse" "collapse"
     , fontFamily monospace
     ]
 
 
-tableCell : List Mixin
+tableCell : List Style
 tableCell =
-    [ border3 (px 1) solid colorTaco
+    [ border3 (px 1) solid colorSharedState
     , padding2 (rem 0.5) (rem 1)
     ]
 
 
-monospaceFont : List Mixin
+monospaceFont : List Style
 monospaceFont =
     [ fontFamily monospace ]

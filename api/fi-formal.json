@@ -1,9 +1,9 @@
 {
-    "site-title": "Taco-ajatusmallin 🌮 esittely",
+    "site-title": "SharedState-ajatusmallin esittely",
     "page-title-home": "Etusivu",
     "page-title-settings": "Asetukset",
     "language-selection-heading": "Valitse kieli",
-    "current-taco-heading": "Nykyinen tacon sisältö",
+    "current-sharedState-heading": "Nykyinen jaettu tila",
     "commits-heading": "Koodimuutokset repositorioon",
     "stargazers-heading": "Tähden antaneet",
     "status-loading": "Ladataan",

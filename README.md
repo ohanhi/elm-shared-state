@@ -1,49 +1,49 @@
-# :taco: Taco :taco:
+# :sharedState: SharedState :sharedState:
 
 
 This repository serves as an example for organizing large Single-Page Applications (SPAs) in Elm 0.18.
 
 This repository assumes understanding of the Elm Architecture and the way you can structure independent concepts into sub-modules in Elm. **This is not a good example to base a small hobby projects on! It is also not an illustrative example for people who are just coming to Elm!**
 
-The main focus of this repository is what we (@ohanhi and @klemola) call the _Taco_ model. Taco can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the taco. In a real application, you would likely have the current logged-in user in the taco.
+The main focus of this repository is what we (@ohanhi and @klemola) call the _SharedState_ model. SharedState can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the sharedState. In a real application, you would likely have the current logged-in user in the sharedState.
 
 ### Why the name?
 
-We wanted to avoid names that have strong programming related connotations already. According to [Wikipedia](https://en.wikipedia.org/wiki/Taco):
+We wanted to avoid names that have strong programming related connotations already. According to [Wikipedia](https://en.wikipedia.org/wiki/SharedState):
 
-> A taco is a traditional Mexican dish composed of a corn or wheat tortilla folded or rolled around a filling. A taco can be made with a variety of fillings, including beef, pork, chicken, seafood, vegetables and cheese, allowing for great versatility and variety.
+> A sharedState is a traditional Mexican dish composed of a corn or wheat tortilla folded or rolled around a filling. A sharedState can be made with a variety of fillings, including beef, pork, chicken, seafood, vegetables and cheese, allowing for great versatility and variety.
 
-What we mean by taco is also a vessel for tasty fillings, allowing for great versatility and variety. Plus, taco is short and memorable.
+What we mean by sharedState is also a vessel for tasty fillings, allowing for great versatility and variety. Plus, sharedState is short and memorable.
 
 
-## What's the big :taco: idea?
+## What's the big :sharedState: idea?
 
 Oftentimes in web applications there are some things that are singular and common by nature. The current time is an easy example of this. Of course we could have each module find out the current time on their own, but it does make sense to only handle that stuff in one place. Especially when the shared information is something like the translation files in our example app, it becomes apparent that retrieving the same file in every module would be a waste of time and resources.
 
 How we've solved this in Elm is by introducing an extra parameter in the `view` functions:
 
 ```elm
-view : Taco -> Model -> Html Msg
+view : SharedState -> Model -> Html Msg
 ```
 
 That's it, really.
 
-The Taco is managed at the top-most module in the module hierarchy (`Main`), and its children, and their children, can politely ask for the Taco to be updated.
+The SharedState is managed at the top-most module in the module hierarchy (`Main`), and its children, and their children, can politely ask for the SharedState to be updated.
 
-If need be, the Taco can just as well be given as a parameter to childrens' `init` and/or `update` functions. Most of the time it is not necessary, though, as is the case in this example application.
+If need be, the SharedState can just as well be given as a parameter to childrens' `init` and/or `update` functions. Most of the time it is not necessary, though, as is the case in this example application.
 
 
-## How to try :taco:
+## How to try :sharedState:
 
-There is a live demo here: [https://ohanhi.github.io/elm-taco/](https://ohanhi.github.io/elm-taco/)
+There is a live demo here: [https://ohanhi.github.io/elm-sharedState/](https://ohanhi.github.io/elm-sharedState/)
 
 To set up on your own computer, you will need `git` and `elm-reactor` 0.18 installed.
 
 Simply clone the repository and start up elm-reactor, then navigate your browser to [http://localhost:8000/index.html](http://localhost:8000/index.html). The first startup may take a moment.
 
 ```bash
-$ git clone https://github.com/ohanhi/elm-taco.git
-$ cd elm-taco
+$ git clone https://github.com/ohanhi/elm-sharedState.git
+$ cd elm-sharedState
 $ elm-reactor
 ```
 
@@ -62,10 +62,10 @@ $ elm-reactor
 └── src
     ├── Decoders.elm            # All JSON decoders
     ├── I18n.elm                # Helpers for localized strings
-    ├── Main.elm                # Main handles the Taco and AppState
+    ├── Main.elm                # Main handles the SharedState and AppState
     ├── Pages
-    │   ├── Home.elm                # A Page that uses the Taco
-    │   └── Settings.elm            # A Page that can change the Taco
+    │   ├── Home.elm                # A Page that uses the SharedState
+    │   └── Settings.elm            # A Page that can change the SharedState
     ├── Routing
     │   ├── Helpers.elm             # Definitions of routes and some helpers
     │   └── Router.elm              # The parent for Pages, includes the base layout
@@ -74,11 +74,11 @@ $ elm-reactor
 ```
 
 
-## How :taco: works
+## How :sharedState: works
 
 ### Initializing the application
 
-The most important file to look at is [`Main.elm`](https://github.com/ohanhi/elm-taco/blob/master/src/Main.elm). In this example app, the default set of translations is considered a prerequisite for starting the actual application. In your application, this might be the logged-in user's information, for example.
+The most important file to look at is [`Main.elm`](https://github.com/ohanhi/elm-sharedState/blob/master/src/Main.elm). In this example app, the default set of translations is considered a prerequisite for starting the actual application. In your application, this might be the logged-in user's information, for example.
 
 Our Model in Main is defined like so:
 
@@ -90,12 +90,12 @@ type alias Model =
 
 type AppState
     = NotReady Time
-    | Ready Taco Router.Model
+    | Ready SharedState Router.Model
 ```
 
-We can see that the application can either be `NotReady` and have just a `Time` as payload, or it can be `Ready`, in which case it will have a complete Taco as well as an initialized Router.
+We can see that the application can either be `NotReady` and have just a `Time` as payload, or it can be `Ready`, in which case it will have a complete SharedState as well as an initialized Router.
 
-We are using [`programWithFlags`](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html#programWithFlags), which allows us to get the current time immediately from the [embedding code](https://github.com/ohanhi/elm-taco/blob/36a9a12/index.html#L16-L18). This could be used for initializing the app with some server-rendered JSON, as well.
+We are using [`programWithFlags`](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html#programWithFlags), which allows us to get the current time immediately from the [embedding code](https://github.com/ohanhi/elm-sharedState/blob/36a9a12/index.html#L16-L18). This could be used for initializing the app with some server-rendered JSON, as well.
 
 This is how it works in the Elm side:
 
@@ -154,7 +154,7 @@ So if we don't have a ready app, let's create one now:
 ```elm
             NotReady time ->
                 let
-                    initTaco =
+                    initSharedState =
                         { currentTime = time
                         , translate = I18n.get translations
                         }
@@ -162,17 +162,17 @@ So if we don't have a ready app, let's create one now:
                     ( initRouterModel, routerCmd ) =
                         Router.init model.location
                 in
-                    ( { model | appState = Ready initTaco initRouterModel }
+                    ( { model | appState = Ready initSharedState initRouterModel }
                     , Cmd.map RouterMsg routerCmd
                     )
 ```
-Note that we use the `time` in the model to set the `initTaco`'s value, and we set the `translate` function based on the translations we just received. This taco is then set as a part of our `AppState`.
+Note that we use the `time` in the model to set the `initSharedState`'s value, and we set the `translate` function based on the translations we just received. This sharedState is then set as a part of our `AppState`.
 
-If we do have an app ready, let's update the taco while keeping the `routerModel` unchanged.
+If we do have an app ready, let's update the sharedState while keeping the `routerModel` unchanged.
 
 ```elm
-            Ready taco routerModel ->
-                ( { model | appState = Ready (updateTaco taco (UpdateTranslations translations)) routerModel }
+            Ready sharedState routerModel ->
+                ( { model | appState = Ready (updateSharedState sharedState (UpdateTranslations translations)) routerModel }
                 , Cmd.none
                 )
 ```
@@ -192,7 +192,7 @@ updateTranslations model webData =
             case model.appState of
                 NotReady time ->
                     let
-                        initTaco =
+                        initSharedState =
                             { currentTime = time
                             , translate = I18n.get translations
                             }
@@ -200,12 +200,12 @@ updateTranslations model webData =
                         ( initRouterModel, routerCmd ) =
                             Router.init model.location
                     in
-                        ( { model | appState = Ready initTaco initRouterModel }
+                        ( { model | appState = Ready initSharedState initRouterModel }
                         , Cmd.map RouterMsg routerCmd
                         )
 
-                Ready taco routerModel ->
-                    ( { model | appState = Ready (updateTaco taco (UpdateTranslations translations)) routerModel }
+                Ready sharedState routerModel ->
+                    ( { model | appState = Ready (updateSharedState sharedState (UpdateTranslations translations)) routerModel }
                     , Cmd.none
                     )
 
@@ -213,54 +213,54 @@ updateTranslations model webData =
             ( model, Cmd.none )
 ```
 
-### Updating the Taco
+### Updating the SharedState
 
-We now know that the Taco is one half of what makes our application `Ready`, but how can we update the taco from some other place than the Main module? In [`Types.elm`](https://github.com/ohanhi/elm-taco/blob/master/src/Types.elm) we have the definition for `TacoUpdate`:
+We now know that the SharedState is one half of what makes our application `Ready`, but how can we update the sharedState from some other place than the Main module? In [`Types.elm`](https://github.com/ohanhi/elm-sharedState/blob/master/src/Types.elm) we have the definition for `SharedStateUpdate`:
 
 ```elm
-type TacoUpdate
+type SharedStateUpdate
     = NoUpdate
     | UpdateTime Time
     | UpdateTranslations Translations
 ```
 
-And in [`Pages/Settings.elm`](https://github.com/ohanhi/elm-taco/blob/master/src/Pages/Settings.elm) we have the `update` function return one of them along with the typical `Model` and `Cmd Msg`:
+And in [`Pages/Settings.elm`](https://github.com/ohanhi/elm-sharedState/blob/master/src/Pages/Settings.elm) we have the `update` function return one of them along with the typical `Model` and `Cmd Msg`:
 
 ```elm
-update : Msg -> Model -> ( Model, Cmd Msg, TacoUpdate )
+update : Msg -> Model -> ( Model, Cmd Msg, SharedStateUpdate )
 ```
 
-This obviously needs to be passed on also in the parent (`Router.elm`), which has the same signature for the update function. Then finally, back at the top level of our hierarchy, in the Main module we handle these requests to change the Taco for all modules.
+This obviously needs to be passed on also in the parent (`Router.elm`), which has the same signature for the update function. Then finally, back at the top level of our hierarchy, in the Main module we handle these requests to change the SharedState for all modules.
 
 ```elm
 updateRouter : Model -> Router.Msg -> ( Model, Cmd Msg )
 updateRouter model routerMsg =
     case model.appState of
-        Ready taco routerModel ->
+        Ready sharedState routerModel ->
             let
-                ( nextRouterModel, routerCmd, tacoUpdate ) =
+                ( nextRouterModel, routerCmd, sharedStateUpdate ) =
                     Router.update routerMsg routerModel
 
-                nextTaco =
-                    updateTaco taco tacoUpdate
+                nextSharedState =
+                    updateSharedState sharedState sharedStateUpdate
             in
-                ( { model | appState = Ready nextTaco nextRouterModel }
+                ( { model | appState = Ready nextSharedState nextRouterModel }
                 , Cmd.map RouterMsg routerCmd
                 )
 
 -- ...
 
-updateTaco : Taco -> TacoUpdate -> Taco
-updateTaco taco tacoUpdate =
-    case tacoUpdate of
+updateSharedState : SharedState -> SharedStateUpdate -> SharedState
+updateSharedState sharedState sharedStateUpdate =
+    case sharedStateUpdate of
         UpdateTime time ->
-            { taco | currentTime = time }
+            { sharedState | currentTime = time }
 
         UpdateTranslations translations ->
-            { taco | translate = I18n.get translations }
+            { sharedState | translate = I18n.get translations }
 
         NoUpdate ->
-            taco
+            sharedState
 ```
 
 And that's it! I know it may be a little overwhelming, but take your time reading through the code and it will make sense. I promise. And if it doesn't, please put up an Issue so we can fix it!

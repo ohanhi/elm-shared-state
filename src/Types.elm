@@ -1,16 +1,17 @@
-module Types exposing (..)
+module Types exposing (Commit, Language(..), SharedState, SharedStateUpdate(..), Stargazer, Translations)
 
+import Browser.Navigation
 import Dict exposing (Dict)
-import Date exposing (Date)
-import Time exposing (Time)
+import Time exposing (Posix)
 
 
 type alias Translations =
     Dict String String
 
 
-type alias Taco =
-    { currentTime : Time
+type alias SharedState =
+    { navKey : Browser.Navigation.Key
+    , currentTime : Posix
     , translations : Translations
     }
 
@@ -18,7 +19,7 @@ type alias Taco =
 type alias Commit =
     { userName : String
     , sha : String
-    , date : Date
+    , date : Posix
     , message : String
     }
 
@@ -30,9 +31,9 @@ type alias Stargazer =
     }
 
 
-type TacoUpdate
+type SharedStateUpdate
     = NoUpdate
-    | UpdateTime Time
+    | UpdateTime Posix
     | UpdateTranslations Translations
 
 

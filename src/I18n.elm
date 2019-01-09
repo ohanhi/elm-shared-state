@@ -1,4 +1,4 @@
-module I18n exposing (..)
+module I18n exposing (get)
 
 import Dict
 import Types exposing (..)

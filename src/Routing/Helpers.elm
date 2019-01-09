@@ -1,7 +1,7 @@
-module Routing.Helpers exposing (..)
+module Routing.Helpers exposing (Route(..), parseUrl, reverseRoute, routeParser)
 
-import Navigation exposing (Location)
-import UrlParser as Url exposing ((</>))
+import Url exposing (Url)
+import Url.Parser exposing ((</>))
 
 
 type Route
@@ -20,16 +20,20 @@ reverseRoute route =
             "#/"
 
 
-routeParser : Url.Parser (Route -> a) a
 routeParser =
-    Url.oneOf
-        [ Url.map HomeRoute Url.top
-        , Url.map SettingsRoute (Url.s "settings")
+    Url.Parser.oneOf
+        [ Url.Parser.map HomeRoute Url.Parser.top
+        , Url.Parser.map SettingsRoute (Url.Parser.s "settings")
         ]
 
 
-parseLocation : Location -> Route
-parseLocation location =
-    location
-        |> Url.parseHash routeParser
-        |> Maybe.withDefault NotFoundRoute
+parseUrl : Url -> Route
+parseUrl url =
+    case url.fragment of
+        Nothing ->
+            HomeRoute
+
+        Just fragment ->
+            { url | path = fragment, fragment = Nothing }
+                |> Url.Parser.parse routeParser
+                |> Maybe.withDefault HomeRoute
