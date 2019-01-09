@@ -36,4 +36,4 @@ parseUrl url =
         Just fragment ->
             { url | path = fragment, fragment = Nothing }
                 |> Url.Parser.parse routeParser
-                |> Maybe.withDefault HomeRoute
+                |> Maybe.withDefault NotFoundRoute

@@ -1,26 +1,17 @@
-# :sharedState: SharedState :sharedState:
+# Elm Shared State example
 
-
-This repository serves as an example for organizing large Single-Page Applications (SPAs) in Elm 0.18.
+This repository serves as an example for organizing large Single-Page Applications (SPAs) in Elm 0.19. It was previously called elm-taco and was renamed to be less witty and more to the point.
 
 This repository assumes understanding of the Elm Architecture and the way you can structure independent concepts into sub-modules in Elm. **This is not a good example to base a small hobby projects on! It is also not an illustrative example for people who are just coming to Elm!**
 
-The main focus of this repository is what we (@ohanhi and @klemola) call the _SharedState_ model. SharedState can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the sharedState. In a real application, you would likely have the current logged-in user in the sharedState.
-
-### Why the name?
-
-We wanted to avoid names that have strong programming related connotations already. According to [Wikipedia](https://en.wikipedia.org/wiki/SharedState):
-
-> A sharedState is a traditional Mexican dish composed of a corn or wheat tortilla folded or rolled around a filling. A sharedState can be made with a variety of fillings, including beef, pork, chicken, seafood, vegetables and cheese, allowing for great versatility and variety.
-
-What we mean by sharedState is also a vessel for tasty fillings, allowing for great versatility and variety. Plus, sharedState is short and memorable.
+The main focus of this repository is the _SharedState_ model. SharedState can be used to provide some application-wide information to all the modules that need it. In this example we have the current time, as well as translations (I18n) in the shared state. In an application with login, you would store the login data in the SharedState. Richard Feldman's [elm-spa-example](https://github.com/rtfeldman/elm-spa-example) uses a similar technique, though he calls it a Session.
 
 
-## What's the big :sharedState: idea?
+## What's the big idea?
 
 Oftentimes in web applications there are some things that are singular and common by nature. The current time is an easy example of this. Of course we could have each module find out the current time on their own, but it does make sense to only handle that stuff in one place. Especially when the shared information is something like the translation files in our example app, it becomes apparent that retrieving the same file in every module would be a waste of time and resources.
 
-How we've solved this in Elm is by introducing an extra parameter in the `view` functions:
+How we've solved this in Elm is by introducing an extra parameter in the relevant `view`, `update`, etc. functions:
 
 ```elm
 view : SharedState -> Model -> Html Msg
@@ -30,21 +21,22 @@ That's it, really.
 
 The SharedState is managed at the top-most module in the module hierarchy (`Main`), and its children, and their children, can politely ask for the SharedState to be updated.
 
-If need be, the SharedState can just as well be given as a parameter to childrens' `init` and/or `update` functions. Most of the time it is not necessary, though, as is the case in this example application.
+If need be, the SharedState can just as well be given as a parameter to childrens' `init` and/or `update` functions.
 
 
-## How to try :sharedState:
+## How to try SharedState
 
-There is a live demo here: [https://ohanhi.github.io/elm-sharedState/](https://ohanhi.github.io/elm-sharedState/)
+There is a live demo here: [https://ohanhi.github.io/elm-shared-state/](https://ohanhi.github.io/elm-shared-state/)
 
-To set up on your own computer, you will need `git` and `elm-reactor` 0.18 installed.
+To set up on your own computer, you will need `git` and `elm` 0.19 installed.
 
-Simply clone the repository and start up elm-reactor, then navigate your browser to [http://localhost:8000/index.html](http://localhost:8000/index.html). The first startup may take a moment.
+Simply clone the repository, build the Elm app and serve it in your favorite manner. For example:
 
 ```bash
-$ git clone https://github.com/ohanhi/elm-sharedState.git
-$ cd elm-sharedState
-$ elm-reactor
+$ git clone https://github.com/ohanhi/elm-shared-state.git
+$ cd elm-shared-state
+$ elm make src/Main.elm --output=elm.js
+$ python -m SimpleHTTPServer 8000
 ```
 
 
@@ -78,48 +70,51 @@ $ elm-reactor
 
 ### Initializing the application
 
-The most important file to look at is [`Main.elm`](https://github.com/ohanhi/elm-sharedState/blob/master/src/Main.elm). In this example app, the default set of translations is considered a prerequisite for starting the actual application. In your application, this might be the logged-in user's information, for example.
+The most important file to look at is [`Main.elm`](https://github.com/ohanhi/elm-shared-state/blob/master/src/Main.elm). In this example app, the default set of translations is considered a prerequisite for starting the actual application. In your application, this might be the logged-in user's information, for example.
 
 Our Model in Main is defined like so:
 
 ```elm
 type alias Model =
     { appState : AppState
-    , location : Location
+    , navKey : Browser.Navigation.Key
+    , url : Url
     }
 
 type AppState
-    = NotReady Time
+    = NotReady Posix
     | Ready SharedState Router.Model
 ```
 
-We can see that the application can either be `NotReady` and have just a `Time` as payload, or it can be `Ready`, in which case it will have a complete SharedState as well as an initialized Router.
+We can see that the application can either be `NotReady` and have just a `Posix` (time) as payload, or it can be `Ready`, in which case it will have a complete SharedState as well as an initialized Router.
 
-We are using [`programWithFlags`](http://package.elm-lang.org/packages/elm-lang/html/2.0.0/Html#programWithFlags), which allows us to get the current time immediately from the [embedding code](https://github.com/ohanhi/elm-sharedState/blob/36a9a12/index.html#L16-L18). This could be used for initializing the app with some server-rendered JSON, as well.
+We are using [`Browser.application`](https://package.elm-lang.org/packages/elm/browser/latest/Browser#application), which allows us to get the current time immediately through flags from the [embedding code](https://github.com/ohanhi/elm-shared-state/blob/66bde28/index.html#L18-L23). This could be used for initializing the app with some server-rendered JSON, as well.
 
 This is how it works in the Elm side:
 
 ```elm
 type alias Flags =
-    { currentTime : Time
+    { currentTime : Int
     }
 
-init : Flags -> Location -> ( Model, Cmd Msg )
-init flags location =
-    ( { appState = NotReady flags.currentTime
-      , location = location
+
+init : Flags -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init flags url navKey =
+    ( { appState = NotReady (Time.millisToPosix flags.currentTime)
+      , url = url
+      , navKey = navKey
       }
-    , WebData.Http.get "/api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
+    , Http.get "/api/en.json" HandleTranslationsResponse Decoders.decodeTranslations
     )
 ```
 
-We are using [`ohanhi/elm-web-data`](http://package.elm-lang.org/packages/ohanhi/elm-web-data/latest) for the HTTP connections. With WebData, we represent any data that we retrieve from a server as a type like this:
+We are using RemoteData for the HTTP connections. With RemoteData, we represent any data that we retrieve from a server as a type like this:
 
 ```elm
-type WebData a
+type RemoteData e a
     = NotAsked
     | Loading
-    | Failure (Error String)
+    | Failure e
     | Success a
 ```
 
@@ -135,7 +130,7 @@ Let's split it up a bit to explain what's going on.
 ```elm
 case webData of
     Failure _ ->
-        Debug.crash "OMG CANT EVEN DOWNLOAD."
+        Debug.todo "OMG CANT EVEN DOWNLOAD."
 ```
 
 In this example application, we simply keel over if the initial request fails. In a real application, this case must be handled with e.g. retrying or using a "best guess" default.
@@ -155,16 +150,17 @@ So if we don't have a ready app, let's create one now:
             NotReady time ->
                 let
                     initSharedState =
-                        { currentTime = time
-                        , translate = I18n.get translations
+                        { navKey = model.navKey
+                        , currentTime = time
+                        , translations = translations
                         }
 
                     ( initRouterModel, routerCmd ) =
-                        Router.init model.location
+                        Router.init model.url
                 in
-                    ( { model | appState = Ready initSharedState initRouterModel }
-                    , Cmd.map RouterMsg routerCmd
-                    )
+                ( { model | appState = Ready initSharedState initRouterModel }
+                , Cmd.map RouterMsg routerCmd
+                )
 ```
 Note that we use the `time` in the model to set the `initSharedState`'s value, and we set the `translate` function based on the translations we just received. This sharedState is then set as a part of our `AppState`.
 
@@ -179,43 +175,9 @@ If we do have an app ready, let's update the sharedState while keeping the `rout
 
 
 
-Just to make it clear, here's the whole function:
-
-```elm
-updateTranslations : Model -> WebData Translations -> ( Model, Cmd Msg )
-updateTranslations model webData =
-    case webData of
-        Failure _ ->
-            Debug.crash "OMG CANT EVEN DOWNLOAD."
-
-        Success translations ->
-            case model.appState of
-                NotReady time ->
-                    let
-                        initSharedState =
-                            { currentTime = time
-                            , translate = I18n.get translations
-                            }
-
-                        ( initRouterModel, routerCmd ) =
-                            Router.init model.location
-                    in
-                        ( { model | appState = Ready initSharedState initRouterModel }
-                        , Cmd.map RouterMsg routerCmd
-                        )
-
-                Ready sharedState routerModel ->
-                    ( { model | appState = Ready (updateSharedState sharedState (UpdateTranslations translations)) routerModel }
-                    , Cmd.none
-                    )
-
-        _ ->
-            ( model, Cmd.none )
-```
-
 ### Updating the SharedState
 
-We now know that the SharedState is one half of what makes our application `Ready`, but how can we update the sharedState from some other place than the Main module? In [`Types.elm`](https://github.com/ohanhi/elm-sharedState/blob/master/src/Types.elm) we have the definition for `SharedStateUpdate`:
+We now know that the SharedState is one half of what makes our application `Ready`, but how can we update the sharedState from some other place than the Main module? In [`Types.elm`](https://github.com/ohanhi/elm-shared-state/blob/master/src/Types.elm) we have the definition for `SharedStateUpdate`:
 
 ```elm
 type SharedStateUpdate
@@ -224,32 +186,15 @@ type SharedStateUpdate
     | UpdateTranslations Translations
 ```
 
-And in [`Pages/Settings.elm`](https://github.com/ohanhi/elm-sharedState/blob/master/src/Pages/Settings.elm) we have the `update` function return one of them along with the typical `Model` and `Cmd Msg`:
+And in [`Pages/Settings.elm`](https://github.com/ohanhi/elm-shared-state/blob/master/src/Pages/Settings.elm) we have the `update` function return one of them along with the typical `Model` and `Cmd Msg`:
 
 ```elm
-update : Msg -> Model -> ( Model, Cmd Msg, SharedStateUpdate )
+update : SharedState -> Msg -> Model -> ( Model, Cmd Msg, SharedStateUpdate )
 ```
 
 This obviously needs to be passed on also in the parent (`Router.elm`), which has the same signature for the update function. Then finally, back at the top level of our hierarchy, in the Main module we handle these requests to change the SharedState for all modules.
 
 ```elm
-updateRouter : Model -> Router.Msg -> ( Model, Cmd Msg )
-updateRouter model routerMsg =
-    case model.appState of
-        Ready sharedState routerModel ->
-            let
-                ( nextRouterModel, routerCmd, sharedStateUpdate ) =
-                    Router.update routerMsg routerModel
-
-                nextSharedState =
-                    updateSharedState sharedState sharedStateUpdate
-            in
-                ( { model | appState = Ready nextSharedState nextRouterModel }
-                , Cmd.map RouterMsg routerCmd
-                )
-
--- ...
-
 updateSharedState : SharedState -> SharedStateUpdate -> SharedState
 updateSharedState sharedState sharedStateUpdate =
     case sharedStateUpdate of
@@ -269,6 +214,6 @@ And that's it! I know it may be a little overwhelming, but take your time readin
 
 ## Credits and license
 
-&copy; 2017 Ossi Hanhinen and Matias Klemola
+&copy; 2017-2019 Ossi Hanhinen and Matias Klemola
 
 Licensed under [BSD (3-clause)](LICENSE)

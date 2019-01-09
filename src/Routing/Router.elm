@@ -145,7 +145,7 @@ view msgMapper sharedState model =
                     ]
                 ]
     in
-    { title = title ++ " - Elm SharedState Demo"
+    { title = title ++ " - Elm Shared State Demo"
     , body =
         [ body
             |> Html.Styled.toUnstyled
