@@ -89,7 +89,7 @@ view sharedState model =
             [ styles appStyles
             , href "https://github.com/ohanhi/elm-taco/"
             ]
-            [ h2 [] [ text "ohanhi/elm-sharedState" ] ]
+            [ h2 [] [ text "ohanhi/elm-shared-state" ] ]
         , div []
             [ button
                 [ onClick ReloadData

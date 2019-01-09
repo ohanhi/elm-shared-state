@@ -137,7 +137,7 @@ view msgMapper sharedState model =
                 , footer [ styles footerSection ]
                     [ text (translate "footer-github-before" ++ " ")
                     , a
-                        [ href "https://github.com/ohanhi/elm-sharedState/"
+                        [ href "https://github.com/ohanhi/elm-shared-state/"
                         , styles footerLink
                         ]
                         [ text "Github" ]
