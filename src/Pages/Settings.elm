@@ -10,9 +10,10 @@ import I18n
 import RemoteData exposing (RemoteData(..), WebData)
 import RemoteData.Http
 import Routing.Helpers exposing (Route(..), reverseRoute)
+import SharedState exposing (SharedState, SharedStateUpdate(..))
 import Styles exposing (..)
 import Time
-import Types exposing (Language(..), SharedState, SharedStateUpdate(..), Translations)
+import Types exposing (Language(..), Translations)
 
 
 type alias Model =

@@ -10,8 +10,9 @@ import I18n
 import Pages.Home as Home
 import Pages.Settings as Settings
 import Routing.Helpers exposing (Route(..), parseUrl, reverseRoute)
+import SharedState exposing (SharedState, SharedStateUpdate(..))
 import Styles exposing (..)
-import Types exposing (SharedState, SharedStateUpdate(..), Translations)
+import Types exposing (Translations)
 import Url exposing (Url)
 
 
