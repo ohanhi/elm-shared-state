@@ -6063,23 +6063,6 @@ var author$project$Main$Ready = F2(
 var author$project$Main$RouterMsg = function (a) {
 	return {$: 'RouterMsg', a: a};
 };
-var author$project$Main$updateSharedState = F2(
-	function (sharedState, sharedStateUpdate) {
-		switch (sharedStateUpdate.$) {
-			case 'UpdateTime':
-				var time = sharedStateUpdate.a;
-				return _Utils_update(
-					sharedState,
-					{currentTime: time});
-			case 'UpdateTranslations':
-				var translations = sharedStateUpdate.a;
-				return _Utils_update(
-					sharedState,
-					{translations: translations});
-			default:
-				return sharedState;
-		}
-	});
 var author$project$Routing$Helpers$HomeRoute = {$: 'HomeRoute'};
 var author$project$Routing$Helpers$NotFoundRoute = {$: 'NotFoundRoute'};
 var author$project$Routing$Helpers$SettingsRoute = {$: 'SettingsRoute'};
@@ -7083,7 +7066,7 @@ var author$project$Pages$Home$update = F2(
 var author$project$Routing$Router$HomeMsg = function (a) {
 	return {$: 'HomeMsg', a: a};
 };
-var author$project$Types$NoUpdate = {$: 'NoUpdate'};
+var author$project$SharedState$NoUpdate = {$: 'NoUpdate'};
 var elm$core$Platform$Cmd$map = _Platform_map;
 var author$project$Routing$Router$updateHome = F2(
 	function (model, homeMsg) {
@@ -7095,7 +7078,7 @@ var author$project$Routing$Router$updateHome = F2(
 				model,
 				{homeModel: nextHomeModel}),
 			A2(elm$core$Platform$Cmd$map, author$project$Routing$Router$HomeMsg, homeCmd),
-			author$project$Types$NoUpdate);
+			author$project$SharedState$NoUpdate);
 	});
 var author$project$Pages$Settings$HandleTranslationsResponse = function (a) {
 	return {$: 'HandleTranslationsResponse', a: a};
@@ -7113,7 +7096,7 @@ var author$project$Pages$Settings$getTranslations = function (language) {
 	}();
 	return A3(ohanhi$remotedata_http$RemoteData$Http$get, url, author$project$Pages$Settings$HandleTranslationsResponse, author$project$Decoders$decodeTranslations);
 };
-var author$project$Types$UpdateTranslations = function (a) {
+var author$project$SharedState$UpdateTranslations = function (a) {
 	return {$: 'UpdateTranslations', a: a};
 };
 var elm$browser$Browser$External = function (a) {
@@ -7286,7 +7269,7 @@ var author$project$Pages$Settings$update = F3(
 						model,
 						{selectedLanguage: lang}),
 					author$project$Pages$Settings$getTranslations(lang),
-					author$project$Types$NoUpdate);
+					author$project$SharedState$NoUpdate);
 			case 'HandleTranslationsResponse':
 				var webData = msg.a;
 				if (webData.$ === 'Success') {
@@ -7294,9 +7277,9 @@ var author$project$Pages$Settings$update = F3(
 					return _Utils_Tuple3(
 						model,
 						elm$core$Platform$Cmd$none,
-						author$project$Types$UpdateTranslations(translations));
+						author$project$SharedState$UpdateTranslations(translations));
 				} else {
-					return _Utils_Tuple3(model, elm$core$Platform$Cmd$none, author$project$Types$NoUpdate);
+					return _Utils_Tuple3(model, elm$core$Platform$Cmd$none, author$project$SharedState$NoUpdate);
 				}
 			default:
 				var route = msg.a;
@@ -7306,7 +7289,7 @@ var author$project$Pages$Settings$update = F3(
 						elm$browser$Browser$Navigation$pushUrl,
 						sharedState.navKey,
 						author$project$Routing$Helpers$reverseRoute(route)),
-					author$project$Types$NoUpdate);
+					author$project$SharedState$NoUpdate);
 		}
 	});
 var author$project$Routing$Router$SettingsMsg = function (a) {
@@ -7337,7 +7320,7 @@ var author$project$Routing$Router$update = F3(
 							route: author$project$Routing$Helpers$parseUrl(location)
 						}),
 					elm$core$Platform$Cmd$none,
-					author$project$Types$NoUpdate);
+					author$project$SharedState$NoUpdate);
 			case 'NavigateTo':
 				var route = msg.a;
 				return _Utils_Tuple3(
@@ -7346,7 +7329,7 @@ var author$project$Routing$Router$update = F3(
 						elm$browser$Browser$Navigation$pushUrl,
 						sharedState.navKey,
 						author$project$Routing$Helpers$reverseRoute(route)),
-					author$project$Types$NoUpdate);
+					author$project$SharedState$NoUpdate);
 			case 'HomeMsg':
 				var homeMsg = msg.a;
 				return A2(author$project$Routing$Router$updateHome, model, homeMsg);
@@ -7355,7 +7338,24 @@ var author$project$Routing$Router$update = F3(
 				return A3(author$project$Routing$Router$updateSettings, sharedState, model, settingsMsg);
 		}
 	});
-var elm$core$Debug$todo = _Debug_todo;
+var author$project$SharedState$update = F2(
+	function (sharedState, sharedStateUpdate) {
+		switch (sharedStateUpdate.$) {
+			case 'UpdateTime':
+				var time = sharedStateUpdate.a;
+				return _Utils_update(
+					sharedState,
+					{currentTime: time});
+			case 'UpdateTranslations':
+				var translations = sharedStateUpdate.a;
+				return _Utils_update(
+					sharedState,
+					{translations: translations});
+			default:
+				return sharedState;
+		}
+	});
+var elm$core$Debug$log = _Debug_log;
 var author$project$Main$updateRouter = F2(
 	function (model, routerMsg) {
 		var _n0 = model.appState;
@@ -7366,7 +7366,7 @@ var author$project$Main$updateRouter = F2(
 			var nextRouterModel = _n1.a;
 			var routerCmd = _n1.b;
 			var sharedStateUpdate = _n1.c;
-			var nextSharedState = A2(author$project$Main$updateSharedState, sharedState, sharedStateUpdate);
+			var nextSharedState = A2(author$project$SharedState$update, sharedState, sharedStateUpdate);
 			return _Utils_Tuple2(
 				_Utils_update(
 					model,
@@ -7375,46 +7375,46 @@ var author$project$Main$updateRouter = F2(
 					}),
 				A2(elm$core$Platform$Cmd$map, author$project$Main$RouterMsg, routerCmd));
 		} else {
-			return _Debug_todo(
-				'Main',
-				{
-					start: {line: 116, column: 13},
-					end: {line: 116, column: 23}
-				})('Ooops. We got a sub-component message even though it wasn\'t supposed to be initialized?!?!?');
+			var _n2 = A2(elm$core$Debug$log, 'We got a router message even though the app is not ready?', routerMsg);
+			return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 		}
 	});
-var author$project$Types$UpdateTime = function (a) {
+var author$project$SharedState$UpdateTime = function (a) {
 	return {$: 'UpdateTime', a: a};
 };
 var author$project$Main$updateTime = F2(
 	function (model, time) {
 		var _n0 = model.appState;
-		if (_n0.$ === 'NotReady') {
-			return _Utils_Tuple2(
-				_Utils_update(
-					model,
-					{
-						appState: author$project$Main$NotReady(time)
-					}),
-				elm$core$Platform$Cmd$none);
-		} else {
-			var sharedState = _n0.a;
-			var routerModel = _n0.b;
-			return _Utils_Tuple2(
-				_Utils_update(
-					model,
-					{
-						appState: A2(
-							author$project$Main$Ready,
-							A2(
-								author$project$Main$updateSharedState,
-								sharedState,
-								author$project$Types$UpdateTime(time)),
-							routerModel)
-					}),
-				elm$core$Platform$Cmd$none);
+		switch (_n0.$) {
+			case 'NotReady':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							appState: author$project$Main$NotReady(time)
+						}),
+					elm$core$Platform$Cmd$none);
+			case 'Ready':
+				var sharedState = _n0.a;
+				var routerModel = _n0.b;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							appState: A2(
+								author$project$Main$Ready,
+								A2(
+									author$project$SharedState$update,
+									sharedState,
+									author$project$SharedState$UpdateTime(time)),
+								routerModel)
+						}),
+					elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 		}
 	});
+var author$project$Main$FailedToInitialize = {$: 'FailedToInitialize'};
 var author$project$Pages$Home$init = _Utils_Tuple2(
 	{commits: krisajenkins$remotedata$RemoteData$Loading, stargazers: krisajenkins$remotedata$RemoteData$Loading},
 	author$project$Pages$Home$fetchData);
@@ -7437,44 +7437,46 @@ var author$project$Main$updateTranslations = F2(
 	function (model, webData) {
 		switch (webData.$) {
 			case 'Failure':
-				return _Debug_todo(
-					'Main',
-					{
-						start: {line: 123, column: 13},
-						end: {line: 123, column: 23}
-					})('OMG CANT EVEN DOWNLOAD.');
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{appState: author$project$Main$FailedToInitialize}),
+					elm$core$Platform$Cmd$none);
 			case 'Success':
 				var translations = webData.a;
 				var _n1 = model.appState;
-				if (_n1.$ === 'NotReady') {
-					var time = _n1.a;
-					var initSharedState = {currentTime: time, navKey: model.navKey, translations: translations};
-					var _n2 = author$project$Routing$Router$init(model.url);
-					var initRouterModel = _n2.a;
-					var routerCmd = _n2.b;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								appState: A2(author$project$Main$Ready, initSharedState, initRouterModel)
-							}),
-						A2(elm$core$Platform$Cmd$map, author$project$Main$RouterMsg, routerCmd));
-				} else {
-					var sharedState = _n1.a;
-					var routerModel = _n1.b;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								appState: A2(
-									author$project$Main$Ready,
-									A2(
-										author$project$Main$updateSharedState,
-										sharedState,
-										author$project$Types$UpdateTranslations(translations)),
-									routerModel)
-							}),
-						elm$core$Platform$Cmd$none);
+				switch (_n1.$) {
+					case 'NotReady':
+						var time = _n1.a;
+						var initSharedState = {currentTime: time, navKey: model.navKey, translations: translations};
+						var _n2 = author$project$Routing$Router$init(model.url);
+						var initRouterModel = _n2.a;
+						var routerCmd = _n2.b;
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									appState: A2(author$project$Main$Ready, initSharedState, initRouterModel)
+								}),
+							A2(elm$core$Platform$Cmd$map, author$project$Main$RouterMsg, routerCmd));
+					case 'Ready':
+						var sharedState = _n1.a;
+						var routerModel = _n1.b;
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									appState: A2(
+										author$project$Main$Ready,
+										A2(
+											author$project$SharedState$update,
+											sharedState,
+											author$project$SharedState$UpdateTranslations(translations)),
+										routerModel)
+								}),
+							elm$core$Platform$Cmd$none);
+					default:
+						return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 				}
 			default:
 				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
@@ -11376,18 +11378,27 @@ var author$project$Routing$Router$view = F3(
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var author$project$Main$view = function (model) {
 	var _n0 = model.appState;
-	if (_n0.$ === 'Ready') {
-		var sharedState = _n0.a;
-		var routerModel = _n0.b;
-		return A3(author$project$Routing$Router$view, author$project$Main$RouterMsg, sharedState, routerModel);
-	} else {
-		return {
-			body: _List_fromArray(
-				[
-					elm$html$Html$text('Loading')
-				]),
-			title: 'Loading'
-		};
+	switch (_n0.$) {
+		case 'Ready':
+			var sharedState = _n0.a;
+			var routerModel = _n0.b;
+			return A3(author$project$Routing$Router$view, author$project$Main$RouterMsg, sharedState, routerModel);
+		case 'NotReady':
+			return {
+				body: _List_fromArray(
+					[
+						elm$html$Html$text('Loading')
+					]),
+				title: 'Loading'
+			};
+		default:
+			return {
+				body: _List_fromArray(
+					[
+						elm$html$Html$text('The application failed to initialize. ')
+					]),
+				title: 'Failure'
+			};
 	}
 };
 var elm$browser$Browser$application = _Browser_application;
