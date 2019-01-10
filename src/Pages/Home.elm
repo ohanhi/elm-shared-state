@@ -8,9 +8,10 @@ import Html.Styled.Events exposing (..)
 import I18n
 import RemoteData exposing (RemoteData(..), WebData)
 import RemoteData.Http as Http
+import SharedState exposing (SharedState, SharedStateUpdate(..))
 import Styles exposing (..)
 import Time exposing (Posix)
-import Types exposing (Commit, SharedState, SharedStateUpdate(..), Stargazer)
+import Types exposing (Commit, Stargazer)
 
 
 type alias Model =
