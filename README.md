@@ -51,7 +51,7 @@ $ python -m SimpleHTTPServer 8000
 │   ├── en.json
 │   ├── fi-formal.json
 │   └── fi.json
-├── elm-package.json        # Definition of the project dependencies
+├── elm.json                # Definition of the project dependencies
 ├── index.html              # The web page that initializes our app
 ├── README.md               # This documentation
 └── src
