@@ -39,7 +39,7 @@ Simply clone the repository, build the Elm app and serve it in your favorite man
 $ git clone https://github.com/ohanhi/elm-shared-state.git
 $ cd elm-shared-state
 $ elm make src/Main.elm --output=elm.js
-$ python -m SimpleHTTPServer 8000
+$ python3 -m http.server 8000
 ```
 
 
